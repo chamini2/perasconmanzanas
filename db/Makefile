@@ -11,7 +11,7 @@ migrate: wait_postgres
 	sqitch deploy
 
 .PHONY: test
-test: migrate
+test:
 	docker-compose -f docker-compose.test.yml run --rm db_check
 
 .PHONY: destroy

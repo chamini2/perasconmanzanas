@@ -9,6 +9,6 @@ services:
       HOST: postgres
       USER: postgres
       PASSWORD: password
-      TESTS: /test/**/*.sql -v
+      TESTS: /test/**/*.sql /test/**/**/*.sql -v # Should accept /test/**/*.sql
     volumes:
       - ./test/:/test/
