@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:9.6-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: i
+    ports:
+      - 5432:5432
+    volumes:
+        - ./data/postgres:/var/lib/postgresql/data
+
+  wait_postgres:
+    image: waisbrot/wait
+    environment:
+      TARGETS: postgres:5432
