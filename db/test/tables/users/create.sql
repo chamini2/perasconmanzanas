@@ -1,7 +1,7 @@
 BEGIN;
 SELECT plan(12);
 
-SELECT has_table('app', 'users', 'Table users should exist in schema app');
+SELECT has_table('app', 'users', 'Table should exist in schema app');
 
 INSERT INTO app.users (username, email, first_name, last_name, created_at)
 VALUES ('user', 'user@example.com', 'John', 'Doe', DEFAULT);

@@ -1,7 +1,7 @@
 BEGIN;
 SELECT plan(6);
 
-SELECT has_table('app', 'accounts', 'Table accounts should exist in schema app');
+SELECT has_table('app', 'accounts', 'Table should exist in schema app');
 
 INSERT INTO app.accounts (id, name, created_at) VALUES ('store', 'The Store', DEFAULT);
 
