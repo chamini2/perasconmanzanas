@@ -7,3 +7,4 @@ extensions/citext 2019-03-26T20:58:08Z Matteo Ferrando <matteo.ferrando2@gmail.c
 tables/accounts/create 2019-03-26T21:01:39Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create table accounts
 tables/users/create 2019-03-28T03:25:23Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create table users
 tables/members/create 2019-03-28T03:56:38Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create junction table members between accounts and users
+functions/trigger_function_account_has_at_least_one_member 2019-03-28T04:18:33Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create trigger function account_has_at_least_one_member
