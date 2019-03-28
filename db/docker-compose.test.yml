@@ -1,12 +1,12 @@
 version: '3'
 
 services:
-  db_check:
+  db_test:
     image: hbpmip/pgtap:1.0.0-0
     restart: on-failure
     environment:
       DATABASE: i
-      HOST: postgres
+      HOST: db
       USER: postgres
       PASSWORD: password
       TESTS: /test/**/*.sql /test/**/**/*.sql -v # Should accept /test/**/*.sql

@@ -1,18 +1,18 @@
 .PHONY: init
 init:
-	docker-compose up -d postgres
+	docker-compose up -d db
 
-.PHONY: wait_postgres
-wait_postgres: init
-	docker-compose run --rm wait_postgres
+.PHONY: wait_db
+wait_db: init
+	docker-compose run --rm wait_db
 
 .PHONY: migrate
-migrate: wait_postgres
+migrate: wait_db
 	sqitch deploy
 
 .PHONY: test
 test:
-	docker-compose -f docker-compose.test.yml run --rm db_check
+	docker-compose -f docker-compose.test.yml run --rm db_test
 
 .PHONY: destroy
 destroy:
