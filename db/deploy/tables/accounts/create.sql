@@ -3,8 +3,8 @@
 BEGIN;
 
 CREATE TABLE app.accounts (
-     PRIMARY KEY (id),
-     id         citext,
+     id         citext
+                PRIMARY KEY,
      name       text
                 NOT NULL,
      created_at timestamp with time zone

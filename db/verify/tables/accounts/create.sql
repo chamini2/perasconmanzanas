@@ -2,6 +2,8 @@
 
 BEGIN;
 
-SELECT id, name, created_at FROM app.accounts;
+SELECT id, name, created_at
+FROM app.accounts
+LIMIT 1;
 
 ROLLBACK;
