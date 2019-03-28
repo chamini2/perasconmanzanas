@@ -1,7 +1,7 @@
 BEGIN;
+SELECT plan(1);
 
-SELECT no_plan();
 SELECT has_schema('app');
-SELECT finish();
 
+SELECT finish();
 ROLLBACK;

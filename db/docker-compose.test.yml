@@ -2,7 +2,7 @@ version: '3'
 
 services:
   db_check:
-    image: hbpmip/pgtap:0.96.0-5
+    image: hbpmip/pgtap:1.0.0-0
     restart: on-failure
     environment:
       DATABASE: i
