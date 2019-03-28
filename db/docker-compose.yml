@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  server:
+    image: postgrest/postgrest
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    environment:
+      PGRST_DB_URI: postgres://postgres:password@db/i
+      PGRST_DB_SCHEMA: app
+      # PGRST_DB_ANON_ROLE: app_user
+      PGRST_DB_ANON_ROLE: postgres #In production this role should not be the same as the one used for the connection
+    depends_on:
+      - db
+
+  db:
+    image: postgres:11.2-alpine
+    restart: unless-stopped
+    environment:
+      # POSTGRES_URI: pg://app_user:password@db/i
+      POSTGRES_URI: pg://postgres:password@db/i
+    ports:
+      - 5432:5432
+    volumes:
+        - ./data/postgres:/var/lib/postgresql/data
+
+  wait_db:
+    image: waisbrot/wait
+    environment:
+      TARGETS: db:5432
