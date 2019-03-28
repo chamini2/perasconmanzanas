@@ -8,7 +8,7 @@ wait_db: init
 
 .PHONY: migrate
 migrate: wait_db
-	sqitch deploy
+	sqitch -C db deploy
 
 .PHONY: test
 test:
