@@ -3,6 +3,7 @@
 %uri=https://github.com/chamini2/i
 
 config/schema_app 2019-03-26T18:18:13Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create app schema
+config/schema_auth 2019-03-31T16:12:03Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Add auth schema
 extensions/citext 2019-03-26T20:58:08Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create extension citext
 tables/accounts/create 2019-03-26T21:01:39Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create table accounts
 tables/users/create 2019-03-28T03:25:23Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create table users
