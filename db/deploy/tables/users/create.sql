@@ -3,9 +3,12 @@
 BEGIN;
 
 CREATE TABLE app.users (
-    username   citext
+    id         serial
                PRIMARY KEY,
-    CONSTRAINT valid_username CHECK (username ~ '^[a-z0-9_.]*$'),
+    username   citext
+               NOT NULL,
+    CONSTRAINT valid_username CHECK (username ~ '^[a-z0-9_.]+$'),
+    CONSTRAINT unique_username UNIQUE (username),
     email      citext
                NOT NULL,
     CONSTRAINT unique_email UNIQUE (email),

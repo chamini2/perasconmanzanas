@@ -2,7 +2,7 @@
 
 BEGIN;
 
-SELECT user_username, account_id, admin, created_at
+SELECT user_id, account_id, admin, created_at
 FROM app.members
 LIMIT 1;
 
