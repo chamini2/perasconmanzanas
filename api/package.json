@@ -1,0 +1,21 @@
+{
+  "name": "nodeauthapi",
+  "version": "1.0.0",
+  "description": "JWT example",
+  "main": "app.js",
+  "scripts": {
+    "start": "node src/app"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "express-async-handler": "^1.1.4",
+    "express-bearer-token": "^2.2.0",
+    "express-joi-validation": "^0.3.0",
+    "joi": "^14.3.1",
+    "jsonwebtoken": "^8.1.0",
+    "morgan": "^1.9.1",
+    "pg": "^7.9.0"
+  }
+}
