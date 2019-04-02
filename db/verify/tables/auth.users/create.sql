@@ -4,6 +4,6 @@ BEGIN;
 
 SELECT id, password
 FROM auth.users
-LIMIT 1;
+WHERE FALSE;
 
 ROLLBACK;

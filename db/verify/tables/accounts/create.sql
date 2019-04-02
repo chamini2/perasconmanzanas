@@ -4,6 +4,6 @@ BEGIN;
 
 SELECT id, name, created_at
 FROM app.accounts
-LIMIT 1;
+WHERE FALSE;
 
 ROLLBACK;
