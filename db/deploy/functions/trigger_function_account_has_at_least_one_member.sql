@@ -5,8 +5,6 @@ BEGIN;
 CREATE FUNCTION account_has_at_least_one_member() RETURNS trigger
   LANGUAGE plpgsql
   AS $$
-  DECLARE
-    members_left integer;
   BEGIN
     PERFORM 1
     FROM app.accounts
@@ -18,11 +16,12 @@ CREATE FUNCTION account_has_at_least_one_member() RETURNS trigger
       RETURN OLD;
     END IF;
 
-    SELECT count(*) INTO members_left
+    PERFORM 1
     FROM app.members
-    WHERE account_id = OLD.account_id;
+    WHERE account_id = OLD.account_id
+      AND admin;
 
-    IF members_left = 0
+    IF NOT FOUND
     THEN
       RAISE EXCEPTION 'account (%) cannot remain without members', OLD.account_id;
     END IF;
