@@ -1,35 +1,23 @@
 BEGIN;
-SELECT plan(6);
+SELECT plan(14);
 
-SELECT has_table('app', 'accounts', 'Table should exist in schema app');
+SELECT has_table('app'::name, 'accounts'::name);
+SELECT has_pk('app'::name, 'accounts'::name, 'Table app.accounts should have a PRIMARY KEY');
+SELECT col_is_pk('app'::name, 'accounts'::name, 'id'::name, 'Column app.accounts.id should be the PRIMARY KEY');
 
-INSERT INTO app.accounts (id, name, created_at) VALUES ('store', 'The Store', DEFAULT);
+SELECT has_column('app'::name, 'accounts'::name, 'id'::name, 'Column app.accounts.id should exist');
+SELECT col_not_null('app'::name, 'accounts'::name, 'id'::name, 'Column app.accounts.id should be NOT NULL');
+SELECT col_type_is('app'::name, 'accounts'::name, 'id'::name, 'citext'::name);
 
-SELECT results_eq(
-    $$SELECT created_at FROM app.accounts WHERE id = 'store'$$,
-    $$VALUES (CURRENT_TIMESTAMP)$$,
-    'Should assign CURRENT_TIMESTAMP as default created_at'
-);
+SELECT has_column('app'::name, 'accounts'::name, 'name'::name, 'Column app.accounts.name should exist');
+SELECT col_not_null('app'::name, 'accounts'::name, 'name'::name, 'Column app.accounts.name should be NOT NULL');
+SELECT col_type_is('app'::name, 'accounts'::name, 'name'::name, 'text'::name);
 
-SELECT throws_ok(
-    $$INSERT INTO app.accounts (id, name, created_at) VALUES ('store', 'Not The Store', DEFAULT)$$,
-    23505
-);
-
-SELECT throws_ok(
-    $$INSERT INTO app.accounts (id, name, created_at) VALUES (NULL, 'Not The Store', DEFAULT)$$,
-    23502
-);
-
-SELECT throws_ok(
-    $$INSERT INTO app.accounts (id, name, created_at) VALUES ('another_store', NULL, DEFAULT)$$,
-    23502
-);
-
-SELECT throws_ok(
-    $$INSERT INTO app.accounts (id, name, created_at) VALUES ('another_store', 'Another Store', NULL)$$,
-    23502
-);
+SELECT has_column('app'::name, 'accounts'::name, 'created_at'::name, 'Column app.accounts.created_at should exist');
+SELECT col_not_null('app'::name, 'accounts'::name, 'created_at'::name, 'Column app.accounts.created_at should be NOT NULL');
+SELECT col_has_default('app'::name, 'accounts'::name, 'created_at'::name, 'Column app.accounts.created_at should have a DEFAULT');
+SELECT col_default_is('app'::name, 'accounts'::name, 'created_at'::name, 'now()', 'Column app.accounts.created_at should set DEFAULT to now()')::name;
+SELECT col_type_is('app'::name, 'accounts'::name, 'created_at'::name, 'timestamp with time zone'::name);
 
 SELECT finish();
 ROLLBACK;
