@@ -6,8 +6,8 @@ extensions/citext 2019-03-26T20:58:08Z Matteo Ferrando <matteo.ferrando2@gmail.c
 extensions/pgcrypto 2019-04-01T03:05:08Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create extension pgcrypto
 config/schema_app 2019-03-26T18:18:13Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create app schema
 config/schema_auth 2019-03-31T16:12:03Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Add auth schema
-tables/accounts/create 2019-03-26T21:01:39Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create table accounts
 tables/users/create 2019-03-28T03:25:23Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create table users
+tables/accounts/create 2019-03-26T21:01:39Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create table accounts
 tables/members/create 2019-03-28T03:56:38Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create junction table members between accounts and users
 tables/auth.users/create 2019-03-31T16:05:50Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Add auth users table
 tables/products/create 2019-04-02T03:35:11Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create table products

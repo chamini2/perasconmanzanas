@@ -6,9 +6,9 @@ SELECT has_table('app', 'users', 'Table should exist in schema app');
 INSERT INTO app.users (id, username, email, first_name, last_name, created_at)
 VALUES (-1, 'user', 'user@example.com', 'John', 'Doe', DEFAULT);
 
-SELECT results_eq(
+SELECT row_eq(
     $$SELECT created_at FROM app.users WHERE username = 'user'$$,
-    $$VALUES (CURRENT_TIMESTAMP)$$,
+    ROW (CURRENT_TIMESTAMP),
     'Should assign CURRENT_TIMESTAMP as default created_at'
 );
 

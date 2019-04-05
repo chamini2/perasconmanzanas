@@ -2,7 +2,7 @@
 
 BEGIN;
 
-SELECT id, name, created_at
+SELECT id, name, owner_id, created_at
 FROM app.accounts
 WHERE FALSE;
 

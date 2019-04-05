@@ -3,11 +3,11 @@
 BEGIN;
 
 CREATE TABLE auth.users (
-    id integer
-       PRIMARY KEY
-       REFERENCES app.users (id)
-           ON UPDATE CASCADE
-           ON DELETE CASCADE,
+    id       integer
+             PRIMARY KEY
+             REFERENCES app.users (id)
+                 ON UPDATE CASCADE
+                 ON DELETE CASCADE,
     password text
 );
 

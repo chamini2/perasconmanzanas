@@ -7,6 +7,11 @@ CREATE TABLE app.accounts (
                 PRIMARY KEY,
      name       text
                 NOT NULL,
+     owner_id   integer
+                NOT NULL
+                REFERENCES app.users (id)
+                    ON UPDATE CASCADE
+                    ON DELETE CASCADE,
      created_at timestamp with time zone
                 DEFAULT now()
                 NOT NULL
