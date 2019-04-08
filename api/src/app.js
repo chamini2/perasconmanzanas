@@ -7,10 +7,11 @@ const validator = require('express-joi-validation')({})
 
 const service = require('./service')
 const {
-    verifyHasToken,
+    verifyToken,
     verifyNoToken,
     jwtSign,
-    handlePostgresErrors
+    handlePostgresErrors,
+    handleHttpErrors
 } = require('./helpers')
 
 const API_PORT = 5000
@@ -29,8 +30,7 @@ app.post(
         email: Joi.string().required(),
         username: Joi.string().required(),
         password: Joi.string().required(),
-        first_name: Joi.string().required(),
-        last_name: Joi.string().required()
+        full_name: Joi.string().required()
     })),
     asyncHandler(async function(req, res) {
         const data = await service.register(req.body)
@@ -48,40 +48,28 @@ app.post(
         password: Joi.string().required()
     })),
     asyncHandler(async function(req, res) {
-        let data
-
-        try {
-            data = await service.signin(req.body)
-        } catch (e) {
-            if (e.message == '401') {
-                res.status(401).send('Wrong credentials')
-                return
-            } else {
-                throw e
-            }
-        }
-
+        const data = await service.signIn(req.body)
         const token = jwtSign(data)
         res.status(201).send(token)
     })
 )
 
-app.patch(
+app.put(
     '/api/account',
     express.json(),
-    verifyHasToken,
+    verifyToken,
     validator.body(Joi.object({
         account: Joi.string().required()
     })),
     asyncHandler(async function(req, res) {
-        const data = await service.account(req.token, req.body)
-
+        const data = await service.selectAccount(req.decoded, req.body.account)
         const token = jwtSign(data)
         res.status(200).send(token)
     })
 )
 
 app.use(handlePostgresErrors)
+app.use(handleHttpErrors)
 
 app.listen(API_PORT, API_HOST)
 console.log(`Running on http://${API_HOST}:${API_PORT}`)

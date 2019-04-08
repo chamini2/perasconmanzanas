@@ -1,28 +1,19 @@
-const { Pool } = require('pg')
+const httpErrors = require('http-errors')
+const { pool, transacting } = require('./db')
 
 const USER_ROLE = 'web_user'
-
-const pool = new Pool()
-
-// the pool emits errors on behalf of any idle clients
-pool.on('error', function(err, client) {
-  console.error('Unexpected error on idle client', err)
-  process.exit(-1)
-})
+const ADMIN_ROLE = 'web_admin'
 
 async function register(data) {
-    const { email, username, password, first_name, last_name } = data
-    const client = await pool.connect()
+    const { email, username, password, full_name } = data
     let user
 
-    try {
-        await client.query('BEGIN')
-
+    await transacting(async function(client) {
         const { rows } = await client.query(`
-            INSERT INTO app.users (username, email, first_name, last_name)
+            INSERT INTO app.users (username, email, full_name)
             VALUES ($1, $2, $3, $4)
             RETURNING *
-            `, [username, email, first_name, last_name])
+            `, [username, email, full_name])
 
         user = rows[0]
 
@@ -30,19 +21,12 @@ async function register(data) {
             INSERT INTO auth.users (id, password)
             VALUES ($1, crypt($2, gen_salt('md5')))
             `, [user.id, password])
+    });
 
-        await client.query('COMMIT')
-    } catch (e) {
-        await client.query('ROLLBACK')
-        throw e
-    } finally {
-        client.release()
-    }
-
-    return token(user)
+    return tokenData(user.id)
 }
 
-async function signin(credentials) {
+async function signIn(credentials) {
     const { identifier, password } = credentials
 
     let user = await findUserByUsernamePassword(identifier, password)
@@ -52,48 +36,68 @@ async function signin(credentials) {
     }
 
     if (!user) {
-        throw new Error('401')
+        throw httpErrors.Unauthorized('Wrong credentials')
     }
 
-    return token(user)
+    return tokenData(user.id)
 }
 
-function token(user) {
-    return { role: USER_ROLE, user }
+async function selectAccount(decodedToken, accountId) {
+    const userId = decodedToken.user
+
+    const { rows } = await pool.query(`
+            SELECT a.owner_id AS user_id, a.id AS account_id, true AS admin
+            FROM app.accounts a
+            WHERE a.owner_id = $1
+            UNION
+            SELECT m.user_id, m.account_id, m.admin
+            FROM app.users u
+            INNER JOIN app.members m ON (u.id = m.user_id)
+            WHERE u.id = $1 AND m.account_id = $2
+            LIMIT 1
+        `, [userId, accountId])
+
+    const member = rows[0]
+
+    if (!member) {
+        throw httpErrors.Forbidden('Not member of account')
+    }
+
+    return tokenData(member.user_id, member.account_id, member.admin)
+}
+
+function tokenData(user, account, admin = false) {
+    return {
+        role: admin ? ADMIN_ROLE : USER_ROLE,
+        user,
+        account
+    }
 }
 
 async function findUserByUsernamePassword(username, password) {
     const { rows } = await pool.query(`
-        SELECT users.*
-        FROM app.users users
-        INNER JOIN auth.users WITH (id) auth
-        WHERE users.username = $1 AND auth.password = crypt($2, auth.password)
+        SELECT u.*
+        FROM app.users u
+        INNER JOIN auth.users a USING (id)
+        WHERE u.username = $1 AND a.password = crypt($2, a.password)
         `, [username, password])
 
-    console.log(found)
     return rows[0] || null
 }
 
 async function findUserByEmailPassword(email, password) {
-    let found
-    try {
-        const { rows } = await pool.query(`
-            SELECT users.*
-            FROM app.users users
-            INNER JOIN auth.users WITH (id) auth
-            WHERE users.email = $1 AND auth.password = crypt($2, auth.password)
-            `, [email, password])
-        found = rows[0]
-    } catch (e) {
-        console.error(e.toString())
-        return null;
-    }
+    const { rows } = await pool.query(`
+        SELECT u.*
+        FROM app.users u
+        INNER JOIN auth.users a USING (id)
+        WHERE u.email = $1 AND a.password = crypt($2, a.password)
+        `, [email, password])
 
-    console.log(found)
-    return found || null
+    return rows[0] || null
 }
 
 module.exports = {
     register,
-    signin
+    signIn,
+    selectAccount
 }
