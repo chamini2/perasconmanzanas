@@ -19,7 +19,9 @@ services:
     restart: unless-stopped
     environment:
       # Change owner of database
-      POSTGRES_URI: pg://postgres:password@db/i
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: i
     ports:
       - 5432:5432
     volumes:
