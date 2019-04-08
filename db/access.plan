@@ -1,0 +1,9 @@
+%syntax-version=1.0.0
+%project=server
+%uri=https://postgrest.org/
+
+config/role_authenticator 2019-03-31T00:09:44Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create authenticator role
+config/role_web_anon 2019-03-28T14:14:51Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create web_anon role
+config/role_web_user 2019-03-31T00:34:49Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create web_user role
+config/role_web_admin 2019-04-03T04:59:08Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create web_admin role
+config/role_api 2019-03-31T04:50:57Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create api role
