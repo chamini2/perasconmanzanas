@@ -2,7 +2,7 @@
 
 BEGIN;
 
-SELECT id, username, email, first_name, last_name, created_at
+SELECT id, username, email, full_name, created_at
 FROM app.users
 WHERE FALSE;
 

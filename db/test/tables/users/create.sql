@@ -1,112 +1,60 @@
 BEGIN;
-SELECT plan(14);
+SELECT plan(31);
 
-SELECT has_table('app', 'users', 'Table should exist in schema app');
+SELECT has_table('app'::name, 'users'::name);
+SELECT has_pk('app'::name, 'users'::name, 'Table app.users should have a PRIMARY KEY');
+SELECT col_is_pk('app'::name, 'users'::name, 'id'::name, 'Column app.users.id should be the PRIMARY KEY');
 
-INSERT INTO app.users (id, username, email, first_name, last_name, created_at)
-VALUES (-1, 'user', 'user@example.com', 'John', 'Doe', DEFAULT);
+SELECT has_column('app'::name, 'users'::name, 'id'::name, 'Column app.users.id should exist');
+SELECT col_type_is('app'::name, 'users'::name, 'id'::name, 'integer'::name);
+SELECT col_not_null('app'::name, 'users'::name, 'id'::name, 'Column app.users.id should be NOT NULL');
 
-SELECT row_eq(
-    $$SELECT created_at FROM app.users WHERE username = 'user'$$,
-    ROW (CURRENT_TIMESTAMP),
-    'Should assign CURRENT_TIMESTAMP as default created_at'
-);
+SELECT has_column('app'::name, 'users'::name, 'username'::name, 'Column app.users.username should exist');
+SELECT col_type_is('app'::name, 'users'::name, 'username'::name, 'citext'::name);
+SELECT col_not_null('app'::name, 'users'::name, 'username'::name, 'Column app.users.username should be NOT NULL');
+SELECT col_is_unique('app'::name, 'users'::name, 'username'::name);
+SELECT col_has_check('app'::name, 'users'::name, 'username'::name, 'Column should have CHECK constraint');
 
+SELECT has_column('app'::name, 'users'::name, 'username'::name, 'Column app.users.username should exist');
+SELECT col_type_is('app'::name, 'users'::name, 'username'::name, 'citext'::name);
+SELECT col_not_null('app'::name, 'users'::name, 'username'::name, 'Column app.users.username should be NOT NULL');
+SELECT col_is_unique('app'::name, 'users'::name, 'username'::name);
+SELECT col_has_check('app'::name, 'users'::name, 'username'::name, 'Column should have CHECK constraint');
 SELECT throws_ok(
     $$
-        INSERT INTO app.users (id, username, email, first_name, last_name, created_at)
-        VALUES (-1, 'other', 'other@example.com', 'John', 'Doe', DEFAULT)
-    $$,
-    23505
-);
-
-SELECT throws_ok(
-    $$
-        INSERT INTO app.users (id, username, email, first_name, last_name, created_at)
-        VALUES (DEFAULT, 'user', 'other@example.com', 'John', 'Doe', DEFAULT)
-    $$,
-    23505
-);
-
-SELECT throws_ok(
-    $$
-        INSERT INTO app.users (id, username, email, first_name, last_name, created_at)
-        VALUES (DEFAULT, 'UseR', 'other@example.com', 'John', 'Doe', DEFAULT)
-    $$,
-    23505
-);
-
-SELECT throws_ok(
-    $$
-        INSERT INTO app.users (id, username, email, first_name, last_name, created_at)
-        VALUES (DEFAULT, 'invalid username', 'other@example.com', 'John', 'Doe', DEFAULT)
+        INSERT INTO app.users (id, username, email, full_name)
+        VALUES (DEFAULT, 'invalid username', '1@example.com', 'John Doe')
     $$,
     23514
 );
-
 SELECT throws_ok(
     $$
-        INSERT INTO app.users (id, username, email, first_name, last_name, created_at)
-        VALUES (DEFAULT, '', 'other@example.com', 'John', 'Doe', DEFAULT)
+        INSERT INTO app.users (id, username, email, full_name)
+        VALUES (DEFAULT, '', '2@example.com', 'John Doe')
     $$,
     23514
 );
-
-SELECT throws_ok(
+SELECT lives_ok(
     $$
-        INSERT INTO app.users (id, username, email, first_name, last_name, created_at)
-        VALUES (DEFAULT, 'other', 'user@example.com', 'John', 'Doe', DEFAULT)
-    $$,
-    23505
+        INSERT INTO app.users (id, username, email, full_name)
+        VALUES (DEFAULT, 'Shorts_2.0', '3@example.com', 'John Doe')
+    $$
 );
 
-SELECT throws_ok(
-    $$
-        INSERT INTO app.users (id, username, email, first_name, last_name, created_at)
-        VALUES (DEFAULT, 'other', 'user@EXAMPLE.COM', 'John', 'Doe', DEFAULT)
-    $$,
-    23505
-);
+SELECT has_column('app'::name, 'users'::name, 'email'::name, 'Column app.users.email should exist');
+SELECT col_type_is('app'::name, 'users'::name, 'email'::name, 'citext'::name);
+SELECT col_not_null('app'::name, 'users'::name, 'email'::name, 'Column app.users.email should be NOT NULL');
+SELECT col_is_unique('app'::name, 'users'::name, 'email'::name);
 
-SELECT throws_ok(
-    $$
-        INSERT INTO app.users (id, username, email, first_name, last_name, created_at)
-        VALUES (DEFAULT, NULL, 'other@example.com', 'John', 'Doe', DEFAULT)
-    $$,
-    23502
-);
+SELECT has_column('app'::name, 'users'::name, 'full_name'::name, 'Column app.users.full_name should exist');
+SELECT col_type_is('app'::name, 'users'::name, 'full_name'::name, 'text'::name);
+SELECT col_not_null('app'::name, 'users'::name, 'full_name'::name, 'Column app.users.full_name should be NOT NULL');
 
-SELECT throws_ok(
-    $$
-        INSERT INTO app.users (id, username, email, first_name, last_name, created_at)
-        VALUES (DEFAULT, 'other', NULL, 'John', 'Doe', DEFAULT)
-    $$,
-    23502
-);
-
-SELECT throws_ok(
-    $$
-        INSERT INTO app.users (id, username, email, first_name, last_name, created_at)
-        VALUES (DEFAULT, 'other', 'other@example.com', NULL, 'Doe', DEFAULT)
-    $$,
-    23502
-);
-
-SELECT throws_ok(
-    $$
-        INSERT INTO app.users (id, username, email, first_name, last_name, created_at)
-        VALUES (DEFAULT, 'other', 'other@example.com', 'John', NULL, DEFAULT)
-    $$,
-    23502
-);
-
-SELECT throws_ok(
-    $$
-        INSERT INTO app.users (id, username, email, first_name, last_name, created_at)
-        VALUES (DEFAULT, 'other', 'other@example.com', 'John', 'Doe', NULL)
-    $$,
-    23502
-);
+SELECT has_column('app'::name, 'users'::name, 'created_at'::name, 'Column app.users.created_at should exist');
+SELECT col_type_is('app'::name, 'users'::name, 'created_at'::name, 'timestamp with time zone'::name);
+SELECT col_not_null('app'::name, 'users'::name, 'created_at'::name, 'Column app.users.created_at should be NOT NULL');
+SELECT col_has_default('app'::name, 'users'::name, 'created_at'::name, 'Column app.users.created_at should have a DEFAULT');
+SELECT col_default_is('app'::name, 'users'::name, 'created_at'::name, 'now()', 'Column app.users.created_at should set DEFAULT to now()')::name;
 
 SELECT finish();
 ROLLBACK;

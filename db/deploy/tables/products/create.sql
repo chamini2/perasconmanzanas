@@ -9,8 +9,8 @@ CREATE TABLE app.products (
     account_id  citext
                 NOT NULL
                 REFERENCES app.accounts (id)
-                  ON UPDATE CASCADE
-                  ON DELETE CASCADE,
+                    ON UPDATE CASCADE
+                    ON DELETE CASCADE,
     description text
                 NOT NULL,
     created_at  timestamp with time zone
