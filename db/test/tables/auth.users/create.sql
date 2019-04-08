@@ -1,37 +1,19 @@
 BEGIN;
-SELECT plan(3);
+SELECT plan(11);
 
-INSERT INTO app.users (id, username, email, first_name, last_name, created_at)
-VALUES (-1, 'user', 'user@example.com', 'John', 'Doe', DEFAULT);
+SELECT has_table('auth'::name, 'users'::name);
+SELECT has_pk('auth'::name, 'users'::name, 'Table auth.users should have a PRIMARY KEY');
+SELECT col_is_pk('auth'::name, 'users'::name, 'id'::name, 'Column auth.users.id should be the PRIMARY KEY');
 
-INSERT INTO app.users (id, username, email, first_name, last_name, created_at)
-VALUES (-2, 'other', 'other@example.com', 'John', 'Doe', DEFAULT);
+SELECT has_column('auth'::name, 'users'::name, 'id'::name, 'Column auth.users.id should exist');
+SELECT col_type_is('auth'::name, 'users'::name, 'id'::name, 'integer'::name);
+SELECT col_not_null('auth'::name, 'users'::name, 'id'::name, 'Column auth.users.id should be NOT NULL');
+SELECT col_is_fk('auth'::name, 'users'::name, 'id'::name, 'Column auth.users.id should be a FOREIGN KEY');
+SELECT fk_ok('auth'::name, 'users'::name, 'id'::name, 'app'::name, 'users'::name, 'id'::name);
 
-INSERT INTO auth.users (id, password)
-VALUES (-1, 'password');
-
-SELECT throws_ok(
-    $$
-        INSERT INTO auth.users (id, password)
-        VALUES (-1, 'password')
-    $$,
-    23505
-);
-
-SELECT throws_ok(
-    $$
-        INSERT INTO auth.users (id, password)
-        VALUES (-3, 'password')
-    $$,
-    23503
-);
-
-SELECT lives_ok(
-    $$
-        INSERT INTO auth.users (id, password)
-        VALUES (-2, NULL)
-    $$
-);
+SELECT has_column('auth'::name, 'users'::name, 'password'::name, 'Column auth.users.password should exist');
+SELECT col_type_is('auth'::name, 'users'::name, 'password'::name, 'text'::name);
+SELECT col_is_null('auth'::name, 'users'::name, 'password'::name, 'Column auth.users.password should be NULL');
 
 SELECT finish();
 ROLLBACK;

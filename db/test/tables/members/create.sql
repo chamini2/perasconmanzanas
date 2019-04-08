@@ -1,36 +1,33 @@
 BEGIN;
-SELECT plan(4);
+SELECT plan(23);
 
-SELECT has_table('app', 'members', 'Table should exist in schema app');
+SELECT has_table('app'::name, 'members'::name);
+SELECT has_pk('app'::name, 'members'::name, 'Table app.members should have a PRIMARY KEY');
+SELECT col_is_pk('app'::name, 'members'::name, ARRAY['user_id', 'account_id']::name[], 'Columns (app.members.user_id, app.members.account_id) should be the PRIMARY KEY');
 
-INSERT INTO app.users (id, username, email, first_name, last_name, created_at)
-VALUES (-1, 'user', 'user@example.com', 'John', 'Doe', DEFAULT);
+SELECT has_column('app'::name, 'members'::name, 'user_id'::name, 'Column app.members.user_id should exist');
+SELECT col_type_is('app'::name, 'members'::name, 'user_id'::name, 'integer'::name);
+SELECT col_not_null('app'::name, 'members'::name, 'user_id'::name, 'Column app.members.user_id should be NOT NULL');
+SELECT col_is_fk('app'::name, 'members'::name, 'user_id'::name, 'Column app.members.user_id should be a FOREIGN KEY');
+SELECT fk_ok('app'::name, 'members'::name, 'user_id'::name, 'app'::name, 'users'::name, 'id'::name);
 
-INSERT INTO app.accounts (id, name, created_at)
-VALUES ('store', 'The Store', DEFAULT);
+SELECT has_column('app'::name, 'members'::name, 'account_id'::name, 'Column app.members.account_id should exist');
+SELECT col_type_is('app'::name, 'members'::name, 'account_id'::name, 'citext'::name);
+SELECT col_not_null('app'::name, 'members'::name, 'account_id'::name, 'Column app.members.account_id should be NOT NULL');
+SELECT col_is_fk('app'::name, 'members'::name, 'account_id'::name, 'Column app.members.account_id should be a FOREIGN KEY');
+SELECT fk_ok('app'::name, 'members'::name, 'account_id'::name, 'app'::name, 'accounts'::name, 'id'::name);
 
-INSERT INTO app.members (user_id, account_id, admin, created_at)
-VALUES (-1, 'store', DEFAULT, DEFAULT);
+SELECT has_column('app'::name, 'members'::name, 'admin'::name, 'Column app.members.admin should exist');
+SELECT col_type_is('app'::name, 'members'::name, 'admin'::name, 'boolean'::name);
+SELECT col_not_null('app'::name, 'members'::name, 'admin'::name, 'Column app.members.admin should be NOT NULL');
+SELECT col_has_default('app'::name, 'members'::name, 'admin'::name, 'Column app.members.admin should have a DEFAULT');
+SELECT col_default_is('app'::name, 'members'::name, 'admin'::name, 'false', 'Column app.members.admin should set DEFAULT to false');
 
-SELECT results_eq(
-    $$SELECT created_at FROM app.members WHERE user_id = -1$$,
-    $$VALUES (CURRENT_TIMESTAMP)$$,
-    'Should assign CURRENT_TIMESTAMP as default created_at'
-);
-
-SELECT results_eq(
-    $$SELECT admin FROM app.members WHERE user_id = -1$$,
-    $$VALUES (FALSE)$$,
-    'Should assign FALSE as default admin'
-);
-
-SELECT throws_ok(
-    $$
-        INSERT INTO app.members (user_id, account_id, admin, created_at)
-        VALUES (-1, 'store', DEFAULT, DEFAULT)
-    $$,
-    23505
-);
+SELECT has_column('app'::name, 'members'::name, 'created_at'::name, 'Column app.members.created_at should exist');
+SELECT col_type_is('app'::name, 'members'::name, 'created_at'::name, 'timestamp with time zone'::name);
+SELECT col_not_null('app'::name, 'members'::name, 'created_at'::name, 'Column app.members.created_at should be NOT NULL');
+SELECT col_has_default('app'::name, 'members'::name, 'created_at'::name, 'Column app.members.created_at should have a DEFAULT');
+SELECT col_default_is('app'::name, 'members'::name, 'created_at'::name, 'now()', 'Column app.members.created_at should set DEFAULT to now()');
 
 SELECT finish();
 ROLLBACK;
