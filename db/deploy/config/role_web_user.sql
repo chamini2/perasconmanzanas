@@ -18,4 +18,8 @@ GRANT DELETE ON TABLE app.accounts TO web_user;
 GRANT SELECT ON TABLE app.members TO web_user;
 GRANT DELETE ON TABLE app.members TO web_user;
 
+GRANT SELECT ON TABLE app.products TO web_user;
+GRANT INSERT ON TABLE app.products TO web_user;
+GRANT UPDATE ON TABLE app.products TO web_user;
+
 COMMIT;

@@ -9,3 +9,4 @@ config/role_web_admin 2019-04-03T04:59:08Z Matteo Ferrando <matteo.ferrando2@gma
 config/role_api 2019-03-31T04:50:57Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create api role
 tables/accounts/security 2019-04-03T04:54:53Z Matteo Ferrando <matteo.ferrando2@gmail.com> # add row level security to accounts
 tables/members/security 2019-04-07T13:40:16Z Matteo Ferrando <matteo.ferrando2@gmail.com> # add row level security to members
+tables/products/security 2019-04-03T02:23:44Z Matteo Ferrando <matteo.ferrando2@gmail.com> # add row level security to products

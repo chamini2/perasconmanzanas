@@ -10,4 +10,6 @@ GRANT web_user TO web_admin;
 GRANT INSERT ON TABLE app.members TO web_admin;
 GRANT UPDATE ON TABLE app.members TO web_admin;
 
+GRANT DELETE ON TABLE app.products TO web_admin;
+
 COMMIT;
