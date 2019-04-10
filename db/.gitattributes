@@ -1,0 +1,2 @@
+sqitch.plan merge=union
+access.plan merge=union
