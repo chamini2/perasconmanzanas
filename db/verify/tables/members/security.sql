@@ -2,6 +2,6 @@
 
 BEGIN;
 
-SELECT 1/count(*) FROM pg_catalog.pg_tables WHERE schemaname = 'app' AND tablename = 'members';
+SELECT 1/count(*) FROM pg_catalog.pg_tables WHERE schemaname = 'app' AND tablename = 'members' AND rowsecurity;
 
 ROLLBACK;
