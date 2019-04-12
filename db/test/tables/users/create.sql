@@ -1,5 +1,5 @@
 BEGIN;
-SELECT plan(31);
+SELECT plan(27);
 
 SELECT has_table('app'::name, 'users'::name);
 SELECT has_pk('app'::name, 'users'::name, 'Table app.users should have a PRIMARY KEY');
@@ -8,12 +8,7 @@ SELECT col_is_pk('app'::name, 'users'::name, 'id'::name, 'Column app.users.id sh
 SELECT has_column('app'::name, 'users'::name, 'id'::name, 'Column app.users.id should exist');
 SELECT col_type_is('app'::name, 'users'::name, 'id'::name, 'integer'::name);
 SELECT col_not_null('app'::name, 'users'::name, 'id'::name, 'Column app.users.id should be NOT NULL');
-
-SELECT has_column('app'::name, 'users'::name, 'username'::name, 'Column app.users.username should exist');
-SELECT col_type_is('app'::name, 'users'::name, 'username'::name, 'citext'::name);
-SELECT col_not_null('app'::name, 'users'::name, 'username'::name, 'Column app.users.username should be NOT NULL');
-SELECT col_is_unique('app'::name, 'users'::name, 'username'::name);
-SELECT col_has_check('app'::name, 'users'::name, 'username'::name, 'Column should have CHECK constraint');
+SELECT col_has_default('app'::name, 'users'::name, 'id'::name, 'Column app.users.id should have a DEFAULT');
 
 SELECT has_column('app'::name, 'users'::name, 'username'::name, 'Column app.users.username should exist');
 SELECT col_type_is('app'::name, 'users'::name, 'username'::name, 'citext'::name);
