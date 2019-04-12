@@ -11,7 +11,7 @@ async function register(data) {
     await transacting(async function(client) {
         const { rows } = await client.query(`
             INSERT INTO app.users (username, email, full_name)
-            VALUES ($1, $2, $3, $4)
+            VALUES ($1, $2, $3)
             RETURNING *
             `, [username, email, full_name])
 
