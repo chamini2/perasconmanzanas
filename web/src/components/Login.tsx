@@ -9,6 +9,7 @@ import Auth from '../services/Auth';
 import { AxiosResponse } from 'axios';
 import { Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { STRINGS } from '../constants';
 
 interface State {
   identifier: string;
@@ -47,14 +48,15 @@ export default class Login extends Component<any, State> {
 
     try {
       await Auth.login(this.state.identifier, this.state.password);
+      toast('Bienvenido!', { type: 'success' });
       this.setState({ redirect: true });
     } catch (err) {
+      console.error(err);
       if (err.response) {
         const errResponse = err.response as AxiosResponse<string>;
-        toast('Request error: ' + errResponse.data, { type: 'error' });
+        toast('Error en petición: ' + errResponse.data, { type: 'error' });
       } else {
-        console.error(err);
-        toast('Unknown error, let the developers know', { type: 'error' });
+        toast(STRINGS.UNKNOWN_ERROR, { type: 'error' });
       }
     }
   }
@@ -66,7 +68,7 @@ export default class Login extends Component<any, State> {
 
     return (
       <div className='Login'>
-        <form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit}>
           <FormGroup controlId='identifier'>
             <FormLabel>Email o Usuario</FormLabel>
             <FormControl
@@ -90,7 +92,7 @@ export default class Login extends Component<any, State> {
           >
             Iniciar sesión
           </Button>
-        </form>
+        </Form>
       </div>
     );
   }

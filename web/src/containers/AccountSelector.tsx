@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AccountsService, { Account } from '../services/AccountsService';
 import Auth from '../services/Auth';
+import './AccountSelector.scss';
 
 interface State {
   accounts: Account[];
@@ -22,10 +23,10 @@ export default class AccountSelector extends Component<any, State> {
 
   renderAccount = (acc: Account) => {
     return <span
+      key={acc.id}
       onClick={(event) => {
         event.stopPropagation();
         Auth.setAccount(acc.id);
-        this.props.history.push('/');
       }}
     >
       {acc.name} ({acc.id})
@@ -34,7 +35,7 @@ export default class AccountSelector extends Component<any, State> {
 
   render() {
     return (
-      <div>
+      <div className="AccountSelector">
         {this.state.accounts.map(this.renderAccount)}
       </div>
     );
