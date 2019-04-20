@@ -1,4 +1,4 @@
-import { axiosPostgrest } from './Request';
+import { axiosPG } from './Request';
 import { authHeader } from './Auth';
 
 export interface Account {
@@ -11,8 +11,9 @@ export interface Account {
 }
 
 export default class AccountsService {
+
   static async fetchAllAccounts() {
-    return await axiosPostgrest.get<Account[]>('/accounts', {
+    return await axiosPG.get<Account[]>('/accounts', {
       headers: authHeader(),
       params: {
         order: 'created_at'
@@ -21,7 +22,7 @@ export default class AccountsService {
   }
 
   static async fetchAccount(id: string) {
-    const account = await axiosPostgrest.get<Account[]>('/accounts', {
+    const account = await axiosPG.get<Account[]>('/accounts', {
       headers: authHeader(),
       params: {
         id: 'eq.' + id

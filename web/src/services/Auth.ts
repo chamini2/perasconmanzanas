@@ -22,6 +22,12 @@ export function authHeader() {
 
 export default class Auth {
 
+  static getUser() {
+    const decoded = TokenHandler.getDecoded();
+    const user = decoded && decoded.user;
+    return user || null;
+  }
+
   static async login(identifier: string, password: string) {
     const response = await axiosAPI.post('/api/authenticate', { identifier, password }, { responseType: 'text' });
     TokenHandler.storeToken(response.data);

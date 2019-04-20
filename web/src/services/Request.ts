@@ -1,4 +1,5 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosPromise } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosPromise, AxiosError, AxiosResponse } from 'axios';
+import { STRINGS } from '../constants';
 
 const BASE_API_URL = 'http://localhost:5000';
 const BASE_POSTGREST_URL = 'http://localhost:4000';
@@ -15,6 +16,32 @@ export interface PostgRESTAxiosInstance extends AxiosInstance {
   get<T = PostgRESTRow[]>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>;
 }
 
-export const axiosPostgrest: PostgRESTAxiosInstance = axios.create({
+export const axiosPG: PostgRESTAxiosInstance = axios.create({
   baseURL: BASE_POSTGREST_URL
 });
+
+export function preferHeader(returnType: 'representation') {
+  return {
+    prefer: `return=${returnType}`
+  };
+}
+
+export function errorPGMessage(err: AxiosResponse): string {
+  switch (typeof err.data) {
+    case 'string': {
+      return err.data;
+    }
+    case 'object': {
+      if (typeof err.data.message === 'string' && err.data.message) {
+        return err.data.message;
+      } else if (typeof err.data.details === 'string' && err.data.details) {
+        return err.data.details;
+      } else {
+        return JSON.stringify(err.data);
+      }
+    }
+    default: {
+      return STRINGS.UNKNOWN_ERROR;
+    }
+  }
+}
