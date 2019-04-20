@@ -2,9 +2,21 @@ import React, { Component, MouseEvent } from 'react';
 import Button from 'react-bootstrap/Button'
 import Auth from '../services/Auth';
 import AccountsService, { Account } from '../services/AccountsService';
+import './Header.css';
 
 interface State {
   account?: Account
+}
+
+export const headerContainerStyle: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%'
+};
+
+export const headerSiblingStyle: React.CSSProperties = {
+  flexGrow: 1,
+  overflow: 'auto'
 }
 
 export default class Header extends Component<{}, State> {
@@ -24,7 +36,7 @@ export default class Header extends Component<{}, State> {
 
   logoutButton() {
     return <Button
-        className="btn-secondary"
+        className='btn-secondary'
         onClick={function(event: MouseEvent) {
           event.stopPropagation();
           Auth.logout();
@@ -45,11 +57,7 @@ export default class Header extends Component<{}, State> {
   }
 
   render() {
-    return <div
-      style={{
-        width: "100%",
-      }}
-    >
+    return <div className="Header">
       {this.account()}
       {this.logoutButton()}
     </div>;

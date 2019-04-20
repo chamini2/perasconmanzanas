@@ -1,0 +1,9 @@
+.Header {
+  box-sizing: border-box;
+  width: 100%;
+  height: 5ex;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
