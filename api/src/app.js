@@ -1,6 +1,7 @@
 const express = require('express')
 const bearerToken = require('express-bearer-token')
 const morgan = require('morgan')
+const cors = require('cors')
 const asyncHandler = require('express-async-handler')
 const Joi = require('joi')
 const validator = require('express-joi-validation')({})
@@ -21,6 +22,7 @@ const app = express()
 
 app.use(bearerToken())
 app.use(morgan('combined'))
+app.use(cors())
 
 app.post(
     '/api/users',
@@ -50,7 +52,7 @@ app.post(
     asyncHandler(async function(req, res) {
         const data = await service.signIn(req.body)
         const token = jwtSign(data)
-        res.status(201).send(token)
+        res.status(200).send(token)
     })
 )
 

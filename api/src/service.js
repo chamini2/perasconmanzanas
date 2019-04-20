@@ -48,7 +48,7 @@ async function selectAccount(decodedToken, accountId) {
     const { rows } = await pool.query(`
             SELECT a.owner_id AS user_id, a.id AS account_id, true AS admin
             FROM app.accounts a
-            WHERE a.owner_id = $1
+            WHERE a.owner_id = $1 AND a.id = $2
             UNION
             SELECT m.user_id, m.account_id, m.admin
             FROM app.users u
