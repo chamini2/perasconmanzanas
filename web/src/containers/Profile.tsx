@@ -108,7 +108,7 @@ export default class Profile extends Component<any, State> {
                 onChange={this.handleUserChange('full_name')}
               />
             </FormGroup>
-            <FormGroup controlId='id'>
+            <FormGroup controlId='id' className='one-liner'>
               <FormLabel>ID</FormLabel>
               <FormControl
                 value={this.state.edited.id.toString()}
@@ -116,8 +116,10 @@ export default class Profile extends Component<any, State> {
                 onChange={this.handleUserChange('id')}
               />
             </FormGroup>
-            <FormGroup controlId='created_at'>
-              <FormLabel>Miembro desde</FormLabel>
+            <FormGroup controlId='created_at' className='one-liner'>
+              <FormLabel>
+                Miembro desde
+              </FormLabel>
               <FormControl
                 readOnly
                 value={formatd(new Date(this.state.edited.created_at), "dd 'de' MMMM 'del' yyyy", { locale: DATE_LOCALE })}
@@ -128,7 +130,7 @@ export default class Profile extends Component<any, State> {
               disabled={!this.editedUserForm()}
               type='submit'
             >
-              Guardar cambios
+              Guardar
             </Button>
           </Form>
         </div>

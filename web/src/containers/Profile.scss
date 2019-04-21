@@ -46,4 +46,16 @@
     align-items: center;
   }
 
+  .one-liner.form-group {
+    display: flex;
+
+    .form-label {
+      flex-grow: 1;
+    }
+
+    .form-control {
+      width: auto;
+    }
+  }
+
 }
