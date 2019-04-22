@@ -22,38 +22,36 @@ export function authHeader() {
 
 export default class Auth {
 
-  static getUser() {
+  static getUser(): number | undefined {
     const decoded = TokenHandler.getDecoded();
-    const user = decoded && decoded.user;
-    return user || null;
+    return decoded && decoded.user;
   }
 
-  static async login(identifier: string, password: string) {
+  static async login(identifier: string, password: string): Promise<void> {
     const response = await axiosAPI.post('/api/authenticate', { identifier, password }, { responseType: 'text' });
     TokenHandler.storeToken(response.data);
   }
 
-  static logout() {
+  static logout(): void {
     TokenHandler.removeToken();
   }
 
-  static isLoggedIn() {
-    return TokenHandler.getDecoded() != null;
+  static isLoggedIn(): boolean {
+    return !!TokenHandler.getDecoded();
   }
 
-  static getAccount() {
+  static getAccount(): string | undefined {
     const decoded = TokenHandler.getDecoded();
-    const account = decoded && decoded.account;
-    return account || null;
+    return decoded && decoded.account;
   }
 
-  static async setAccount(id: string) {
+  static async setAccount(id: string): Promise<void> {
     const response = await axiosAPI.put('/api/account', { account: id }, { headers: authHeader(), responseType: 'text' });
     TokenHandler.storeToken(response.data);
   }
 
-  static isAccountSet() {
-    return Auth.getAccount() != null;
+  static isAccountSet(): boolean {
+    return !!Auth.getAccount();
   }
 
 }
@@ -66,11 +64,11 @@ class TokenHandler {
     return localStorage.getItem(TOKEN_KEY);
   }
 
-  static getDecoded(): SessionToken | null {
+  static getDecoded(): SessionToken | undefined {
     const token = TokenHandler.getToken();
 
     if (!token) {
-      return null;
+      return undefined;
     }
 
     try {
@@ -78,7 +76,7 @@ class TokenHandler {
     } catch (err) {
       console.error('Error decoding token. Logging out.');
       Auth.logout();
-      return null;
+      return undefined;
     }
   }
 
