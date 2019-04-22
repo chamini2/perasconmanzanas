@@ -36,14 +36,7 @@
   .user {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-  }
-
-  .selector {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
   }
 
   .one-liner.form-group {
@@ -56,6 +49,10 @@
     .form-control {
       width: auto;
     }
+  }
+
+  h3 {
+    margin: 30px 0;
   }
 
 }

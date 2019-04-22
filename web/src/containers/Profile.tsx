@@ -85,6 +85,7 @@ export default class Profile extends Component<any, State> {
       <Header />
       <div style={headerSiblingStyle} className="grid">
         <div className="user">
+          <h3>Perfil</h3>
           <Form onSubmit={this.handleUserSubmit}>
             <FormGroup controlId='username'>
               <FormLabel>Usuario</FormLabel>
