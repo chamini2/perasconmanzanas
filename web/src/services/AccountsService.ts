@@ -1,4 +1,4 @@
-import { axiosPG } from './Request';
+import { axiosPG, preferHeader } from './Request';
 import { authHeader } from './Auth';
 
 export interface Account {
@@ -22,14 +22,25 @@ export default class AccountsService {
   }
 
   static async fetchAccount(id: string) {
-    const account = await axiosPG.get<Account[]>('/accounts', {
+    const res = await axiosPG.get<Account[]>('/accounts', {
       headers: authHeader(),
       params: {
         id: 'eq.' + id
       }
     });
 
-    return account.data[0];
+    return res.data[0];
+  }
+
+  static async postAccount(payload: Partial<Account>) {
+    const res = await axiosPG.post<Account[]>('/accounts', payload, {
+      headers: {
+        ...authHeader(),
+        ...preferHeader('representation')
+      }
+    });
+
+    return res.data[0];
   }
 
 }

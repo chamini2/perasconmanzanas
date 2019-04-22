@@ -46,7 +46,7 @@ export default class Profile extends Component<any, State> {
       const patched = await UsersService.patchUser(this.state.user!.id, this.state.edited!);
       console.log(patched);
       this.setState({ user: patched, edited: patched });
-      toast('Profile updated', { type: 'info' });
+      toast('Perfil guardado', { type: 'info' });
     } catch (err) {
       console.error(err);
       if (err.response) {
