@@ -4,7 +4,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const asyncHandler = require('express-async-handler')
 const Joi = require('joi')
-const validator = require('express-joi-validation')({})
+const { celebrate, errors: celebrateErrors } = require('celebrate');
 
 const service = require('./service')
 const {
@@ -28,12 +28,14 @@ app.post(
     '/api/users',
     verifyNoToken,
     express.json(),
-    validator.body(Joi.object({
-        email: Joi.string().required(),
-        username: Joi.string().required(),
-        password: Joi.string().required(),
-        full_name: Joi.string().required()
-    })),
+    celebrate({
+        body: Joi.object({
+            email: Joi.string().required(),
+            username: Joi.string().required(),
+            password: Joi.string().required(),
+            full_name: Joi.string().required()
+        })
+    }),
     asyncHandler(async function(req, res) {
         const data = await service.register(req.body)
         const token = jwtSign(data)
@@ -45,10 +47,12 @@ app.post(
     '/api/authenticate',
     verifyNoToken,
     express.json(),
-    validator.body(Joi.object({
-        identifier: Joi.string().required(),
-        password: Joi.string().required()
-    })),
+    celebrate({
+        body: Joi.object({
+            identifier: Joi.string().required(),
+            password: Joi.string().required()
+        })
+    }),
     asyncHandler(async function(req, res) {
         const data = await service.signIn(req.body)
         const token = jwtSign(data)
@@ -60,9 +64,11 @@ app.put(
     '/api/account',
     express.json(),
     verifyToken,
-    validator.body(Joi.object({
-        account: Joi.string().required()
-    })),
+    celebrate({
+        body: Joi.object({
+            account: Joi.string().required()
+        })
+    }),
     asyncHandler(async function(req, res) {
         const data = await service.selectAccount(req.decoded, req.body.account)
         const token = jwtSign(data)
@@ -70,6 +76,7 @@ app.put(
     })
 )
 
+app.use(celebrateErrors())
 app.use(handlePostgresErrors)
 app.use(handleHttpErrors)
 
