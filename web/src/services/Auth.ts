@@ -54,11 +54,23 @@ export default class Auth {
     return !!Auth.getAccount();
   }
 
+  static subscribe(symbol: Symbol, cb: (event: AuthEvent) => void): void {
+    TokenHandler.subscribe(symbol, cb);
+  }
+
+  static unsubscribe(symbol: Symbol): void {
+    TokenHandler.unsubscribe(symbol);
+  }
+
 }
 
 const TOKEN_KEY = 'token';
 
+export type AuthEvent = 'SET' | 'REMOVED';
+
 class TokenHandler {
+
+  private static subscribers: Map<Symbol, (event: AuthEvent) => void> = new Map();
 
   static getToken() {
     return localStorage.getItem(TOKEN_KEY);
@@ -82,10 +94,26 @@ class TokenHandler {
 
   static storeToken(token: string) {
     localStorage.setItem(TOKEN_KEY, token);
+    TokenHandler.notify('SET');
   }
 
   static removeToken() {
     localStorage.removeItem(TOKEN_KEY);
+    TokenHandler.notify('REMOVED');
+  }
+
+  static subscribe(symbol: Symbol, cb: (event: AuthEvent) => void) {
+    TokenHandler.subscribers.set(symbol, cb);
+  }
+
+  static unsubscribe(symbol: Symbol) {
+    TokenHandler.subscribers.delete(symbol);
+  }
+
+  static notify(event: AuthEvent) {
+    TokenHandler.subscribers.forEach((cb) => {
+      cb(event);
+    });
   }
 
 }
