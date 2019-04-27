@@ -7,7 +7,6 @@ import FormLabel from 'react-bootstrap/FormLabel';
 import AccountSelector from './AccountSelector';
 import Header, { headerContainerStyle, headerSiblingStyle } from '../components/Header';
 import Auth from '../services/Auth';
-import { Redirect } from 'react-router';
 import UsersService, { User } from '../services/UsersService';
 import { toast } from 'react-toastify';
 import { AxiosResponse } from 'axios';
@@ -16,13 +15,14 @@ import { errorPGMessage } from '../services/Request';
 import formatd from 'date-fns/format';
 import isEqual from 'lodash/isEqual';
 import './Profile.scss';
+import isLoggedInGuard from '../wrappers/isLoggedInGuard';
 
 interface State {
   user?: User;
   edited?: User;
 }
 
-export default class Profile extends Component<any, State> {
+class Profile extends Component<any, State> {
 
   constructor(props: {}) {
     super(props);
@@ -73,10 +73,6 @@ export default class Profile extends Component<any, State> {
 
 
   render() {
-    if (!Auth.isLoggedIn()) {
-      return <Redirect to="/" />;
-    }
-
     if (!this.state.edited) {
       return null;
     }
@@ -143,3 +139,5 @@ export default class Profile extends Component<any, State> {
   }
 
 }
+
+export default isLoggedInGuard(Profile);

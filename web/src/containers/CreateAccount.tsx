@@ -8,18 +8,19 @@ import { toast } from 'react-toastify';
 import { STRINGS } from '../constants';
 import { errorPGMessage } from '../services/Request';
 import { AxiosResponse } from 'axios';
-import { withRouter, Redirect } from 'react-router';
-import Auth from '../services/Auth';
+import { withRouter, RouterProps } from 'react-router';
 import AccountsService from '../services/AccountsService';
+import isLoggedInGuard from '../wrappers/isLoggedInGuard';
+import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 
 interface State {
   id: string;
   name: string;
 }
 
-export class CreateAccount extends Component<any, State> {
+export class CreateAccount extends Component<RouterProps & AuthInfoProps, State> {
 
-  constructor(props: {}) {
+  constructor(props: any) {
     super(props);
     this.state = {
       id: '',
@@ -45,9 +46,7 @@ export class CreateAccount extends Component<any, State> {
     event.preventDefault();
 
     try {
-      const ownerId = Auth.getUser();
-
-      await AccountsService.postAccount({ ...this.state, owner_id: ownerId });
+      await AccountsService.postAccount({ ...this.state, owner_id: this.props.auth.user });
       toast('Cuenta creada', { type: 'info' });
       this.props.history.goBack();
     } catch (err) {
@@ -62,10 +61,6 @@ export class CreateAccount extends Component<any, State> {
   }
 
   render() {
-    if (!Auth.isLoggedIn()) {
-      return <Redirect to="/" />;
-    }
-
     return <div className='container'>
       <h3>Información de cuenta nueva</h3>
 
@@ -109,4 +104,4 @@ export class CreateAccount extends Component<any, State> {
 
 }
 
-export default withRouter(CreateAccount);
+export default withRouter(isLoggedInGuard(withAuthInfo(CreateAccount)));

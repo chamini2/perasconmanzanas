@@ -7,7 +7,7 @@ import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
 import Auth from '../services/Auth';
 import { AxiosResponse } from 'axios';
-import { Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import { toast } from 'react-toastify';
 import { STRINGS } from '../constants';
 

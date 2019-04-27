@@ -14,7 +14,11 @@ function Routes() {
         <Route path='/accounts/new' exact component={CreateAccount} />
         <Route path='/profile' exact component={Profile} />
       </Switch>
-      <ToastContainer autoClose={5000} hideProgressBar transition={Slide} />
+      <ToastContainer
+        autoClose={5000}
+        hideProgressBar
+        transition={Slide}
+      />
     </BrowserRouter>
   );
 }

@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button'
 import Auth from '../services/Auth';
 import AccountsService, { Account } from '../services/AccountsService';
 import './Header.css';
+import withAuthInfo, { AuthInfoProps, AuthInfo } from '../wrappers/withAuthInfo';
 
 interface State {
   account?: Account
@@ -19,19 +20,11 @@ export const headerSiblingStyle: React.CSSProperties = {
   overflow: 'auto'
 }
 
-export default class Header extends Component<{}, State> {
+export class Header extends Component<AuthInfoProps, State> {
 
-  constructor(props: {}) {
+  constructor(props: any) {
     super(props);
     this.state = {};
-  }
-
-  async componentDidMount() {
-    if (Auth.isAccountSet()) {
-      const accountId = Auth.getAccount()!;
-      const account = await AccountsService.fetchAccount(accountId);
-      this.setState({ account });
-    }
   }
 
   logoutButton() {
@@ -46,14 +39,32 @@ export default class Header extends Component<{}, State> {
       </Button>;
   }
 
+  async componentWillReceiveProps(nextProps: AuthInfoProps) {
+    if (this.props.auth.account === nextProps.auth.account) {
+      return;
+    }
+    await this.updateAccountFromAuthInfo(nextProps.auth);
+  }
+
+  async componentDidMount() {
+    await this.updateAccountFromAuthInfo(this.props.auth);
+  }
+
+  async updateAccountFromAuthInfo(auth: AuthInfo) {
+    if (!auth.account) {
+      return;
+    }
+
+    const account = await AccountsService.fetchAccount(auth.account);
+    this.setState({ account });
+  }
+
   account() {
     if (!this.state.account) {
       return null;
     }
 
-    return <span>
-      {this.state.account.name}
-    </span>;
+    return <span> {this.state.account.name} </span>;
   }
 
   render() {
@@ -64,3 +75,5 @@ export default class Header extends Component<{}, State> {
   }
 
 }
+
+export default withAuthInfo(Header);
