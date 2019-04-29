@@ -4,35 +4,31 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import ListGroupItem from 'react-bootstrap/ListGroupItem';
 import Badge from 'react-bootstrap/Badge';
 import AccountsService, { Account } from '../services/AccountsService';
-import Auth, { SessionToken } from '../services/Auth';
+import Auth from '../services/Auth';
 import './AccountSelector.scss';
+import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 
 interface State {
   accounts: Account[];
-  selected: SessionToken['account'];
 }
 
-export default class AccountSelector extends Component<any, State> {
+export class AccountSelector extends Component<AuthInfoProps, State> {
 
   constructor(props: any) {
     super(props);
     this.state = {
       accounts: [],
-      selected: undefined
     };
   }
 
   async componentDidMount() {
-    const account = Auth.getAccount();
-    this.setState({ selected: account });
-
     const result = await AccountsService.fetchAllAccounts();
     this.setState({ accounts: result.data });
   }
 
   renderAccount = (acc: Account) => {
     return <ListGroupItem
-      className={this.state.selected === acc.id ? 'active' : ''}
+      className={this.props.auth.accountId === acc.id ? 'active' : ''}
       key={acc.id}
       onClick={async (event: React.MouseEvent) => {
         event.stopPropagation();
@@ -62,3 +58,5 @@ export default class AccountSelector extends Component<any, State> {
   }
 
 }
+
+export default withAuthInfo(AccountSelector);

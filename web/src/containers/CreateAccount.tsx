@@ -46,7 +46,7 @@ export class CreateAccount extends Component<RouterProps & AuthInfoProps, State>
     event.preventDefault();
 
     try {
-      await AccountsService.postAccount({ ...this.state, owner_id: this.props.auth.user });
+      await AccountsService.postAccount({ ...this.state, owner_id: this.props.auth.userId });
       toast('Cuenta creada', { type: 'info' });
       this.props.history.goBack();
     } catch (err) {

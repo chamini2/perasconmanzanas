@@ -1,40 +1,80 @@
 import React, { Component } from 'react';
 import Auth from '../services/Auth';
+import UsersService, { User } from '../services/UsersService';
+import AccountsService, { Account } from '../services/AccountsService';
+import * as rxjs from 'rxjs';
 
 export interface AuthInfoProps {
   auth: AuthInfo;
 }
 
 export interface AuthInfo {
-  user: number | undefined;
-  account: string | undefined;
+  userId: number | undefined;
+  user?: User;
+  accountId: string | undefined;
+  account?: Account;
 }
+
+class AuthInfoHandler {
+
+  static userId?: number;
+  static user?: User;
+  static accountId?: string;
+  static account?: Account;
+
+  static observable: rxjs.ReplaySubject<void> = new rxjs.ReplaySubject();
+
+  static async updateAuthInfo() {
+    this.userId = Auth.getUser();
+    if (this.userId && (!this.user || this.user.id !== this.userId)) {
+      this.user = await UsersService.fetchUser(this.userId);
+    }
+
+    this.accountId = Auth.getAccount();
+    if (this.accountId && (!this.account || this.account.id !== this.accountId)) {
+      this.account = await AccountsService.fetchAccount(this.accountId);
+    }
+
+    AuthInfoHandler.observable.next();
+  }
+
+}
+
+Auth.subscribe(Symbol('AuthInfo'), () => {
+  AuthInfoHandler.updateAuthInfo();
+});
+AuthInfoHandler.updateAuthInfo();
 
 export default function withAuthInfo(WrappedComponent: typeof Component): typeof Component {
   return class extends Component<any, AuthInfo> {
     symbol: symbol;
+    authInfoHandlerSubscription?: rxjs.Subscription;
 
     constructor(props: any) {
       super(props);
       this.state = {
-        user: Auth.getUser(),
-        account: Auth.getAccount()
+        userId: AuthInfoHandler.userId,
+        accountId: AuthInfoHandler.accountId,
       };
 
       this.symbol = Symbol('withAuthInfo');
     }
 
-    componentDidMount() {
-      Auth.subscribe(this.symbol, () => {
+    componentWillMount() {
+      this.authInfoHandlerSubscription = AuthInfoHandler.observable.subscribe(() => {
         this.setState({
-          user: Auth.getUser(),
-          account: Auth.getAccount()
-        })
+          userId: AuthInfoHandler.userId,
+          user: AuthInfoHandler.user,
+          accountId: AuthInfoHandler.accountId,
+          account: AuthInfoHandler.account,
+        });
       });
     }
 
     componentWillUnmount() {
-      Auth.unsubscribe(this.symbol);
+      if (this.authInfoHandlerSubscription) {
+        this.authInfoHandlerSubscription.unsubscribe();
+      }
     }
 
     render() {
