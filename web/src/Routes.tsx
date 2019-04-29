@@ -12,7 +12,7 @@ function Routes() {
       <Switch>
         <Route path='/' exact component={Home} />
         <Route path='/accounts/new' exact component={CreateAccount} />
-        <Route path='/profile' exact component={Profile} />
+        <Route path='/settings' exact component={Profile} />
       </Switch>
       <ToastContainer
         autoClose={5000}

@@ -10,17 +10,18 @@
       auto
       / auto;
     grid-template-areas:
-      "selector"
-      "user";
+      'user'
+      'selector';
+    grid-row-gap: 5ex;
 
     @media screen and (min-width: 768px) {
       grid-template:
         auto
         / 1.5fr 1fr;
       grid-template-areas:
-        "user selector";
+        'user selector';
 
-      grid-column-gap: 6em;
+      grid-column-gap: 2.5em;
     }
   }
 
@@ -50,9 +51,4 @@
       width: auto;
     }
   }
-
-  h3 {
-    margin: 30px 0;
-  }
-
 }

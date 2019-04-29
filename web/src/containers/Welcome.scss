@@ -16,15 +16,15 @@
       auto
       / auto;
     grid-template-areas:
-      "content"
-      "login";
+      'content'
+      'login';
 
     @media screen and (min-width: 768px) {
       grid-template:
         auto
         / auto auto;
       grid-template-areas:
-        "content login";
+        'content login';
 
       grid-column-gap: 6em;
     }

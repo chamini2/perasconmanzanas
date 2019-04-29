@@ -1,8 +1,11 @@
-import React, { Component, MouseEvent } from 'react';
-import Button from 'react-bootstrap/Button'
-import Auth from '../services/Auth';
+import React, { Component } from 'react';
+import Badge from 'react-bootstrap/Badge';
+import Navbar from 'react-bootstrap/Navbar';
+import NavItem from 'react-bootstrap/NavItem';
+import NavLink from 'react-bootstrap/NavLink';
 import './Header.css';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
+import { Link } from 'react-router-dom';
 
 export const headerContainerStyle: React.CSSProperties = {
   display: 'flex',
@@ -22,31 +25,19 @@ export class Header extends Component<AuthInfoProps> {
     this.state = {};
   }
 
-  logoutButton() {
-    return <Button
-        className='btn-secondary'
-        onClick={function(event: MouseEvent) {
-          event.stopPropagation();
-          Auth.logout();
-        }}
-      >
-      Cerrar sesión
-      </Button>;
-  }
-
   account() {
     if (!this.props.auth.account) {
       return null;
     }
 
-    return <span> {this.props.auth.account.name} </span>;
+    return <NavItem> <Badge variant='primary'> {this.props.auth.account.name} </Badge> </NavItem>;
   }
 
   render() {
-    return <div className="Header">
+    return <Navbar className='Header'>
       {this.account()}
-      {this.logoutButton()}
-    </div>;
+      <NavLink as={Link} to='/settings' > ⚙️ </NavLink>
+    </Navbar>;
   }
 
 }

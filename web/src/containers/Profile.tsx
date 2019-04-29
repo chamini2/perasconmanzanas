@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, MouseEvent } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
@@ -16,6 +16,7 @@ import formatd from 'date-fns/format';
 import isEqual from 'lodash/isEqual';
 import './Profile.scss';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
+import { Link } from 'react-router-dom';
 
 interface State {
   user?: User;
@@ -77,11 +78,29 @@ class Profile extends Component<any, State> {
       return null;
     }
 
-    return <div style={headerContainerStyle} className="Profile container">
+    return <div style={headerContainerStyle} className='Profile container'>
       <Header />
-      <div style={headerSiblingStyle} className="grid">
-        <div className="user">
-          <h3>Perfil</h3>
+      <div style={headerSiblingStyle} className='grid'>
+        <div className='user'>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}
+          >
+            <h3>Perfil</h3>
+            <Link
+              to='#'
+              onClick={function(event) {
+                event.stopPropagation();
+                Auth.logout();
+              }}
+            >
+            Cerrar sesión
+            </Link>
+          </div>
           <Form onSubmit={this.handleUserSubmit}>
             <FormGroup controlId='username'>
               <FormLabel>Usuario</FormLabel>
@@ -131,7 +150,7 @@ class Profile extends Component<any, State> {
             </Button>
           </Form>
         </div>
-        <div className="selector">
+        <div className='selector'>
           <AccountSelector />
         </div>
       </div>

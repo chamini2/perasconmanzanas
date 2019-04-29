@@ -5,9 +5,9 @@ import './Welcome.scss';
 export default class Welcome extends Component {
 
   render() {
-    return <div className="Welcome container">
-      <div className="grid">
-        <div className="content">
+    return <div className='Welcome container'>
+      <div className='grid'>
+        <div className='content'>
           <div>
             perasconmanzanas.com es una plataforma para <wbr/>
             llevar el control de tu inventario <i>fácilmente</i>. <br/>
@@ -25,7 +25,7 @@ export default class Welcome extends Component {
             </iframe>
           </div>
         </div>
-        <div className="login">
+        <div className='login'>
           <Login />
         </div>
       </div>

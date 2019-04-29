@@ -28,12 +28,15 @@ export class AccountSelector extends Component<AuthInfoProps, State> {
 
   renderAccount = (acc: Account) => {
     return <ListGroupItem
-      className={this.props.auth.accountId === acc.id ? 'active' : ''}
+      as={Link}
+      to='/'
       key={acc.id}
       onClick={async (event: React.MouseEvent) => {
         event.stopPropagation();
         await Auth.setAccount(acc.id);
       }}
+      active={this.props.auth.accountId === acc.id}
+      action
     >
       {acc.name} <Badge>{acc.id}</Badge>
     </ListGroupItem>;
@@ -48,7 +51,8 @@ export class AccountSelector extends Component<AuthInfoProps, State> {
           <ListGroupItem
             as={Link}
             to='/accounts/new'
-            className='list-group-item-secondary list-group-item-action'
+            variant='secondary'
+            action
           >
             Crear una cuenta
           </ListGroupItem>

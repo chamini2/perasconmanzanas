@@ -89,7 +89,7 @@ export class CreateAccount extends Component<RouterProps & AuthInfoProps, State>
         </Button>
 
         <Button
-          className='btn-secondary'
+          variant='secondary'
           block
           onClick={(event: React.MouseEvent) => {
             event.stopPropagation();

@@ -24,7 +24,7 @@ export default function isLoggedInGuard(WrappedComponent: typeof Component): typ
 
     render() {
       if (!Auth.isLoggedIn()) {
-        return <Redirect to="/" />;
+        return <Redirect to='/' />;
       }
 
       return <WrappedComponent {...this.props} />;
