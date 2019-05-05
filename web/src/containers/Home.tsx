@@ -12,7 +12,7 @@ export default class Home extends Component {
     }
 
     if (!Auth.isAccountSet()) {
-      return <Redirect to='/settings' />;
+      return <Redirect to='/accounts' />;
     }
 
     return <Dashboard />;

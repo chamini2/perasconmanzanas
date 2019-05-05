@@ -1,0 +1,38 @@
+.Settings {
+  .grid {
+    display: grid;
+
+    .profile { grid-area: profile; }
+    .account { grid-area: account; }
+
+    grid-template:
+      auto
+      auto
+      / auto;
+    grid-template-areas:
+      'profile'
+      'account';
+    grid-row-gap: 5ex;
+
+    @media screen and (min-width: 768px) {
+      grid-template:
+        auto
+        / auto auto;
+      grid-template-areas:
+        'profile account';
+
+      grid-column-gap: 2.5em;
+    }
+  }
+
+  .grid {
+    width: 100%;
+  }
+
+  .inner-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

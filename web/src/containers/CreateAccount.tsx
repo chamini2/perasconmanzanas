@@ -18,7 +18,7 @@ interface State {
   name: string;
 }
 
-export class CreateAccount extends Component<RouterProps & AuthInfoProps, State> {
+class CreateAccount extends Component<RouterProps & AuthInfoProps, State> {
 
   constructor(props: any) {
     super(props);

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import Badge from 'react-bootstrap/Badge';
 import Navbar from 'react-bootstrap/Navbar';
-import NavItem from 'react-bootstrap/NavItem';
 import NavLink from 'react-bootstrap/NavLink';
-import './Header.css';
+import './Header.scss';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 import { Link } from 'react-router-dom';
 
@@ -18,7 +17,7 @@ export const headerSiblingStyle: React.CSSProperties = {
   overflow: 'auto'
 }
 
-export class Header extends Component<AuthInfoProps> {
+class Header extends Component<AuthInfoProps> {
 
   constructor(props: any) {
     super(props);
@@ -30,13 +29,16 @@ export class Header extends Component<AuthInfoProps> {
       return null;
     }
 
-    return <NavItem> <Badge variant='primary'> {this.props.auth.account.name} </Badge> </NavItem>;
+    return <Badge style={{ marginLeft: '0.5rem' }} variant='primary'> {this.props.auth.account.name} </Badge>;
   }
 
   render() {
     return <Navbar className='Header'>
-      {this.account()}
-      <NavLink as={Link} to='/settings' > ⚙️ </NavLink>
+      <NavLink title='Inicio' className='home-link' as={Link} to='/'>
+        <h4 className='logo'>🍐&amp;🍎</h4>
+        {this.account()}
+      </NavLink>
+      <NavLink title='Preferencias' className='to-end' as={Link} to='/settings'> ⚙️ </NavLink>
     </Navbar>;
   }
 

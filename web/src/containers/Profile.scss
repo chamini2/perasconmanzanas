@@ -1,45 +1,4 @@
 .Profile {
-  .grid {
-    display: grid;
-
-    .user { grid-area: user; }
-    .selector { grid-area: selector; }
-
-    grid-template:
-      auto
-      auto
-      / auto;
-    grid-template-areas:
-      'user'
-      'selector';
-    grid-row-gap: 5ex;
-
-    @media screen and (min-width: 768px) {
-      grid-template:
-        auto
-        / 1.5fr 1fr;
-      grid-template-areas:
-        'user selector';
-
-      grid-column-gap: 2.5em;
-    }
-  }
-
-  .grid {
-    padding: 10%;
-    height: 100%;
-    width: 100%;
-    @media screen and (min-width: 768px) {
-      padding: 0;
-    }
-  }
-
-  .user {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-  }
-
   .one-liner.form-group {
     display: flex;
 

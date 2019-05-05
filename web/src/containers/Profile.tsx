@@ -4,8 +4,6 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
-import AccountSelector from './AccountSelector';
-import Header, { headerContainerStyle, headerSiblingStyle } from '../components/Header';
 import Auth from '../services/Auth';
 import UsersService, { User } from '../services/UsersService';
 import { toast } from 'react-toastify';
@@ -45,7 +43,6 @@ class Profile extends Component<any, State> {
 
     try {
       const patched = await UsersService.patchUser(this.state.user!.id, this.state.edited!);
-      console.log(patched);
       this.setState({ user: patched, edited: patched });
       toast('Perfil guardado', { type: 'info' });
     } catch (err) {
@@ -78,82 +75,55 @@ class Profile extends Component<any, State> {
       return null;
     }
 
-    return <div style={headerContainerStyle} className='Profile container'>
-      <Header />
-      <div style={headerSiblingStyle} className='grid'>
-        <div className='user'>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }}
-          >
-            <h3>Perfil</h3>
-            <Link
-              to='#'
-              onClick={function(event) {
-                event.stopPropagation();
-                Auth.logout();
-              }}
-            >
-            Cerrar sesión
-            </Link>
-          </div>
-          <Form onSubmit={this.handleUserSubmit}>
-            <FormGroup controlId='username'>
-              <FormLabel>Usuario</FormLabel>
-              <FormControl
-                value={this.state.edited.username}
-                onChange={this.handleUserChange('username')}
-              />
-            </FormGroup>
-            <FormGroup controlId='email'>
-              <FormLabel>Email</FormLabel>
-              <FormControl
-                type='email'
-                value={this.state.edited.email}
-                onChange={this.handleUserChange('email')}
-              />
-            </FormGroup>
-            <FormGroup controlId='full_name'>
-              <FormLabel>Nombre</FormLabel>
-              <FormControl
-                value={this.state.edited.full_name}
-                onChange={this.handleUserChange('full_name')}
-              />
-            </FormGroup>
-            <FormGroup controlId='id' className='one-liner'>
-              <FormLabel>ID</FormLabel>
-              <FormControl
-                value={this.state.edited.id.toString()}
-                readOnly
-                onChange={this.handleUserChange('id')}
-              />
-            </FormGroup>
-            <FormGroup controlId='created_at' className='one-liner'>
-              <FormLabel>
-                Miembro desde
-              </FormLabel>
-              <FormControl
-                readOnly
-                value={formatd(new Date(this.state.edited.created_at), "dd 'de' MMMM 'del' yyyy", { locale: DATE_LOCALE })}
-              />
-            </FormGroup>
-            <Button
-              block
-              disabled={!this.editedUserForm()}
-              type='submit'
-            >
-              Guardar
-            </Button>
-          </Form>
-        </div>
-        <div className='selector'>
-          <AccountSelector />
-        </div>
-      </div>
+    return <div className='Profile'>
+      <Form onSubmit={this.handleUserSubmit}>
+        <FormGroup controlId='username'>
+          <FormLabel>Usuario</FormLabel>
+          <FormControl
+            value={this.state.edited.username}
+            onChange={this.handleUserChange('username')}
+          />
+        </FormGroup>
+        <FormGroup controlId='email'>
+          <FormLabel>Email</FormLabel>
+          <FormControl
+            type='email'
+            value={this.state.edited.email}
+            onChange={this.handleUserChange('email')}
+          />
+        </FormGroup>
+        <FormGroup controlId='full_name'>
+          <FormLabel>Nombre</FormLabel>
+          <FormControl
+            value={this.state.edited.full_name}
+            onChange={this.handleUserChange('full_name')}
+          />
+        </FormGroup>
+        <FormGroup controlId='id' className='one-liner'>
+          <FormLabel>ID</FormLabel>
+          <FormControl
+            value={this.state.edited.id.toString()}
+            readOnly
+            onChange={this.handleUserChange('id')}
+          />
+        </FormGroup>
+        <FormGroup controlId='created_at' className='one-liner'>
+          <FormLabel>
+            Miembro desde
+          </FormLabel>
+          <FormControl
+            readOnly
+            value={formatd(new Date(this.state.edited.created_at), "dd 'de' MMMM 'del' yyyy", { locale: DATE_LOCALE })}
+          />
+        </FormGroup>
+        <Button
+          block
+          disabled={!this.editedUserForm()}
+          type='submit'
+        >
+          Guardar
+        </Button>
+      </Form>
     </div>;
   }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
 import ListGroupItem from 'react-bootstrap/ListGroupItem';
 import Badge from 'react-bootstrap/Badge';
@@ -7,12 +7,14 @@ import AccountsService, { Account } from '../services/AccountsService';
 import Auth from '../services/Auth';
 import './AccountSelector.scss';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
+import Header, { headerContainerStyle, headerSiblingStyle } from '../components/Header';
+import { RouterProps } from 'react-router';
 
 interface State {
   accounts: Account[];
 }
 
-export class AccountSelector extends Component<AuthInfoProps, State> {
+class AccountSelector extends Component<AuthInfoProps & RouterProps, State> {
 
   constructor(props: any) {
     super(props);
@@ -28,12 +30,11 @@ export class AccountSelector extends Component<AuthInfoProps, State> {
 
   renderAccount = (acc: Account) => {
     return <ListGroupItem
-      as={Link}
-      to='/'
       key={acc.id}
       onClick={async (event: React.MouseEvent) => {
         event.stopPropagation();
         await Auth.setAccount(acc.id);
+        this.props.history.push('/');
       }}
       active={this.props.auth.accountId === acc.id}
       action
@@ -43,8 +44,9 @@ export class AccountSelector extends Component<AuthInfoProps, State> {
   }
 
   render() {
-    return (
-      <div className='AccountSelector'>
+    return <div style={headerContainerStyle} className='container'>
+      <Header />
+      <div style={headerSiblingStyle} className='AccountSelector'>
         <h3>Selecciona en la cuenta que vas a trabajar</h3>
         <ListGroup>
           {this.state.accounts.map(this.renderAccount)}
@@ -58,9 +60,9 @@ export class AccountSelector extends Component<AuthInfoProps, State> {
           </ListGroupItem>
         </ListGroup>
       </div>
-    );
+    </div>;
   }
 
 }
 
-export default withAuthInfo(AccountSelector);
+export default withRouter(withAuthInfo(AccountSelector));
