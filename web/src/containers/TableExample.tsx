@@ -4,9 +4,9 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-bootstrap.css';
 import { GridOptions } from 'ag-grid-community';
 import AccountsService from '../services/AccountsService';
-import Auth from '../services/Auth';
+import AuthService from '../services/Auth';
 
-export default class AccountSelector extends Component {
+class AccountSelector extends Component {
 
   state: GridOptions;
 
@@ -39,7 +39,7 @@ export default class AccountSelector extends Component {
           {...this.state}
 
           onRowClicked={function(event) {
-            Auth.setAccount(event.data.id);
+            AuthService.setAccount(event.data.id);
           }}
         >
         </AgGridReact>
@@ -47,3 +47,5 @@ export default class AccountSelector extends Component {
     );
   }
 }
+
+export default AccountSelector;

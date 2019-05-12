@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Auth from '../services/Auth';
+import AuthService from '../services/Auth';
 import { Redirect } from 'react-router';
 
 export default function isLoggedInGuard(WrappedComponent: typeof Component): typeof Component {
@@ -13,17 +13,17 @@ export default function isLoggedInGuard(WrappedComponent: typeof Component): typ
     }
 
     componentDidMount() {
-      Auth.subscribe(this.symbol, () => {
+      AuthService.subscribe(this.symbol, () => {
         this.forceUpdate();
       });
     }
 
     componentWillUnmount() {
-      Auth.unsubscribe(this.symbol);
+      AuthService.unsubscribe(this.symbol);
     }
 
     render() {
-      if (!Auth.isLoggedIn()) {
+      if (!AuthService.isLoggedIn()) {
         return <Redirect to='/' />;
       }
 
@@ -43,17 +43,17 @@ export function isNotLoggedInGuard(WrappedComponent: typeof Component): typeof C
     }
 
     componentDidMount() {
-      Auth.subscribe(this.symbol, () => {
+      AuthService.subscribe(this.symbol, () => {
         this.forceUpdate();
       });
     }
 
     componentWillUnmount() {
-      Auth.unsubscribe(this.symbol);
+      AuthService.unsubscribe(this.symbol);
     }
 
     render() {
-      if (Auth.isLoggedIn()) {
+      if (AuthService.isLoggedIn()) {
         return <Redirect to='/' />;
       }
 

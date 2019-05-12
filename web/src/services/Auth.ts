@@ -20,7 +20,7 @@ export function authHeader() {
   return { Authorization: 'Bearer ' + TokenHandler.getToken() };
 }
 
-export default class Auth {
+export default class AuthService {
 
   static getUser(): number | undefined {
     const decoded = TokenHandler.getDecoded();
@@ -56,7 +56,7 @@ export default class Auth {
   }
 
   static isAccountSet(): boolean {
-    return !!Auth.getAccount();
+    return !!AuthService.getAccount();
   }
 
   static subscribe(symbol: Symbol, cb: (event: AuthEvent) => void): void {
@@ -92,7 +92,7 @@ class TokenHandler {
       return decode(token);
     } catch (err) {
       console.error('Error decoding token. Logging out.');
-      Auth.logout();
+      AuthService.logout();
       return undefined;
     }
   }

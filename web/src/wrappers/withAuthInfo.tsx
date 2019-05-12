@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Auth from '../services/Auth';
+import AuthService from '../services/Auth';
 import UsersService, { User } from '../services/UsersService';
 import AccountsService, { Account } from '../services/AccountsService';
 import * as rxjs from 'rxjs';
@@ -25,12 +25,12 @@ class AuthInfoHandler {
   static observable: rxjs.ReplaySubject<void> = new rxjs.ReplaySubject();
 
   static async updateAuthInfo() {
-    this.userId = Auth.getUser();
+    this.userId = AuthService.getUser();
     if (this.userId && (!this.user || this.user.id !== this.userId)) {
       this.user = await UsersService.fetchUser(this.userId);
     }
 
-    this.accountId = Auth.getAccount();
+    this.accountId = AuthService.getAccount();
     if (this.accountId && (!this.account || this.account.id !== this.accountId)) {
       this.account = await AccountsService.fetchAccount(this.accountId);
     }
@@ -40,7 +40,7 @@ class AuthInfoHandler {
 
 }
 
-Auth.subscribe(Symbol('AuthInfo'), () => {
+AuthService.subscribe(Symbol('AuthInfo'), () => {
   AuthInfoHandler.updateAuthInfo();
 });
 AuthInfoHandler.updateAuthInfo();

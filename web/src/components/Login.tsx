@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
-import Auth from '../services/Auth';
+import AuthService from '../services/Auth';
 import { AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import { STRINGS } from '../constants';
@@ -43,7 +43,7 @@ class Login extends Component<any, State> {
     event.preventDefault();
 
     try {
-      await Auth.login(this.state.identifier, this.state.password);
+      await AuthService.login(this.state.identifier, this.state.password);
       toast('Bienvenido!', { type: 'success' });
     } catch (err) {
       console.error(err);

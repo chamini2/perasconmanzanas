@@ -4,7 +4,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import ListGroupItem from 'react-bootstrap/ListGroupItem';
 import Badge from 'react-bootstrap/Badge';
 import AccountsService, { Account } from '../services/AccountsService';
-import Auth from '../services/Auth';
+import AuthService from '../services/Auth';
 import './AccountSelector.scss';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 import Header, { headerContainerStyle, headerSiblingStyle } from '../components/Header';
@@ -33,7 +33,7 @@ class AccountSelector extends Component<AuthInfoProps & RouterProps, State> {
       key={acc.id}
       onClick={async (event: React.MouseEvent) => {
         event.stopPropagation();
-        await Auth.setAccount(acc.id);
+        await AuthService.setAccount(acc.id);
         this.props.history.push('/');
       }}
       active={this.props.auth.accountId === acc.id}

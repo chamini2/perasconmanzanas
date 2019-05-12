@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
-import Auth from '../services/Auth';
+import AuthService from '../services/Auth';
 import UsersService, { User } from '../services/UsersService';
 import { toast } from 'react-toastify';
 import { AxiosResponse } from 'axios';
@@ -29,7 +29,7 @@ class Profile extends Component<any, State> {
   }
 
   async componentDidMount() {
-    const userId = Auth.getUser()!;
+    const userId = AuthService.getUser()!;
     const user = await UsersService.fetchUser(userId);
     this.setState({ user, edited: user });
   }

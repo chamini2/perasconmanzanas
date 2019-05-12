@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
-import Auth from '../services/Auth';
+import AuthService from '../services/Auth';
 import { AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import { STRINGS } from '../constants';
@@ -52,7 +52,7 @@ class Signup extends Component<any, State> {
     event.preventDefault();
 
     try {
-      await Auth.signup(this.state.username, this.state.email, this.state.full_name, this.state.password);
+      await AuthService.signup(this.state.username, this.state.email, this.state.full_name, this.state.password);
       toast('¡Bienvenido!', { type: 'success' });
     } catch (err) {
       console.error(err);

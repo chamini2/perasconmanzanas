@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-export default class RecoverPassword extends Component {
+class RecoverPassword extends Component {
 
   constructor(props: any) {
     super(props);
@@ -21,3 +21,5 @@ export default class RecoverPassword extends Component {
     </Link>;
   }
 }
+
+export default RecoverPassword;

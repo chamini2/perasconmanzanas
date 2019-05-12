@@ -4,7 +4,7 @@ import './Settings.scss';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
 import { Link } from 'react-router-dom';
 import Profile from './Profile';
-import Auth from '../services/Auth';
+import AuthService from '../services/Auth';
 
 class Settings extends Component<any, {}> {
 
@@ -24,7 +24,7 @@ class Settings extends Component<any, {}> {
               to='#'
               onClick={function(event) {
                 event.stopPropagation();
-                Auth.logout();
+                AuthService.logout();
               }}
             >
             Cerrar sesión

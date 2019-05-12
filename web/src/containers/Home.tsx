@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
-import Auth from '../services/Auth';
+import AuthService from '../services/Auth';
 import Dashboard from './Dashboard';
 import Welcome from './Welcome';
 import { Redirect } from 'react-router';
 
-export default class Home extends Component {
+class Home extends Component {
 
   render() {
-    if (!Auth.isLoggedIn()) {
+    if (!AuthService.isLoggedIn()) {
       return <Welcome />;
     }
 
-    if (!Auth.isAccountSet()) {
+    if (!AuthService.isAccountSet()) {
       return <Redirect to='/accounts' />;
     }
 
     return <Dashboard />;
   }
 }
+
+export default Home;
