@@ -1,8 +1,8 @@
+import './Header.scss';
 import React, { Component } from 'react';
 import Badge from 'react-bootstrap/Badge';
 import Navbar from 'react-bootstrap/Navbar';
 import NavLink from 'react-bootstrap/NavLink';
-import './Header.scss';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 import { Link } from 'react-router-dom';
 
@@ -35,7 +35,7 @@ class Header extends Component<AuthInfoProps> {
   render() {
     return <Navbar className='Header'>
       <NavLink title='Inicio' className='home-link' as={Link} to='/'>
-        <h4 className='logo'>🍐&amp;🍎</h4>
+        <h4 className='logo'>🍐➕🍎</h4>
         {this.account()}
       </NavLink>
       <NavLink title='Preferencias' className='to-end' as={Link} to='/settings'> ⚙️ </NavLink>

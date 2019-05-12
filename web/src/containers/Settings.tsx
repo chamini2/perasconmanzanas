@@ -43,7 +43,7 @@ class Settings extends Component<any, {}> {
             <li>¿Eliminar cuenta?</li>
             <li>Invitar miembros a cuenta</li>
             <li>Sacar miembros de cuenta</li>
-            <li>Encuesta: llamarlo <i>cuenta</i> o <i>proyecto</i></li>
+            <li>Encuesta: llamarlo <i>cuenta</i>, <i>proyecto</i>, <i>inventario</i></li>
           </ul>
         </div>
       </div>

@@ -1,8 +1,11 @@
+import './Welcome.scss';
 import React, { Component } from 'react';
 import Login from '../components/Login';
-import './Welcome.scss';
+import Signup from '../components/Signup';
+import RecoverPassword from '../components/RecoverPassword';
+import { isNotLoggedInGuard } from '../wrappers/isLoggedInGuard';
 
-export default class Welcome extends Component {
+class Welcome extends Component {
 
   render() {
     return <div className='Welcome container'>
@@ -12,24 +15,30 @@ export default class Welcome extends Component {
             perasconmanzanas.com es una plataforma para <wbr/>
             llevar el control de tu inventario <i>fácilmente</i>. <br/>
             <br/>
-            🍐 ≠ 🍎, lleva la cuenta como es.
+            🍐➕🍎, todo suma.
           </div>
           {/* TODO: create and upload video */}
-          <div hidden={true}>
+          <div className='demo'>
             <iframe
-              style={{
-                width: '100%',
-                height: '100%'
-              }}
-            >
-            </iframe>
+              width='100%'
+              height='100%'
+              src='https://www.youtube-nocookie.com/embed/7ooW3hp7og4'
+              allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+              frameBorder='0'
+              allowFullScreen
+            ></iframe>
           </div>
         </div>
-        <div className='login'>
+        <div className='auth'>
           <Login />
+          <RecoverPassword />
+          <div className='separator'></div>
+          <Signup />
         </div>
       </div>
     </div>;
   }
 
 }
+
+export default isNotLoggedInGuard(Welcome);

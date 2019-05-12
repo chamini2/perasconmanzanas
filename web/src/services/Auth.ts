@@ -32,6 +32,11 @@ export default class Auth {
     TokenHandler.storeToken(response.data);
   }
 
+  static async signup(username: string, email: string, full_name: string, password: string): Promise<void> {
+    const response = await axiosAPI.post('/api/users', { username, email, full_name, password }, { responseType: 'text' });
+    TokenHandler.storeToken(response.data);
+  }
+
   static logout(): void {
     TokenHandler.removeToken();
   }

@@ -31,3 +31,33 @@ export default function isLoggedInGuard(WrappedComponent: typeof Component): typ
     }
   }
 }
+
+export function isNotLoggedInGuard(WrappedComponent: typeof Component): typeof Component {
+  return class extends Component {
+    symbol: symbol;
+
+    constructor(props: any) {
+      super(props);
+      this.state = { };
+      this.symbol = Symbol('isLoggedInGuard');
+    }
+
+    componentDidMount() {
+      Auth.subscribe(this.symbol, () => {
+        this.forceUpdate();
+      });
+    }
+
+    componentWillUnmount() {
+      Auth.unsubscribe(this.symbol);
+    }
+
+    render() {
+      if (Auth.isLoggedIn()) {
+        return <Redirect to='/' />;
+      }
+
+      return <WrappedComponent {...this.props} />;
+    }
+  }
+}

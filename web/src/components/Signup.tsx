@@ -10,23 +10,32 @@ import { toast } from 'react-toastify';
 import { STRINGS } from '../constants';
 
 interface State {
-  identifier: string;
+  email: string;
+  username: string;
+  full_name: string;
   password: string;
 }
 
-class Login extends Component<any, State> {
+const MIN_PASSWORD_LENGTH = 6;
+
+class Signup extends Component<any, State> {
 
   constructor(props: any) {
     super(props);
 
     this.state = {
-      identifier: '',
+      email: '',
+      username: '',
+      full_name: '',
       password: '',
     };
   }
 
   validateForm() {
-    return this.state.identifier.length > 0 && this.state.password.length > 0;
+    return this.state.email.length > 0 &&
+      this.state.username.length > 0 &&
+      this.state.full_name.length > 0 &&
+      this.state.password.length >= MIN_PASSWORD_LENGTH;
   }
 
   handleChange(key: keyof State): FormControl['props']['onChange'] {
@@ -43,8 +52,8 @@ class Login extends Component<any, State> {
     event.preventDefault();
 
     try {
-      await Auth.login(this.state.identifier, this.state.password);
-      toast('Bienvenido!', { type: 'success' });
+      await Auth.signup(this.state.username, this.state.email, this.state.full_name, this.state.password);
+      toast('¡Bienvenido!', { type: 'success' });
     } catch (err) {
       console.error(err);
       if (err.response) {
@@ -57,22 +66,36 @@ class Login extends Component<any, State> {
   }
 
   render() {
-    return <div className='Login'>
+    return <div className='Signup'>
       <Form onSubmit={this.handleSubmit}>
+        <FormGroup controlId='name'>
+          <FormLabel>Nombre</FormLabel>
+            <FormControl
+              value={this.state.full_name}
+              onChange={this.handleChange('full_name')}
+            />
+        </FormGroup>
         <FormGroup controlId='email'>
-          <FormLabel>Email o Usuario</FormLabel>
+          <FormLabel>Email</FormLabel>
           <FormControl
-            autoFocus
-            value={this.state.identifier}
-            onChange={this.handleChange('identifier')}
+            type='email'
+            value={this.state.email}
+            onChange={this.handleChange('email')}
+          />
+        </FormGroup>
+        <FormGroup controlId='username'>
+          <FormLabel>Usuario</FormLabel>
+          <FormControl
+            value={this.state.username}
+            onChange={this.handleChange('username')}
           />
         </FormGroup>
         <FormGroup controlId='password'>
-          <FormLabel>Contraseña</FormLabel>
+          <FormLabel>Contraseña ({MIN_PASSWORD_LENGTH} caracteres o más)</FormLabel>
           <FormControl
+            type='password'
             value={this.state.password}
             onChange={this.handleChange('password')}
-            type='password'
           />
         </FormGroup>
         <Button
@@ -80,11 +103,12 @@ class Login extends Component<any, State> {
           disabled={!this.validateForm()}
           type='submit'
         >
-          Iniciar sesión
+          Registrarse
         </Button>
       </Form>
     </div>;
   }
+
 }
 
-export default Login;
+export default Signup;

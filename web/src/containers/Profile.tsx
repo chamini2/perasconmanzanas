@@ -34,11 +34,11 @@ class Profile extends Component<any, State> {
     this.setState({ user, edited: user });
   }
 
-  editedUserForm() {
+  editedForm() {
     return !isEqual(this.state.user, this.state.edited);
   }
 
-  handleUserSubmit: Form['props']['onSubmit'] = async event => {
+  handleSubmit: Form['props']['onSubmit'] = async event => {
     event.preventDefault();
 
     try {
@@ -56,7 +56,7 @@ class Profile extends Component<any, State> {
     }
   }
 
-  handleUserChange(key: keyof User): FormControl['props']['onChange'] {
+  handleChange(key: keyof User): FormControl['props']['onChange'] {
     return event => {
       event.preventDefault();
 
@@ -76,12 +76,19 @@ class Profile extends Component<any, State> {
     }
 
     return <div className='Profile'>
-      <Form onSubmit={this.handleUserSubmit}>
+      <Form onSubmit={this.handleSubmit}>
+        <FormGroup controlId='name'>
+          <FormLabel>Nombre</FormLabel>
+          <FormControl
+            value={this.state.edited.full_name}
+            onChange={this.handleChange('full_name')}
+          />
+        </FormGroup>
         <FormGroup controlId='username'>
           <FormLabel>Usuario</FormLabel>
           <FormControl
             value={this.state.edited.username}
-            onChange={this.handleUserChange('username')}
+            onChange={this.handleChange('username')}
           />
         </FormGroup>
         <FormGroup controlId='email'>
@@ -89,14 +96,7 @@ class Profile extends Component<any, State> {
           <FormControl
             type='email'
             value={this.state.edited.email}
-            onChange={this.handleUserChange('email')}
-          />
-        </FormGroup>
-        <FormGroup controlId='full_name'>
-          <FormLabel>Nombre</FormLabel>
-          <FormControl
-            value={this.state.edited.full_name}
-            onChange={this.handleUserChange('full_name')}
+            onChange={this.handleChange('email')}
           />
         </FormGroup>
         <FormGroup controlId='id' className='one-liner'>
@@ -104,7 +104,7 @@ class Profile extends Component<any, State> {
           <FormControl
             value={this.state.edited.id.toString()}
             readOnly
-            onChange={this.handleUserChange('id')}
+            onChange={this.handleChange('id')}
           />
         </FormGroup>
         <FormGroup controlId='created_at' className='one-liner'>
@@ -118,7 +118,7 @@ class Profile extends Component<any, State> {
         </FormGroup>
         <Button
           block
-          disabled={!this.editedUserForm()}
+          disabled={!this.editedForm()}
           type='submit'
         >
           Guardar
