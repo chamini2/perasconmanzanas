@@ -10,7 +10,11 @@ function verifyToken(req, res, next) {
             req.decoded = jwt.verify(req.token, JWT_SECRET)
             next()
         } catch (e) {
-            next(httpErrors.Forbidden('Invalid token'))
+            if (e instanceof jwt.TokenExpiredError) {
+                next(httpErrors.Unauthorized('JWT Expired'))
+            } else {
+                next(httpErrors.Unauthorized('Invalid token'))
+            }
         }
     } else {
         next(httpErrors.Unauthorized('No token'))
