@@ -9,6 +9,7 @@ import './AccountSelector.scss';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 import Header, { headerContainerStyle, headerSiblingStyle } from '../components/Header';
 import { RouterProps } from 'react-router';
+import isLoggedInGuard from '../wrappers/isLoggedInGuard';
 
 interface State {
   accounts: Account[];
@@ -65,4 +66,4 @@ class AccountSelector extends Component<AuthInfoProps & RouterProps, State> {
 
 }
 
-export default withRouter(withAuthInfo(AccountSelector));
+export default withRouter(isLoggedInGuard(withAuthInfo(AccountSelector)));

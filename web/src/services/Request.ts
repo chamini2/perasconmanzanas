@@ -1,11 +1,14 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosPromise, AxiosError, AxiosResponse } from 'axios';
 import { STRINGS } from '../constants';
+import AuthService from './Auth';
+import { toast } from 'react-toastify';
 
 const BASE_API_URL = 'http://localhost:5000';
 const BASE_POSTGREST_URL = 'http://localhost:4000';
 
 export const axiosAPI = axios.create({
-  baseURL: BASE_API_URL
+  baseURL: BASE_API_URL,
+  validateStatus: validateSessionError
 });
 
 export type PostgRESTRow = {
@@ -17,7 +20,8 @@ export interface PostgRESTAxiosInstance extends AxiosInstance {
 }
 
 export const axiosPG: PostgRESTAxiosInstance = axios.create({
-  baseURL: BASE_POSTGREST_URL
+  baseURL: BASE_POSTGREST_URL,
+  validateStatus: validateSessionError
 });
 
 export function preferHeader(returnType: 'representation') {
@@ -44,4 +48,13 @@ export function errorPGMessage(err: AxiosResponse): string {
       return STRINGS.UNKNOWN_ERROR;
     }
   }
+}
+
+export function validateSessionError(status: number): boolean {
+  if (status === 401) {
+    toast('Tu sesión expiró', { type: 'error' });
+    AuthService.logout();
+  }
+
+  return status >= 200 && status < 300; // default
 }
