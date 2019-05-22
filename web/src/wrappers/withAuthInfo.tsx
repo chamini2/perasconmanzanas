@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, ComponentClass, ComponentProps, ComponentType } from 'react';
 import AuthService from '../services/Auth';
 import UsersService, { User } from '../services/UsersService';
 import AccountsService, { Account } from '../services/AccountsService';
@@ -45,8 +45,9 @@ AuthService.subscribe(Symbol('AuthInfo'), () => {
 });
 AuthInfoHandler.updateAuthInfo();
 
-export default function withAuthInfo(WrappedComponent: typeof Component): typeof Component {
-  return class extends Component<any, AuthInfo> {
+export default function withAuthInfo<P extends ComponentProps<any>>(WrappedComponent: ComponentType<AuthInfoProps & P>): ComponentClass<P, AuthInfo> {
+
+  return class extends Component<P, AuthInfo> {
     symbol: symbol;
     authInfoHandlerSubscription?: rxjs.Subscription;
 
@@ -80,5 +81,6 @@ export default function withAuthInfo(WrappedComponent: typeof Component): typeof
     render() {
       return <WrappedComponent {...this.props} auth={this.state} />;
     }
-  }
+  };
+
 }

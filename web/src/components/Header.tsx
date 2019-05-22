@@ -49,4 +49,4 @@ class Header extends Component<AuthInfoProps> {
 
 }
 
-export default withAuthInfo(Header);
+export default withAuthInfo<{}>(Header);

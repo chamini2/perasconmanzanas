@@ -21,7 +21,7 @@ export default class AccountsService {
     });
   }
 
-  static async fetchAccount(id: string) {
+  static async fetchAccount(id: Account['id']) {
     const res = await axiosPG.get<Account[]>('/accounts', {
       headers: authHeader(),
       params: {

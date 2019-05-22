@@ -6,6 +6,11 @@ import { Redirect } from 'react-router';
 
 class Home extends Component {
 
+  constructor(props: any) {
+    super(props);
+    this.state = {};
+  }
+
   render() {
     if (!AuthService.isLoggedIn()) {
       return <Welcome />;

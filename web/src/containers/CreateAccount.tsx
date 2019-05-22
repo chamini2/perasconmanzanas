@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { STRINGS } from '../constants';
 import { errorPGMessage } from '../services/Request';
 import { AxiosResponse } from 'axios';
-import { withRouter, RouterProps } from 'react-router';
+import { withRouter, RouteComponentProps } from 'react-router';
 import AccountsService from '../services/AccountsService';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
@@ -18,7 +18,7 @@ interface State {
   name: string;
 }
 
-class CreateAccount extends Component<RouterProps & AuthInfoProps, State> {
+class CreateAccount extends Component<AuthInfoProps & RouteComponentProps, State> {
 
   constructor(props: any) {
     super(props);
@@ -62,7 +62,7 @@ class CreateAccount extends Component<RouterProps & AuthInfoProps, State> {
 
   render() {
     return <div className='container'>
-      <h3>Información de cuenta nueva</h3>
+      <h3>Nueva cuenta</h3>
 
       <Form onSubmit={this.handleSubmit}>
         <FormGroup controlId='id'>
@@ -104,4 +104,4 @@ class CreateAccount extends Component<RouterProps & AuthInfoProps, State> {
 
 }
 
-export default withRouter(isLoggedInGuard(withAuthInfo(CreateAccount)));
+export default withRouter(withAuthInfo(isLoggedInGuard(CreateAccount)));
