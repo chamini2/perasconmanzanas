@@ -29,7 +29,12 @@ class Header extends Component<AuthInfoProps> {
       return null;
     }
 
-    return <Badge style={{ marginLeft: '0.5rem' }} variant='primary'> {this.props.auth.account.name} </Badge>;
+    return <Badge
+      style={{ marginLeft: '0.5rem' }}
+      variant='primary'
+    >
+      {this.props.auth.account.id}
+    </Badge>;
   }
 
   render() {

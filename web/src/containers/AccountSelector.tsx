@@ -8,14 +8,14 @@ import AuthService from '../services/Auth';
 import './AccountSelector.scss';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 import Header, { headerContainerStyle, headerSiblingStyle } from '../components/Header';
-import { RouterProps } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
 
 interface State {
   accounts: Account[];
 }
 
-class AccountSelector extends Component<AuthInfoProps & RouterProps, State> {
+class AccountSelector extends Component<AuthInfoProps & RouteComponentProps, State> {
 
   constructor(props: any) {
     super(props);
@@ -40,7 +40,7 @@ class AccountSelector extends Component<AuthInfoProps & RouterProps, State> {
       active={this.props.auth.accountId === acc.id}
       action
     >
-      {acc.name} <Badge>{acc.id}</Badge>
+      {acc.name} <Badge variant='primary'>{acc.id}</Badge>
     </ListGroupItem>;
   }
 
@@ -66,4 +66,4 @@ class AccountSelector extends Component<AuthInfoProps & RouterProps, State> {
 
 }
 
-export default withRouter(isLoggedInGuard(withAuthInfo(AccountSelector)));
+export default withRouter(withAuthInfo(isLoggedInGuard(AccountSelector)));
