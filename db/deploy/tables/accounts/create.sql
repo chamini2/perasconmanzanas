@@ -5,6 +5,7 @@ BEGIN;
 CREATE TABLE app.accounts (
     id         citext
                PRIMARY KEY,
+    CONSTRAINT valid_id CHECK (id ~ '^[a-z0-9_.]+$'),
     name       text
                NOT NULL,
     owner_id   integer

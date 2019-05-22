@@ -1,5 +1,5 @@
 BEGIN;
-SELECT plan(19);
+SELECT plan(23);
 
 SELECT has_table('app'::name, 'accounts'::name);
 SELECT has_pk('app'::name, 'accounts'::name, 'Table app.accounts should have a PRIMARY KEY');
@@ -8,6 +8,31 @@ SELECT col_is_pk('app'::name, 'accounts'::name, 'id'::name, 'Column app.accounts
 SELECT has_column('app'::name, 'accounts'::name, 'id'::name, 'Column app.accounts.id should exist');
 SELECT col_type_is('app'::name, 'accounts'::name, 'id'::name, 'citext'::name);
 SELECT col_not_null('app'::name, 'accounts'::name, 'id'::name, 'Column app.accounts.id should be NOT NULL');
+SELECT col_has_check('app'::name, 'accounts'::name, 'id'::name, 'Column should have CHECK constraint');
+
+INSERT INTO app.users (id, username, email, full_name)
+VALUES (1, 'john', 'john@example.com', 'John Doe');
+
+SELECT throws_ok(
+    $$
+        INSERT INTO app.accounts (id, name, owner_id)
+        VALUES ('invalid ', 'Invalid because of space', 1)
+    $$,
+    23514
+);
+SELECT throws_ok(
+    $$
+        INSERT INTO app.accounts (id, name, owner_id)
+        VALUES ('', 'Invalid because is empty', 1)
+    $$,
+    23514
+);
+SELECT lives_ok(
+    $$
+        INSERT INTO app.accounts (id, name, owner_id)
+        VALUES ('Valid.2_', 'Is valid, accepts all that', 1)
+    $$
+);
 
 SELECT has_column('app'::name, 'accounts'::name, 'name'::name, 'Column app.accounts.name should exist');
 SELECT col_type_is('app'::name, 'accounts'::name, 'name'::name, 'text'::name);
