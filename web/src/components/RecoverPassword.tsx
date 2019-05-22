@@ -17,7 +17,9 @@ class RecoverPassword extends Component {
         textAlign: 'center'
       }}
     >
-      Olvidé mi contraseña
+      {/* TODO: this */}
+      Olvidé mi contraseña <br/>
+      PENDIENTE
     </Link>;
   }
 }

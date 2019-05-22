@@ -6,7 +6,7 @@ export interface Account {
   name: string;
   created_at: string;
   owner_id: number;
-  // TODO: add User type and owner fetching?
+  // TODO: add owner fetching?
   // owner?: User;
 }
 

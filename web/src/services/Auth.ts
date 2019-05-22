@@ -1,4 +1,4 @@
-import { axiosAPI } from './Request';
+import { axiosAPI, defaultValidateStatus } from './Request';
 import decode from 'jwt-decode';
 
 export type SessionRole = 'web_user' | 'web_admin';
@@ -28,7 +28,7 @@ export default class AuthService {
   }
 
   static async login(identifier: string, password: string): Promise<void> {
-    const response = await axiosAPI.post('/api/authenticate', { identifier, password }, { responseType: 'text' });
+    const response = await axiosAPI.post('/api/authenticate', { identifier, password }, { responseType: 'text', validateStatus: defaultValidateStatus });
     TokenHandler.storeToken(response.data);
   }
 

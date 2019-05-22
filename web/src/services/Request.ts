@@ -8,7 +8,7 @@ const BASE_POSTGREST_URL = 'http://localhost:4000';
 
 export const axiosAPI = axios.create({
   baseURL: BASE_API_URL,
-  validateStatus: validateSessionError
+  validateStatus: validateStatusSessionError
 });
 
 export type PostgRESTRow = {
@@ -21,7 +21,7 @@ export interface PostgRESTAxiosInstance extends AxiosInstance {
 
 export const axiosPG: PostgRESTAxiosInstance = axios.create({
   baseURL: BASE_POSTGREST_URL,
-  validateStatus: validateSessionError
+  validateStatus: validateStatusSessionError
 });
 
 export function preferHeader(returnType: 'representation') {
@@ -50,11 +50,15 @@ export function errorPGMessage(err: AxiosResponse): string {
   }
 }
 
-export function validateSessionError(status: number): boolean {
+export function defaultValidateStatus(status: number): boolean {
+  return status >= 200 && status < 300;
+}
+
+export function validateStatusSessionError(status: number): boolean {
   if (status === 401) {
     toast('Tu sesión expiró', { type: 'error' });
     AuthService.logout();
   }
 
-  return status >= 200 && status < 300; // default
+  return defaultValidateStatus(status);
 }

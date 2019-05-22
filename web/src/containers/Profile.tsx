@@ -8,13 +8,12 @@ import AuthService from '../services/Auth';
 import UsersService, { User } from '../services/UsersService';
 import { toast } from 'react-toastify';
 import { AxiosResponse } from 'axios';
-import { STRINGS, DATE_LOCALE } from '../constants';
+import { STRINGS, DATE_LOCALE, DATE_FORMAT } from '../constants';
 import { errorPGMessage } from '../services/Request';
 import formatd from 'date-fns/format';
 import isEqual from 'lodash/isEqual';
 import './Profile.scss';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
-import { Link } from 'react-router-dom';
 
 interface State {
   user?: User;
@@ -113,7 +112,7 @@ class Profile extends Component<any, State> {
           </FormLabel>
           <FormControl
             readOnly
-            value={formatd(new Date(this.state.edited.created_at), "dd 'de' MMMM 'del' yyyy", { locale: DATE_LOCALE })}
+            value={formatd(new Date(this.state.edited.created_at), DATE_FORMAT, { locale: DATE_LOCALE })}
           />
         </FormGroup>
         <Button
