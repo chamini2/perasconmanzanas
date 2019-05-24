@@ -16,33 +16,65 @@ import './Profile.scss';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
 
 interface State {
+  email: User['email'];
+  username: User['username'];
+  full_name: User['full_name'];
   user?: User;
-  edited?: User;
 }
 
-class Profile extends Component<any, State> {
+class Profile extends Component<{}, State> {
 
-  constructor(props: {}) {
+  constructor(props: any) {
     super(props);
-    this.state = {};
+    this.state = {
+      email: '',
+      username: '',
+      full_name: ''
+    };
   }
 
   async componentDidMount() {
     const userId = AuthService.getUser()!;
     const user = await UsersService.fetchUser(userId);
-    this.setState({ user, edited: user });
+    this.setState({
+      user,
+      email: user.email,
+      username: user.username,
+      full_name: user.full_name
+    });
   }
 
-  editedForm() {
-    return !isEqual(this.state.user, this.state.edited);
+  validateForm() {
+    const {
+      user,
+      email,
+      username,
+      full_name
+    } = this.state;
+
+    return !isEqual(user!.email, email) ||
+      !isEqual(user!.username, username) ||
+      !isEqual(user!.full_name, full_name);
   }
 
   handleSubmit: Form['props']['onSubmit'] = async event => {
     event.preventDefault();
 
+    const {
+      user,
+      email,
+      username,
+      full_name
+    } = this.state;
+
     try {
-      const patched = await UsersService.patchUser(this.state.user!.id, this.state.edited!);
-      this.setState({ user: patched, edited: patched });
+      const patched = await UsersService.patchUser(user!.id, { email, username, full_name });
+      this.setState({
+        user: patched,
+        email: patched.email,
+        username: patched.username,
+        full_name: patched.full_name
+      });
       toast('Perfil guardado', { type: 'info' });
     } catch (err) {
       console.error(err);
@@ -55,22 +87,26 @@ class Profile extends Component<any, State> {
     }
   }
 
-  handleChange(key: keyof User): FormControl['props']['onChange'] {
+  handleChange(key: keyof State): FormControl['props']['onChange'] {
     return event => {
       event.preventDefault();
 
       this.setState({
-        edited: {
-          ...this.state.edited,
-          [key]: (event as any).target.value
-        } as State['edited']
-      });
+        [key]: (event as any).target.value
+      } as State);
     };
   }
 
 
   render() {
-    if (!this.state.edited) {
+    const {
+      user,
+      email,
+      username,
+      full_name
+    } = this.state;
+
+    if (!user) {
       return null;
     }
 
@@ -79,14 +115,14 @@ class Profile extends Component<any, State> {
         <FormGroup controlId='name'>
           <FormLabel>Nombre</FormLabel>
           <FormControl
-            value={this.state.edited.full_name}
+            value={full_name}
             onChange={this.handleChange('full_name')}
           />
         </FormGroup>
         <FormGroup controlId='username'>
           <FormLabel>Usuario</FormLabel>
           <FormControl
-            value={this.state.edited.username}
+            value={username}
             onChange={this.handleChange('username')}
           />
         </FormGroup>
@@ -94,30 +130,27 @@ class Profile extends Component<any, State> {
           <FormLabel>Email</FormLabel>
           <FormControl
             type='email'
-            value={this.state.edited.email}
+            value={email}
             onChange={this.handleChange('email')}
           />
         </FormGroup>
         <FormGroup controlId='id' className='one-liner'>
           <FormLabel>ID</FormLabel>
           <FormControl
-            value={this.state.edited.id.toString()}
+            value={user.id.toString()}
             readOnly
-            onChange={this.handleChange('id')}
           />
         </FormGroup>
         <FormGroup controlId='created_at' className='one-liner'>
-          <FormLabel>
-            Miembro desde
-          </FormLabel>
+          <FormLabel>Miembro desde</FormLabel>
           <FormControl
             readOnly
-            value={formatd(new Date(this.state.edited.created_at), DATE_FORMAT, { locale: DATE_LOCALE })}
+            value={formatd(new Date(user.created_at), DATE_FORMAT, { locale: DATE_LOCALE })}
           />
         </FormGroup>
         <Button
           block
-          disabled={!this.editedForm()}
+          disabled={!this.validateForm()}
           type='submit'
         >
           Guardar

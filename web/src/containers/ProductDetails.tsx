@@ -20,14 +20,13 @@ class ProductDetails extends Component<AuthInfoProps & RouteComponentProps<Route
   }
 
   async componentDidMount() {
-    // TODO: type of params
     const product = await ProductsService.fetchProduct(this.props.match.params['sku']);
     if (product) {
       this.props.history.replace(Paths.ProductDetails(product.sku, product.description));
       this.setState(product);
     } else {
       toast('Producto no encontrado', { type: 'error' });
-      this.props.history.push('/products');
+      this.props.history.replace('/products');
     }
   }
 

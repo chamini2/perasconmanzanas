@@ -32,10 +32,17 @@ class Signup extends Component<any, State> {
   }
 
   validateForm() {
-    return this.state.email.length > 0 &&
-      this.state.username.length > 0 &&
-      this.state.full_name.length > 0 &&
-      this.state.password.length >= MIN_PASSWORD_LENGTH;
+    const {
+      email,
+      username,
+      full_name,
+      password
+    } = this.state;
+
+    return email.length > 0 &&
+      username.length > 0 &&
+      full_name.length > 0 &&
+      password.length >= MIN_PASSWORD_LENGTH;
   }
 
   handleChange(key: keyof State): FormControl['props']['onChange'] {
@@ -51,8 +58,15 @@ class Signup extends Component<any, State> {
   handleSubmit: Form['props']['onSubmit'] = async event => {
     event.preventDefault();
 
+    const {
+      email,
+      username,
+      full_name,
+      password
+    } = this.state;
+
     try {
-      await AuthService.signup(this.state.username, this.state.email, this.state.full_name, this.state.password);
+      await AuthService.signup(username, email, full_name, password);
       toast('¡Bienvenido!', { type: 'success' });
     } catch (err) {
       console.error(err);
@@ -66,12 +80,19 @@ class Signup extends Component<any, State> {
   }
 
   render() {
+    const {
+      email,
+      username,
+      full_name,
+      password
+    } = this.state;
+
     return <div className='Signup'>
       <Form onSubmit={this.handleSubmit}>
         <FormGroup controlId='name'>
           <FormLabel>Nombre</FormLabel>
             <FormControl
-              value={this.state.full_name}
+              value={full_name}
               onChange={this.handleChange('full_name')}
             />
         </FormGroup>
@@ -79,14 +100,14 @@ class Signup extends Component<any, State> {
           <FormLabel>Email</FormLabel>
           <FormControl
             type='email'
-            value={this.state.email}
+            value={email}
             onChange={this.handleChange('email')}
           />
         </FormGroup>
         <FormGroup controlId='username'>
           <FormLabel>Usuario</FormLabel>
           <FormControl
-            value={this.state.username}
+            value={username}
             onChange={this.handleChange('username')}
           />
         </FormGroup>
@@ -94,7 +115,7 @@ class Signup extends Component<any, State> {
           <FormLabel>Contraseña ({MIN_PASSWORD_LENGTH} caracteres o más)</FormLabel>
           <FormControl
             type='password'
-            value={this.state.password}
+            value={password}
             onChange={this.handleChange('password')}
           />
         </FormGroup>

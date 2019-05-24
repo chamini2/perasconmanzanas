@@ -35,7 +35,7 @@ class AccountSelector extends Component<AuthInfoProps & RouteComponentProps, Sta
       onClick={async (event: React.MouseEvent) => {
         event.stopPropagation();
         await AuthService.setAccount(acc.id);
-        this.props.history.push('/');
+        this.props.history.goBack();
       }}
       active={this.props.auth.accountId === acc.id}
       action
@@ -45,12 +45,16 @@ class AccountSelector extends Component<AuthInfoProps & RouteComponentProps, Sta
   }
 
   render() {
+    const {
+      accounts
+    } = this.state;
+
     return <div style={headerContainerStyle} className='container'>
       <Header />
       <div style={headerSiblingStyle} className='AccountSelector'>
         <h3>Selecciona en la cuenta que vas a trabajar</h3>
         <ListGroup>
-          {this.state.accounts.map(this.renderAccount)}
+          {accounts.map(this.renderAccount)}
           <ListGroupItem
             as={Link}
             to='/accounts/new'

@@ -40,6 +40,7 @@ class ProductsIndex extends Component<{}, State> {
   }
 
   render() {
+    const { products } = this.state;
     return <div style={headerContainerStyle} className='ProductsIndex container'>
       <Header />
 
@@ -53,12 +54,9 @@ class ProductsIndex extends Component<{}, State> {
           </Link>
         </div>
 
-        {/* TODO: Maybe use <AgGridReact> */}
+        {/* TODO: Use <AgGridReact> */}
         <ListGroup>
-        {this.state.products
-          ? this.state.products.map(this.renderProduct)
-          : 'Cargando productos...'
-        }
+        { products ? products.map(this.renderProduct) : 'Cargando productos...' }
         </ListGroup>
 
         {/* TODO: Check it out */}

@@ -12,6 +12,7 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import AccountsService from '../services/AccountsService';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
+import AuthService from '../services/Auth';
 
 interface State {
   id: string;
@@ -29,7 +30,12 @@ class CreateAccount extends Component<AuthInfoProps & RouteComponentProps, State
   }
 
   validateForm() {
-    return this.state.id.length > 0 && this.state.name.length > 0;
+    const {
+      id,
+      name
+    } = this.state;
+
+    return id.length > 0 && name.length > 0;
   }
 
   handleChange(key: keyof State): FormControl['props']['onChange'] {
@@ -45,10 +51,16 @@ class CreateAccount extends Component<AuthInfoProps & RouteComponentProps, State
   handleSubmit: Form['props']['onSubmit'] = async event => {
     event.preventDefault();
 
+    const {
+      id,
+      name
+    } = this.state;
+
     try {
-      await AccountsService.postAccount({ ...this.state, owner_id: this.props.auth.userId });
+      const account = await AccountsService.postAccount({ id, name, owner_id: this.props.auth.userId });
       toast('Cuenta creada', { type: 'info' });
-      this.props.history.goBack();
+      await AuthService.setAccount(account.id);
+      this.props.history.replace('/');
     } catch (err) {
       console.error(err);
       if (err.response) {
@@ -61,6 +73,11 @@ class CreateAccount extends Component<AuthInfoProps & RouteComponentProps, State
   }
 
   render() {
+    const {
+      id,
+      name
+    } = this.state;
+
     return <div className='container'>
       <h3>Nueva cuenta</h3>
 
@@ -68,14 +85,14 @@ class CreateAccount extends Component<AuthInfoProps & RouteComponentProps, State
         <FormGroup controlId='id'>
           <FormLabel>Identificador: usa un nombre corto, como un usuario</FormLabel>
           <FormControl
-            value={this.state.id}
+            value={id}
             onChange={this.handleChange('id')}
           />
         </FormGroup>
         <FormGroup controlId='name'>
           <FormLabel>Nombre: un nombre más descriptivo de tu cuenta</FormLabel>
           <FormControl
-            value={this.state.name}
+            value={name}
             onChange={this.handleChange('name')}
           />
         </FormGroup>

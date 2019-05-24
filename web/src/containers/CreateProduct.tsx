@@ -11,11 +11,11 @@ import { toast } from 'react-toastify';
 import { errorPGMessage } from '../services/Request';
 import { STRINGS } from '../constants';
 import { AxiosResponse } from 'axios';
-import ProductsService from '../services/ProductsService';
+import ProductsService, { Product } from '../services/ProductsService';
 
 interface State {
-  sku: string;
-  description: string;
+  sku: Product['sku'];
+  description: Product['description'];
 }
 
 class CreateProduct extends Component<RouteComponentProps & AuthInfoProps, State> {
@@ -29,7 +29,12 @@ class CreateProduct extends Component<RouteComponentProps & AuthInfoProps, State
   }
 
   validateForm() {
-    return this.state.sku.length > 0 && this.state.description.length > 0;
+    const {
+      sku,
+      description
+    } = this.state;
+
+    return sku.length > 0 && description.length > 0;
   }
 
   handleChange(key: keyof State): FormControl['props']['onChange'] {
@@ -45,10 +50,15 @@ class CreateProduct extends Component<RouteComponentProps & AuthInfoProps, State
   handleSubmit: Form['props']['onSubmit'] = async event => {
     event.preventDefault();
 
+    const {
+      sku,
+      description
+    } = this.state;
+
     try {
-      await ProductsService.postProduct({ ...this.state, account_id: this.props.auth.accountId });
+      await ProductsService.postProduct({ sku, description, account_id: this.props.auth.accountId });
       toast('Producto creado', { type: 'info' });
-      this.props.history.push('/products');
+      this.props.history.goBack();
     } catch (err) {
       console.error(err);
       if (err.response) {
@@ -61,6 +71,11 @@ class CreateProduct extends Component<RouteComponentProps & AuthInfoProps, State
   }
 
   render() {
+    const {
+      sku,
+      description
+    } = this.state;
+
     return <div className='container'>
       <h3>Nuevo producto</h3>
 
@@ -68,14 +83,14 @@ class CreateProduct extends Component<RouteComponentProps & AuthInfoProps, State
         <FormGroup controlId='sku'>
           <FormLabel>SKU: identificador del producto</FormLabel>
           <FormControl
-            value={this.state.sku}
+            value={sku}
             onChange={this.handleChange('sku')}
           />
         </FormGroup>
         <FormGroup controlId='product_description'>
           <FormLabel>Descripción: una descripción del producto, se usará para búsquedas e identificarlo fácilmente</FormLabel>
           <FormControl
-            value={this.state.description}
+            value={description}
             onChange={this.handleChange('description')}
           />
         </FormGroup>

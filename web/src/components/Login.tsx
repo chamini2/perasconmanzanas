@@ -26,7 +26,12 @@ class Login extends Component<any, State> {
   }
 
   validateForm() {
-    return this.state.identifier.length > 0 && this.state.password.length > 0;
+    const {
+      identifier,
+      password
+    } = this.state;
+
+    return identifier.length > 0 && password.length > 0;
   }
 
   handleChange(key: keyof State): FormControl['props']['onChange'] {
@@ -42,8 +47,13 @@ class Login extends Component<any, State> {
   handleSubmit: Form['props']['onSubmit'] = async event => {
     event.preventDefault();
 
+    const {
+      identifier,
+      password
+    } = this.state;
+
     try {
-      await AuthService.login(this.state.identifier, this.state.password);
+      await AuthService.login(identifier, password);
       toast('Bienvenido!', { type: 'success' });
     } catch (err) {
       console.error(err);
@@ -57,20 +67,25 @@ class Login extends Component<any, State> {
   }
 
   render() {
+    const {
+      identifier,
+      password
+    } = this.state;
+
     return <div className='Login'>
       <Form onSubmit={this.handleSubmit}>
         <FormGroup controlId='email'>
           <FormLabel>Email o Usuario</FormLabel>
           <FormControl
             autoFocus
-            value={this.state.identifier}
+            value={identifier}
             onChange={this.handleChange('identifier')}
           />
         </FormGroup>
         <FormGroup controlId='password'>
           <FormLabel>Contraseña</FormLabel>
           <FormControl
-            value={this.state.password}
+            value={password}
             onChange={this.handleChange('password')}
             type='password'
           />
