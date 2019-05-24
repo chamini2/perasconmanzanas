@@ -26,8 +26,8 @@ class ProductsIndex extends Component<{}, State> {
   }
 
   async componentDidMount() {
-    const result = await ProductsService.fetchAllProducts();
-    this.setState({ products: result.data });
+    const products = await ProductsService.fetchAllProducts();
+    this.setState({ products });
   }
 
   renderProduct(product: Product) {

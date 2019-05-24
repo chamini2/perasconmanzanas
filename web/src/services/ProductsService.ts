@@ -11,10 +11,12 @@ export interface Product {
 export default class ProductsService {
 
   static async fetchAllProducts(order: keyof Product = 'created_at') {
-    return await axiosPG.get<Product[]>('/products', {
+    const res = await axiosPG.get<Product[]>('/products', {
       headers: authHeader(),
       params: { order }
     });
+
+    return res.data;
   }
 
   static async fetchProduct(sku: Product['sku']) {
