@@ -1,6 +1,15 @@
 BEGIN;
 SELECT plan(37);
 
+INSERT INTO app.users (id, username, email, full_name)
+VALUES (1, 'john', 'john@example.com', 'John Doe');
+
+INSERT INTO app.accounts (id, name, owner_id)
+VALUES ('shorts', 'Shorts Store', 1);
+
+INSERT INTO app.products (sku, account_id, description)
+VALUES ('L-GRAY', 'shorts', 'The gray large ones');
+
 SELECT has_table('app'::name, 'movements'::name);
 SELECT has_pk('app'::name, 'movements'::name, 'Table app.movements should have a PRIMARY KEY');
 SELECT col_is_pk('app'::name, 'movements'::name, 'id'::name, 'Column app.movements.id should be the PRIMARY KEY');
@@ -10,11 +19,11 @@ SELECT col_type_is('app'::name, 'movements'::name, 'id'::name, 'integer'::name);
 SELECT col_not_null('app'::name, 'movements'::name, 'id'::name, 'Column app.movements.id should be NOT NULL');
 SELECT col_has_default('app'::name, 'movements'::name, 'id'::name, 'Column app.movements.id should have a DEFAULT');
 
-SELECT has_column('app'::name, 'members'::name, 'user_id'::name, 'Column app.members.user_id should exist');
-SELECT col_type_is('app'::name, 'members'::name, 'user_id'::name, 'integer'::name);
-SELECT col_not_null('app'::name, 'members'::name, 'user_id'::name, 'Column app.members.user_id should be NOT NULL');
-SELECT col_is_fk('app'::name, 'members'::name, 'user_id'::name, 'Column app.members.user_id should be a FOREIGN KEY');
-SELECT fk_ok('app'::name, 'members'::name, 'user_id'::name, 'app'::name, 'users'::name, 'id'::name);
+SELECT has_column('app'::name, 'movements'::name, 'user_id'::name, 'Column app.movements.user_id should exist');
+SELECT col_type_is('app'::name, 'movements'::name, 'user_id'::name, 'integer'::name);
+SELECT col_not_null('app'::name, 'movements'::name, 'user_id'::name, 'Column app.movements.user_id should be NOT NULL');
+SELECT col_is_fk('app'::name, 'movements'::name, 'user_id'::name, 'Column app.movements.user_id should be a FOREIGN KEY');
+SELECT fk_ok('app'::name, 'movements'::name, 'user_id'::name, 'app'::name, 'users'::name, 'id'::name);
 
 SELECT has_column('app'::name, 'movements'::name, 'account_id'::name, 'Column app.movements.account_id should exist');
 SELECT col_type_is('app'::name, 'movements'::name, 'account_id'::name, 'citext'::name);
@@ -34,24 +43,24 @@ SELECT col_not_null('app'::name, 'movements'::name, 'quantity'::name, 'Column ap
 SELECT col_has_check('app'::name, 'movements'::name, 'quantity'::name, 'Column should have CHECK constraint');
 SELECT throws_ok(
     $$
-        INSERT INTO app.movements (account_id, product_sku, quantity, description)
-        VALUES ('shorts', 'L-GRAY', 0, '')
+        INSERT INTO app.movements (account_id, product_sku, user_id, quantity, description)
+        VALUES ('shorts', 'L-GRAY', 1, 0, '')
     $$,
     23514
 );
-SELECT throws_ok(
+SELECT lives_ok(
     $$
-        INSERT INTO app.movements (account_id, product_sku, quantity, description)
-        VALUES ('shorts', 'L-GRAY', 1, '')
+        INSERT INTO app.movements (account_id, product_sku, user_id, quantity, description)
+        VALUES ('shorts', 'L-GRAY', 1, 1, '')
     $$,
-    23503 -- FOREIGN KEY fails instead of CHECK
+    'Should INSERT movements with valid quantity'
 );
-SELECT throws_ok(
+SELECT lives_ok(
     $$
-        INSERT INTO app.movements (account_id, product_sku, quantity, description)
-        VALUES ('shorts', 'L-GRAY', -1, '')
+        INSERT INTO app.movements (account_id, product_sku, user_id, quantity, description)
+        VALUES ('shorts', 'L-GRAY', 1, -1, '')
     $$,
-    23503 -- FOREIGN KEY fails instead of CHECK
+    'Should INSERT movements with valid quantity'
 );
 
 SELECT has_column('app'::name, 'movements'::name, 'description'::name, 'Column app.movements.description should exist');

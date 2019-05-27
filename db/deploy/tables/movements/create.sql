@@ -16,6 +16,11 @@ CREATE TABLE app.movements (
         REFERENCES app.products (sku, account_id)
             ON UPDATE CASCADE
             ON DELETE RESTRICT,
+    user_id     integer
+                NOT NULL
+                REFERENCES app.users (id)
+                    ON UPDATE CASCADE
+                    ON DELETE CASCADE,
     quantity    integer
                 NOT NULL
                 CHECK (quantity <> 0),
