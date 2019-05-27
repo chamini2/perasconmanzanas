@@ -20,7 +20,7 @@ export default class ProductsService {
   }
 
   static async fetchProduct(sku: Product['sku']) {
-    const res= await axiosPG.get<Product[]>('/products', {
+    const res = await axiosPG.get<Product[]>('/products', {
       headers: authHeader(),
       params: {
         sku: 'eq.' + sku
