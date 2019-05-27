@@ -43,7 +43,7 @@ class ProductDetails extends Component<AuthInfoProps & RouteComponentProps<Route
       <h4>{product.created_at}</h4>
       <h4>{product.account_id}</h4>
 
-      <MovementsList products={[product.sku]} />
+      <MovementsList product={product.sku} />
 
       <h4>Pendiente: ProductDetails</h4>
       Leer "Pendiente: ProductIndex"

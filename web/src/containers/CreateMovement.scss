@@ -1,0 +1,15 @@
+.CreateMovement {
+  #positive {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    div {
+      display: flex;
+    }
+    .form-control {
+      width: 2rem;
+      height: 1.5rem;
+    }
+  }
+}

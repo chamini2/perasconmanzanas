@@ -13,7 +13,7 @@ import 'ag-grid-community/dist/styles/ag-theme-bootstrap.css';
 import { AgGridReact } from 'ag-grid-react';
 
 interface State {
-  products?: Product[];
+  products: Product[] | undefined;
 }
 
 class ProductsIndex extends Component<{}, State> {

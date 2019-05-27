@@ -17,7 +17,7 @@ class Home extends Component {
     }
 
     if (!AuthService.isAccountSet()) {
-      return <Redirect to='/accounts' />;
+      return <Redirect to='/accounts' push />;
     }
 
     return <Dashboard />;
