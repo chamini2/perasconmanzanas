@@ -26,6 +26,10 @@ export function ProductDetails(sku: string, description?: string) {
   }
 }
 
+export function MovementsIndex() {
+  return '/movements';
+}
+
 export function CreateMovement() {
   return '/movements/new';
 }

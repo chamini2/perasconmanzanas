@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import * as Paths from './Paths';
 import Home from './containers/Home';
 import Settings from './containers/Settings';
 import CreateAccount from './containers/CreateAccount';
@@ -11,7 +12,7 @@ import ProductsIndex from './containers/ProductsIndex';
 import CreateProduct from './containers/CreateProduct';
 import PageNotFound from './containers/PageNotFound';
 import ProductDetails from './containers/ProductDetails';
-import * as Paths from './Paths';
+import MovementsIndex from './containers/MovementsIndex';
 
 function Routes() {
   return (
@@ -25,6 +26,7 @@ function Routes() {
         <Route path={Paths.ProductDetails(':sku')} component={ProductDetails} />
         <Route path={Paths.ProductDetails(':sku', '*')} component={ProductDetails} />
         <Route path={Paths.CreateMovement()} exact component={CreateMovement} />
+        <Route path={Paths.MovementsIndex()} exact component={MovementsIndex} />
         <Route path={Paths.Settings()} exact component={Settings} />
         <Route path={Paths.PageNotFound()} exact component={PageNotFound} />
         <Redirect to={Paths.PageNotFound()} />
