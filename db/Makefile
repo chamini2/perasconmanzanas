@@ -16,15 +16,30 @@ stop:
 test:
 	docker-compose -f $(COMPOSE_FILE) -f docker-compose.test.yml run --rm db_test
 
-.PHONY: revert
-revert:
-	sqitch revert -f access.plan -y
+.PHONY: revert_schema
+revert_schema:
 	sqitch revert -f sqitch.plan -y
 
-.PHONY: deploy
-deploy:
+.PHONY: revert_access
+revert_access:
+	sqitch revert -f access.plan -y
+
+.PHONY: deploy_schema
+deploy_schema:
 	sqitch deploy -f sqitch.plan
+
+.PHONY: deploy_access
+deploy_access:
 	sqitch deploy -f access.plan
+
+.PHONY: deploy
+deploy: deploy_schema deploy_access
+
+.PHONY: revert
+revert: revert_access revert_schema
 
 .PHONY: rebase
 rebase: revert deploy
+
+.PHONY: rebase_access
+rebase_access: revert_access deploy_access
