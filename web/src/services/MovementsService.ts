@@ -5,7 +5,7 @@ import { Account } from './AccountsService';
 import { User } from './UsersService';
 
 export interface Movement {
-  id: number;
+  id: string;
   quantity: number;
   description: string;
   created_at: string;
@@ -20,25 +20,27 @@ const SELECT_STATEMET = '*,product:products(*),user:users(*)'
 
 export default class MovementsService {
 
-  static async fetchAllMovements(order: keyof Movement = 'created_at') {
+  static async fetchAllMovements(limit?: number, order: keyof Movement = 'created_at') {
     const res = await axiosPG.get<Movement[]>('/movements', {
       headers: authHeader(),
       params: {
         order,
-        select: SELECT_STATEMET
+        select: SELECT_STATEMET,
+        limit
       }
     });
 
     return res.data;
   }
 
-  static async fetchMovementsForProduct(product_sku: Movement['product_sku'], order: keyof Movement = 'created_at') {
+  static async fetchMovementsForProduct(product_sku: Movement['product_sku'], limit?: number, order: keyof Movement = 'created_at') {
     const res = await axiosPG.get<Movement[]>('/movements', {
       headers: authHeader(),
       params: {
         order,
         select: SELECT_STATEMET,
-        product_sku: 'eq.' + product_sku
+        product_sku: 'eq.' + product_sku,
+        limit
       }
     });
 

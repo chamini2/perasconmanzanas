@@ -152,21 +152,23 @@ class CreateMovement extends Component<AuthInfoProps & RouteComponentProps, Stat
           <div>
             <FormControl
               onInput={this.handleInput('positive', false)}
+              id='positive_false'
               type='radio'
               name='positive'
               defaultChecked={!positive}
             />
-            <FormLabel htmlFor='positive'>Salida</FormLabel>
+            <FormLabel htmlFor='positive_false'>Salida</FormLabel>
           </div>
 
           <div>
             <FormControl
               onInput={this.handleInput('positive', true)}
+              id='positive_true'
               type='radio'
               name='positive'
               defaultChecked={positive}
             />
-            <FormLabel>Entrada</FormLabel>
+            <FormLabel htmlFor='positive_true'>Entrada</FormLabel>
           </div>
         </FormGroup>
 
