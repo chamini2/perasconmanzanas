@@ -1,11 +1,12 @@
 import { axiosPG, preferHeader } from './Request';
 import { authHeader } from './Auth';
+import { Account } from './AccountsService';
 
 export interface Product {
   sku: string;
   description: string;
   created_at: string;
-  account_id: string;
+  account_id: Account['id'];
 }
 
 export default class ProductsService {

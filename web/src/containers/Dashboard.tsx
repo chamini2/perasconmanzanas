@@ -26,11 +26,9 @@ class Dashboard extends Component {
           Ver productos
         </Button>
 
-        <div>
-          <h4>Movimientos recientes</h4>
-          <MovementsList />
-          <Link to='/movements'>Ver todos los movimientos</Link>
-        </div>
+        <h4>Movimientos recientes</h4>
+        <MovementsList limit={5} />
+        <Link to='/movements'>Ver todos los movimientos</Link>
       </div>
     </div>;
   }

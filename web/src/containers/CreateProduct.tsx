@@ -82,6 +82,11 @@ class CreateProduct extends Component<RouteComponentProps & AuthInfoProps, State
       <Form onSubmit={this.handleSubmit}>
         <FormGroup controlId='sku'>
           <FormLabel>SKU: identificador del producto</FormLabel>
+          {
+            sku.indexOf(' ') === -1
+              ? null
+              : <span className='warning' style={{color: 'orange'}}> (Tienes un espacio en el SKU)</span>
+          }
           <FormControl
             value={sku}
             onChange={this.handleChange('sku')}

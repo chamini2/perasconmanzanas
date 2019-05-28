@@ -7,6 +7,7 @@ import isEmpty from 'lodash/isEmpty';
 import * as Paths from '../Paths';
 import { toast } from 'react-toastify';
 import MovementsList from '../components/MovementsList';
+import Header, { headerSiblingStyle, headerContainerStyle } from '../components/Header';
 
 interface RouteParams {
   sku: string;
@@ -37,16 +38,20 @@ class ProductDetails extends Component<AuthInfoProps & RouteComponentProps<Route
 
     const product = this.state as Product;
 
-    return <div className='ProductDetails container'>
-      <h3>{product.sku}</h3>
-      <h4>{product.description}</h4>
-      <h4>{product.created_at}</h4>
-      <h4>{product.account_id}</h4>
+    return <div style={headerContainerStyle} className='ProductDetails container'>
+      <Header/>
 
-      <MovementsList product={product.sku} />
+      <div style={headerSiblingStyle}>
+        <h3>{product.sku}</h3>
+        <h4>{product.description}</h4>
+        <h4>{product.created_at}</h4>
+        <h4>{product.account_id}</h4>
 
-      <h4>Pendiente: ProductDetails</h4>
-      Leer "Pendiente: ProductIndex"
+        <MovementsList product={product.sku} />
+
+        <h4>Pendiente: ProductDetails</h4>
+        Leer "Pendiente: ProductIndex"
+      </div>
     </div>;
   }
 

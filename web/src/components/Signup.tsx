@@ -108,6 +108,8 @@ class Signup extends Component<any, State> {
           <FormLabel>Usuario</FormLabel>
           <FormControl
             value={username}
+            autoCorrect='off'
+            autoCapitalize='none'
             onChange={this.handleChange('username')}
           />
         </FormGroup>

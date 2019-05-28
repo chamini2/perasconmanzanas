@@ -1,12 +1,12 @@
 import { axiosPG, preferHeader } from './Request';
 import { authHeader } from './Auth';
+import { User } from './UsersService';
 
 export interface Account {
   id: string;
   name: string;
   created_at: string;
-  owner_id: number;
-  // TODO: add owner fetching?
+  owner_id: User['id'];
   // owner?: User;
 }
 

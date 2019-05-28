@@ -79,6 +79,8 @@ class Login extends Component<any, State> {
           <FormControl
             autoFocus
             value={identifier}
+            autoCorrect='off'
+            autoCapitalize='none'
             onChange={this.handleChange('identifier')}
           />
         </FormGroup>
