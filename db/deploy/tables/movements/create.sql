@@ -3,7 +3,8 @@
 BEGIN;
 
 CREATE TABLE app.movements (
-    id          serial
+    id          uuid
+                DEFAULT uuid_generate_v4()
                 PRIMARY KEY,
     account_id  citext
                 NOT NULL

@@ -15,7 +15,7 @@ SELECT has_pk('app'::name, 'movements'::name, 'Table app.movements should have a
 SELECT col_is_pk('app'::name, 'movements'::name, 'id'::name, 'Column app.movements.id should be the PRIMARY KEY');
 
 SELECT has_column('app'::name, 'movements'::name, 'id'::name, 'Column app.movements.id should exist');
-SELECT col_type_is('app'::name, 'movements'::name, 'id'::name, 'integer'::name);
+SELECT col_type_is('app'::name, 'movements'::name, 'id'::name, 'uuid'::name);
 SELECT col_not_null('app'::name, 'movements'::name, 'id'::name, 'Column app.movements.id should be NOT NULL');
 SELECT col_has_default('app'::name, 'movements'::name, 'id'::name, 'Column app.movements.id should have a DEFAULT');
 
