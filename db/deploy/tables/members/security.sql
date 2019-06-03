@@ -6,7 +6,10 @@ ALTER TABLE app.members ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY user_select ON app.members
     FOR SELECT TO web_user
-    USING (account_id = current_setting('request.jwt.claim.account', true));
+    USING (
+        account_id = current_setting('request.jwt.claim.account', true)
+        OR user_id::text = current_setting('request.jwt.claim.user', true)
+    );
 CREATE POLICY user_delete ON app.members
     FOR DELETE TO web_user
     USING (

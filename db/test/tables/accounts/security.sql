@@ -29,10 +29,9 @@ SELECT results_eq(
     'Should only be able to SELECT accounts with membership or ownership'
 );
 
--- (shorts, 3, false)
--- (pantts, 3, owner)
+-- (NULL, 3, false)
 SET "request.jwt.claim.user" TO 3;
-SET "request.jwt.claim.account" TO 'shorts';
+RESET "request.jwt.claim.account";
 SET SESSION AUTHORIZATION web_user;
 SELECT results_eq(
     $$SELECT id FROM app.accounts$$,

@@ -26,9 +26,13 @@ SET "request.jwt.claim.user" TO 2;
 SET "request.jwt.claim.account" TO 'shorts';
 SET SESSION AUTHORIZATION web_user;
 SELECT results_eq(
-    $$SELECT account_id::text, user_id, admin FROM app.members ORDER BY user_id$$,
-    $$VALUES ('shorts', 1, true), ('shorts', 2, false), ('shorts', 3, false)$$,
-    'Should SELECT members from selected account'
+    $$
+        SELECT account_id::text, user_id
+        FROM app.members
+        ORDER BY (account_id, user_id)
+    $$,
+    $$VALUES ('pantts', 2), ('shorts', 1), ('shorts', 2), ('shorts', 3)$$,
+    'Should SELECT members of set user and from selected account'
 );
 
 -- (pantts, 2, true)
