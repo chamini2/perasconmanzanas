@@ -8,6 +8,7 @@ import * as Paths from '../Paths';
 import { toast } from 'react-toastify';
 import MovementsList from '../components/MovementsList';
 import Header, { headerSiblingStyle, headerContainerStyle } from '../components/Header';
+import { timestampTimestampFormat } from '../helpers';
 
 interface RouteParams {
   sku: string;
@@ -44,7 +45,7 @@ class ProductDetails extends Component<AuthInfoProps & RouteComponentProps<Route
       <div style={headerSiblingStyle}>
         <h3>{product.sku}</h3>
         <h4>{product.description}</h4>
-        <h4>{product.created_at}</h4>
+        <h4>{timestampTimestampFormat(product.created_at)}</h4>
         <h4>{product.account_id}</h4>
 
         <MovementsList product={product.sku} />

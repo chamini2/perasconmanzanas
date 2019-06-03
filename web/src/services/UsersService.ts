@@ -1,12 +1,13 @@
 import { axiosPG, preferHeader } from './Request';
 import { authHeader } from './Auth';
+import { Timestamp } from '../types';
 
 export interface User {
   id: number;
   email: string;
   username: string;
   full_name: string;
-  created_at: string;
+  created_at: Timestamp;
 }
 
 export default class UsersService {

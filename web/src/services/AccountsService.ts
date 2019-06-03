@@ -1,11 +1,12 @@
 import { axiosPG, preferHeader } from './Request';
 import { authHeader } from './Auth';
 import { User } from './UsersService';
+import { Timestamp } from '../types';
 
 export interface Account {
   id: string;
   name: string;
-  created_at: string;
+  created_at: Timestamp;
   owner_id: User['id'];
   // owner?: User;
 }

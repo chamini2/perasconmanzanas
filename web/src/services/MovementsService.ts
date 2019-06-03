@@ -3,12 +3,13 @@ import { authHeader } from './Auth';
 import { Product } from './ProductsService';
 import { Account } from './AccountsService';
 import { User } from './UsersService';
+import { Timestamp } from '../types';
 
 export interface Movement {
   id: string;
   quantity: number;
   description: string;
-  created_at: string;
+  created_at: Timestamp;
   product_sku: Product['sku'];
   account_id: Account['id'];
   user_id: User['id'];

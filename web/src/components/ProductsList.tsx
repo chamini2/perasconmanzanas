@@ -3,11 +3,10 @@ import React, { Component } from 'react';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 import isUndefined from 'lodash/isUndefined';
 import Table from 'react-bootstrap/Table';
-import formatd from 'date-fns/format';
 import * as Paths from '../Paths';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { DATE_LOCALE, TIMESTAMP_FORMAT } from '../constants';
 import ProductsService, { Product } from '../services/ProductsService';
+import { timestampTimestampFormat } from '../helpers';
 
 interface State {
   products: Product[] | undefined;
@@ -36,7 +35,7 @@ class ProductsList extends Component<AuthInfoProps & RouteComponentProps, State>
     >
       <td>{product.sku}</td>
       <td>{product.description}</td>
-      <td>{formatd(new Date(product.created_at), TIMESTAMP_FORMAT, { locale: DATE_LOCALE })}</td>
+      <td>{timestampTimestampFormat(product.created_at)}</td>
     </tr>;
   }
 

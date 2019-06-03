@@ -4,11 +4,10 @@ import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 import MovementsService, { Movement } from '../services/MovementsService';
 import isUndefined from 'lodash/isUndefined';
 import Table from 'react-bootstrap/Table';
-import formatd from 'date-fns/format';
 import * as Paths from '../Paths';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { DATE_LOCALE, DATE_FORMAT } from '../constants';
 import isEmpty from 'lodash/isEmpty';
+import { timestampDateFormat } from '../helpers';
 
 interface Props {
   product?: string;
@@ -58,7 +57,7 @@ class MovementsList extends Component<AuthInfoProps & RouteComponentProps & Prop
         {movement.product.sku}
       </td>
       <td>{movement.user.username}</td>
-      <td>{formatd(new Date(movement.created_at), DATE_FORMAT, { locale: DATE_LOCALE })}</td>
+      <td>{timestampDateFormat(movement.created_at)}</td>
     </tr>;
   }
 

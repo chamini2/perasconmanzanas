@@ -8,12 +8,12 @@ import AuthService from '../services/Auth';
 import UsersService, { User } from '../services/UsersService';
 import { toast } from 'react-toastify';
 import { AxiosResponse } from 'axios';
-import { STRINGS, DATE_LOCALE, DATE_FORMAT } from '../constants';
+import { STRINGS } from '../constants';
 import { errorPGMessage } from '../services/Request';
-import formatd from 'date-fns/format';
 import isEqual from 'lodash/isEqual';
 import './Profile.scss';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
+import { timestampDateFormat } from '../helpers';
 
 interface State {
   email: User['email'];
@@ -145,7 +145,7 @@ class Profile extends Component<{}, State> {
           <FormLabel>Miembro desde</FormLabel>
           <FormControl
             readOnly
-            value={formatd(new Date(user.created_at), DATE_FORMAT, { locale: DATE_LOCALE })}
+            value={timestampDateFormat(user.created_at)}
           />
         </FormGroup>
         <Button
