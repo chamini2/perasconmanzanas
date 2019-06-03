@@ -1,5 +1,5 @@
 BEGIN;
-SELECT plan(8);
+SELECT plan(9);
 
 INSERT INTO app.users (id, username, email, full_name)
 VALUES
@@ -45,6 +45,18 @@ SELECT lives_ok(
         VALUES ('pantts', 1, false)
     $$,
     'Should INSERT members in selected account with administration'
+);
+
+-- (skirts, 3, true)
+SET "request.jwt.claim.user" TO 3;
+SET "request.jwt.claim.account" TO 'skirts';
+SET SESSION AUTHORIZATION web_admin;
+SELECT throws_ok(
+    $$
+        INSERT INTO app.members (account_id, user_id, admin)
+        VALUES ('pantts', 1, false)
+    $$,
+    42501
 );
 
 -- (pantts, 1, false)

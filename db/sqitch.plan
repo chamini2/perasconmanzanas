@@ -13,3 +13,4 @@ tables/members/create 2019-03-28T03:56:38Z Matteo Ferrando <matteo.ferrando2@gma
 tables/auth.users/create 2019-03-31T16:05:50Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Add auth users table
 tables/products/create 2019-04-02T03:35:11Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create table products
 tables/movements/create 2019-04-10T19:38:46Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create table movements
+tables/invites/create 2019-06-03T11:48:33Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create table invites
