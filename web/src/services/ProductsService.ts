@@ -12,10 +12,14 @@ export interface Product {
 
 export default class ProductsService {
 
-  static async fetchAllProducts(order: keyof Product = 'created_at') {
+  static async fetchAllProducts() {
     const res = await axiosPG.get<Product[]>('/products', {
-      headers: authHeader(),
-      params: { order }
+      headers: {
+        ...authHeader(),
+      },
+      params: {
+        order: 'created_at.desc'
+      }
     });
 
     return res.data;
@@ -23,7 +27,9 @@ export default class ProductsService {
 
   static async fetchProduct(sku: Product['sku']) {
     const res = await axiosPG.get<Product[]>('/products', {
-      headers: authHeader(),
+      headers: {
+        ...authHeader(),
+      },
       params: {
         sku: 'eq.' + sku
       }
@@ -36,7 +42,7 @@ export default class ProductsService {
     const res = await axiosPG.post<Account[]>('/products', payload, {
       headers: {
         ...authHeader(),
-        ...preferHeader('representation')
+        ...preferHeader({ return: 'representation' })
       }
     });
 

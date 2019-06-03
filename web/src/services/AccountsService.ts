@@ -15,16 +15,20 @@ export default class AccountsService {
 
   static async fetchAllAccounts() {
     return await axiosPG.get<Account[]>('/accounts', {
-      headers: authHeader(),
+      headers: {
+        ...authHeader(),
+      },
       params: {
-        order: 'created_at'
+        order: 'created_at.desc'
       }
     });
   }
 
   static async fetchAccount(id: Account['id']) {
     const res = await axiosPG.get<Account[]>('/accounts', {
-      headers: authHeader(),
+      headers: {
+        ...authHeader(),
+      },
       params: {
         id: 'eq.' + id
       }
@@ -37,7 +41,7 @@ export default class AccountsService {
     const res = await axiosPG.post<Account[]>('/accounts', payload, {
       headers: {
         ...authHeader(),
-        ...preferHeader('representation')
+        ...preferHeader({ return: 'representation' })
       }
     });
 

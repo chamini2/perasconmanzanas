@@ -21,11 +21,13 @@ const SELECT_STATEMET = '*,product:products(*),user:users(*)'
 
 export default class MovementsService {
 
-  static async fetchAllMovements(limit?: number, order: keyof Movement = 'created_at') {
+  static async fetchAllMovements(limit?: number) {
     const res = await axiosPG.get<Movement[]>('/movements', {
-      headers: authHeader(),
+      headers: {
+        ...authHeader(),
+      },
       params: {
-        order,
+        order: 'created_at.desc',
         select: SELECT_STATEMET,
         limit
       }
@@ -34,11 +36,13 @@ export default class MovementsService {
     return res.data;
   }
 
-  static async fetchMovementsForProduct(product_sku: Movement['product_sku'], limit?: number, order: keyof Movement = 'created_at') {
+  static async fetchMovementsForProduct(product_sku: Movement['product_sku'], limit?: number) {
     const res = await axiosPG.get<Movement[]>('/movements', {
-      headers: authHeader(),
+      headers: {
+        ...authHeader(),
+      },
       params: {
-        order,
+        order: 'created_at.desc',
         select: SELECT_STATEMET,
         product_sku: 'eq.' + product_sku,
         limit
@@ -50,7 +54,9 @@ export default class MovementsService {
 
   static async fetchMovement(id: number) {
     const res= await axiosPG.get<Movement[]>('/movements', {
-      headers: authHeader(),
+      headers: {
+        ...authHeader(),
+      },
       params: {
         id: 'eq.' + id
       }
@@ -63,7 +69,7 @@ export default class MovementsService {
     const res = await axiosPG.post<Account[]>('/movements', payload, {
       headers: {
         ...authHeader(),
-        ...preferHeader('representation')
+        ...preferHeader({ return: 'representation' })
       }
     });
 

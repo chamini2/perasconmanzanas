@@ -27,7 +27,7 @@ export default class UsersService {
     const res = await axiosPG.patch<User[]>('/users', user, {
       headers: {
         ...authHeader(),
-        ...preferHeader('representation')
+        ...preferHeader({ return: 'representation' })
       },
       params: {
         id: `eq.${id}`

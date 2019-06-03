@@ -24,10 +24,23 @@ export const axiosPG: PostgRESTAxiosInstance = axios.create({
   validateStatus: validateStatusSessionError
 });
 
-export function preferHeader(returnType: 'representation') {
-  return {
-    prefer: `return=${returnType}`
-  };
+export interface PreferHeader {
+  return?: 'representation';
+  count?: 'exact';
+}
+
+export function preferHeader({ return: ret, count }: PreferHeader): { prefer: string } {
+  const preferences: string[] = [];
+
+  if (ret) {
+    preferences.push(`return=${ret}`);
+  }
+
+  if (count) {
+    preferences.push(`count=${count}`);
+  }
+
+  return { prefer: preferences.join(',') };
 }
 
 export function errorPGMessage(err: AxiosResponse): string {
