@@ -17,6 +17,7 @@ import Select from 'react-select';
 import { ValueType } from 'react-select/lib/types';
 import isUndefined from 'lodash/isUndefined';
 import MovementsService from '../services/MovementsService';
+import hasAccountGuard from '../wrappers/hasAccountGuard';
 
 interface State {
   product_sku: Product['sku'] | undefined;
@@ -215,4 +216,4 @@ class CreateMovement extends Component<AuthInfoProps & RouteComponentProps, Stat
 
 }
 
-export default withAuthInfo(isLoggedInGuard(CreateMovement));
+export default hasAccountGuard(withAuthInfo(isLoggedInGuard(CreateMovement)));

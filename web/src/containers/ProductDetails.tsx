@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import MovementsList from '../components/MovementsList';
 import Header, { headerSiblingStyle, headerContainerStyle } from '../components/Header';
 import { timestampTimestampFormat } from '../helpers';
+import hasAccountGuard from '../wrappers/hasAccountGuard';
 
 interface RouteParams {
   sku: string;
@@ -58,4 +59,4 @@ class ProductDetails extends Component<AuthInfoProps & RouteComponentProps<Route
 
 }
 
-export default withRouter(withAuthInfo(isLoggedInGuard(ProductDetails)));
+export default withRouter(withAuthInfo(hasAccountGuard(isLoggedInGuard(ProductDetails))));

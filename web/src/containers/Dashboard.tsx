@@ -4,6 +4,7 @@ import Header, { headerSiblingStyle, headerContainerStyle } from '../components/
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import MovementsList from '../components/MovementsList';
+import hasAccountGuard from '../wrappers/hasAccountGuard';
 
 class Dashboard extends Component {
 
@@ -35,4 +36,4 @@ class Dashboard extends Component {
 
 }
 
-export default Dashboard;
+export default hasAccountGuard(Dashboard);

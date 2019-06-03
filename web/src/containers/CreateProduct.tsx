@@ -12,6 +12,7 @@ import { errorPGMessage } from '../services/Request';
 import { STRINGS } from '../constants';
 import { AxiosResponse } from 'axios';
 import ProductsService, { Product } from '../services/ProductsService';
+import hasAccountGuard from '../wrappers/hasAccountGuard';
 
 interface State {
   sku: Product['sku'];
@@ -124,4 +125,4 @@ class CreateProduct extends Component<RouteComponentProps & AuthInfoProps, State
 
 }
 
-export default withRouter(withAuthInfo(isLoggedInGuard(CreateProduct)));
+export default withRouter(withAuthInfo(hasAccountGuard(isLoggedInGuard(CreateProduct))));

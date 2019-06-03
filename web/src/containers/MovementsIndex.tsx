@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
 import MovementsList from '../components/MovementsList';
 import Header, { headerContainerStyle, headerSiblingStyle } from '../components/Header';
+import hasAccountGuard from '../wrappers/hasAccountGuard';
 
 class MovementsIndex extends Component<{}, {}> {
 
@@ -23,4 +24,4 @@ class MovementsIndex extends Component<{}, {}> {
 
 }
 
-export default isLoggedInGuard(MovementsIndex);
+export default hasAccountGuard(isLoggedInGuard(MovementsIndex));

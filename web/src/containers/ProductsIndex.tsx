@@ -4,6 +4,7 @@ import isLoggedInGuard from '../wrappers/isLoggedInGuard';
 import Header, { headerContainerStyle, headerSiblingStyle } from '../components/Header';
 import { Link } from 'react-router-dom';
 import ProductsList from '../components/ProductsList';
+import hasAccountGuard from '../wrappers/hasAccountGuard';
 
 class ProductsIndex extends Component<{}, {}> {
 
@@ -43,4 +44,4 @@ class ProductsIndex extends Component<{}, {}> {
 
 }
 
-export default isLoggedInGuard(ProductsIndex);
+export default hasAccountGuard(isLoggedInGuard(ProductsIndex));
