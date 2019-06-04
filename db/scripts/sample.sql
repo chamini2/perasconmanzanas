@@ -3,8 +3,8 @@ WHERE id IN (100, 200);
 
 INSERT INTO app.users (id, username, email, full_name)
 VALUES
-    (100, 'jdoe', 'jdoe@example.com', 'John Doe'),
-    (200, 'mpatt', 'mpatt@example.com', 'Matt Patt');
+    (100, 'doe', 'jdoe@example.com', 'John Doe'),
+    (200, 'patt', 'mpatt@example.com', 'Matt Patt');
 
 -- Passwords are all 'password'
 INSERT INTO auth.users(id, password)
@@ -22,6 +22,11 @@ VALUES
     ('gloves', 100, true),
     ('gloves', 200, false),
     ('puros', 200, true);
+
+INSERT INTO app.invites (account_id, notes, claimed_by_id, claimed_at)
+VALUES
+    ('gloves', 'For Matt', 200, CURRENT_TIMESTAMP),
+    ('gloves', 'For anon', NULL, NULL);
 
 INSERT INTO app.products (sku, account_id, description)
 VALUES
