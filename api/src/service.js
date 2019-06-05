@@ -21,7 +21,7 @@ async function register(data) {
             INSERT INTO auth.users (id, password)
             VALUES ($1, crypt($2, gen_salt('md5')))
             `, [user.id, password])
-    });
+    })
 
     return tokenData(user.id)
 }
@@ -66,6 +66,41 @@ async function selectAccount(decodedToken, accountId) {
     return tokenData(member.user_id, member.account_id, member.admin)
 }
 
+async function findInvite(accountId, inviteId, client = pool) {
+
+    const { rows } = await client.query(`
+            SELECT i.*
+            FROM app.invites i
+            WHERE i.id = $1
+                AND i.account_id = $2
+                AND i.claimed_at IS NULL
+        `, [inviteId, accountId])
+
+    const invite = rows[0]
+
+    if (!invite) {
+        throw httpErrors.NotFound('Invite not found. It may have expired or been claimed')
+    }
+
+    return invite
+}
+
+async function claimInvite(decodedToken, accountId, inviteId) {
+    const userId = decodedToken.user
+
+    await transacting(async function(client) {
+        await findInvite(accountId, inviteId, client)
+
+        // Trigger automatically adds user as member
+        await client.query(`
+                UPDATE app.invites SET
+                    claimed_by_id = $1,
+                    claimed_at = CURRENT_TIMESTAMP
+                WHERE id = $2
+            `, [userId, inviteId])
+    })
+}
+
 function tokenData(user, account, admin = false) {
     return {
         role: admin ? ADMIN_ROLE : USER_ROLE,
@@ -99,5 +134,7 @@ async function findUserByEmailPassword(email, password) {
 module.exports = {
     register,
     signIn,
-    selectAccount
+    selectAccount,
+    findInvite,
+    claimInvite
 }

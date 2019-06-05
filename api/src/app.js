@@ -76,6 +76,23 @@ app.put(
     })
 )
 
+app.get(
+    '/api/accounts/:account/invites/:invite',
+    asyncHandler(async function(req, res) {
+        const data = await service.findInvite(req.params.account, req.params.invite)
+        res.status(200).send(data)
+    })
+)
+
+app.post(
+    '/api/accounts/:account/invites/:invite',
+    verifyToken,
+    asyncHandler(async function(req, res) {
+        await service.claimInvite(req.decoded, req.params.account, req.params.invite)
+        res.status(204).send()
+    })
+)
+
 app.use(celebrateErrors())
 app.use(handlePostgresErrors)
 app.use(handleHttpErrors)
