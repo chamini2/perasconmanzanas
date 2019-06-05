@@ -46,7 +46,7 @@ class MovementsList extends Component<AuthInfoProps & RouteComponentProps & Prop
     const negative = movement.quantity < 0;
     const icon = negative ? <span style={{ color: 'red' }}>↓</span> : <span style={{ color: 'green' }}>↑</span>;
 
-    return <tr>
+    return <tr key={movement.id}>
       <td>{icon} {Math.abs(movement.quantity)}</td>
       <td
         onClick={event => {

@@ -1,10 +1,12 @@
 import React, { Component, ComponentClass, ComponentProps, ComponentType } from 'react';
 import AuthService from '../services/Auth';
-import { Redirect } from 'react-router';
+import { Redirect, withRouter, RouteComponentProps } from 'react-router';
+import querystring from 'query-string';
+import * as Paths from '../Paths';
 
 export default function isLoggedInGuard<P extends ComponentProps<any>>(WrappedComponent: ComponentType<P>): ComponentClass<P> {
 
-  return class extends Component<P, {}> {
+  const klass = class extends Component<P & RouteComponentProps, {}> {
     symbol: symbol;
 
     constructor(props: any) {
@@ -25,18 +27,25 @@ export default function isLoggedInGuard<P extends ComponentProps<any>>(WrappedCo
 
     render() {
       if (!AuthService.isLoggedIn()) {
-        return <Redirect to='/' />;
+        const queryParams = querystring.parse(this.props.location.search);
+        if (queryParams.back && typeof queryParams.back === 'string') {
+          return <Redirect to={Paths.Home(queryParams.back)} />;
+        } else {
+          return <Redirect to={Paths.Home(this.props.location.pathname)} />;
+        }
       }
 
       return <WrappedComponent {...this.props} />;
     }
-  }
+  };
+
+  return withRouter(klass) as unknown as ComponentClass<P>;
 
 }
 
 export function isNotLoggedInGuard<P extends ComponentProps<any>>(WrappedComponent: ComponentType<P>): ComponentClass<P> {
 
-  return class extends Component<P, {}> {
+  const klass = class extends Component<P & RouteComponentProps, {}> {
     symbol: symbol;
 
     constructor(props: any) {
@@ -57,11 +66,18 @@ export function isNotLoggedInGuard<P extends ComponentProps<any>>(WrappedCompone
 
     render() {
       if (AuthService.isLoggedIn()) {
-        return <Redirect to='/' />;
+        const queryParams = querystring.parse(this.props.location.search);
+        if (queryParams.back && typeof queryParams.back === 'string') {
+          return <Redirect to={Paths.Home(queryParams.back)} />;
+        } else {
+          return <Redirect to={Paths.Home(this.props.location.pathname)} />;
+        }
       }
 
       return <WrappedComponent {...this.props} />;
     }
-  }
+  };
+
+  return withRouter(klass) as unknown as ComponentClass<P>;
 
 }

@@ -1,9 +1,19 @@
-export function Home() {
-  return '/';
+import isUndefined from 'lodash/isUndefined';
+
+export function Home(path?: string) {
+  if (isUndefined(path)) {
+    return '/';
+  } else {
+    return '/?back=' + encodeURIComponent(path);
+  }
 }
 
-export function AccountSelector() {
-  return '/accounts';
+export function AccountSelector(path?: string) {
+  if (isUndefined(path)) {
+    return '/accounts';
+  } else {
+    return '/accounts?back=' + encodeURIComponent(path);
+  }
 }
 
 export function CreateAccount() {

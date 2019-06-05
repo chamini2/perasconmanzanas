@@ -8,11 +8,15 @@ import AuthService from '../services/Auth';
 import './AccountSelector.scss';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 import Header, { headerContainerStyle, headerSiblingStyle } from '../components/Header';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, Redirect } from 'react-router';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
+import isUndefined from 'lodash/isUndefined';
+import querystring from 'query-string';
+import * as Paths from '../Paths';
 
 interface State {
-  accounts: Account[];
+  accounts: Account[] | undefined;
+  back?: string;
 }
 
 class AccountSelector extends Component<AuthInfoProps & RouteComponentProps, State> {
@@ -20,11 +24,17 @@ class AccountSelector extends Component<AuthInfoProps & RouteComponentProps, Sta
   constructor(props: any) {
     super(props);
     this.state = {
-      accounts: [],
+      accounts: undefined
     };
   }
 
   async componentDidMount() {
+    const queryParams = querystring.parse(this.props.location.search);
+    const back = queryParams.back;
+    if (back && typeof back === 'string') {
+      this.setState({ back });
+    }
+
     const result = await AccountsService.fetchAllAccounts();
     this.setState({ accounts: result.data });
   }
@@ -35,7 +45,12 @@ class AccountSelector extends Component<AuthInfoProps & RouteComponentProps, Sta
       onClick={async (event: React.MouseEvent) => {
         event.stopPropagation();
         await AuthService.setAccount(acc.id);
-        this.props.history.goBack();
+
+        // let `render` take care of the redirect to `back`
+        if (isUndefined(this.state.back)) {
+          this.props.history.push(Paths.Home());
+        }
+
       }}
       active={this.props.auth.accountId === acc.id}
       action
@@ -46,15 +61,24 @@ class AccountSelector extends Component<AuthInfoProps & RouteComponentProps, Sta
 
   render() {
     const {
-      accounts
+      accounts,
+      back
     } = this.state;
+
+    if (!isUndefined(back) && this.props.auth.accountId) {
+      return <Redirect to={back} />;
+    }
 
     return <div style={headerContainerStyle} className='container'>
       <Header />
       <div style={headerSiblingStyle} className='AccountSelector'>
         <h3>Selecciona en la cuenta que vas a trabajar</h3>
         <ListGroup>
-          {accounts.map(this.renderAccount)}
+          {
+            isUndefined(accounts)
+              ? <ListGroupItem>Cargando...</ListGroupItem>
+              : accounts.map(this.renderAccount)
+          }
           <ListGroupItem
             as={Link}
             to='/accounts/new'

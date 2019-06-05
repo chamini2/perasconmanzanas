@@ -28,6 +28,7 @@ class ProductsList extends Component<AuthInfoProps & RouteComponentProps, State>
 
   renderProduct(product: Product) {
     return <tr
+      key={product.sku}
       onClick={event => {
         event.stopPropagation();
         this.props.history.push(Paths.ProductDetails(product.sku, product.description));

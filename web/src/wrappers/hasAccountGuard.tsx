@@ -1,15 +1,17 @@
 import React, { Component, ComponentClass, ComponentProps, ComponentType } from 'react';
 import AuthService from '../services/Auth';
-import { Redirect } from 'react-router';
+import { Redirect, withRouter, RouteComponentProps } from 'react-router';
+import querystring from 'query-string';
+import * as Paths from '../Paths';
 
-export default function hasAccountGuard<P extends ComponentProps<any>>(WrappedComponent: ComponentType<P>, back: boolean = true): ComponentClass<P> {
+export default function hasAccountGuard<P extends ComponentProps<any>>(WrappedComponent: ComponentType<P>): ComponentClass<P> {
 
-  return class extends Component<P, {}> {
+  const klass = class extends Component<P & RouteComponentProps, {}> {
     symbol: symbol;
 
     constructor(props: any) {
       super(props);
-      this.state = { };
+      this.state = {};
       this.symbol = Symbol('isLoggedInGuard');
     }
 
@@ -25,11 +27,18 @@ export default function hasAccountGuard<P extends ComponentProps<any>>(WrappedCo
 
     render() {
       if (!AuthService.isAccountSet()) {
-        return <Redirect to='/accounts' push={back} />;
+        const queryParams = querystring.parse(this.props.location.search);
+        if (queryParams.back && typeof queryParams.back === 'string') {
+          return <Redirect to={Paths.AccountSelector(queryParams.back)} />;
+        } else {
+          return <Redirect to={Paths.AccountSelector(this.props.location.pathname)} />;
+        }
       }
 
       return <WrappedComponent {...this.props} />;
     }
-  }
+  };
+
+  return withRouter(klass) as unknown as ComponentClass<P>;
 
 }
