@@ -14,3 +14,5 @@ tables/auth.users/create 2019-03-31T16:05:50Z Matteo Ferrando <matteo.ferrando2@
 tables/products/create 2019-04-02T03:35:11Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create table products
 tables/movements/create 2019-04-10T19:38:46Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create table movements
 tables/invites/create 2019-06-03T11:48:33Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create table invites
+functions/trigger_function_add_member_when_invite_claimed 2019-06-05T03:31:55Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Add trigger function add_member_when_invite_claimed
+tables/invites/trigger_add_member_when_invite_claimed 2019-06-05T14:27:56Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Add trigger add_member_when_invite_claimed for table invites
