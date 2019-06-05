@@ -7,6 +7,7 @@ import Profile from './Profile';
 import AuthService from '../services/Auth';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 import Badge from 'react-bootstrap/Badge';
+import * as Paths from '../Paths';
 
 class Settings extends Component<AuthInfoProps, {}> {
 
@@ -51,7 +52,7 @@ class Settings extends Component<AuthInfoProps, {}> {
           <ul>
             <li>Modificar cuenta</li>
             <li>¿Eliminar cuenta?</li>
-            <li>Invitar miembros a cuenta</li>
+            <li><Link to={Paths.Invites()}>Invitar miembros a cuenta</Link></li>
             <li>Sacar miembros de cuenta</li>
             <li>Encuesta: llamarlo <i>cuenta</i>, <i>proyecto</i>, <i>inventario</i></li>
           </ul>

@@ -44,6 +44,18 @@ export function CreateMovement() {
   return '/movements/new';
 }
 
+export function Members() {
+  return '/members';
+}
+
+export function Invites() {
+  return '/invites';
+}
+
+export function InviteDetails(account: string, code: string) {
+  return `/invites/${account}/${code}`;
+}
+
 export function Settings() {
   return '/settings';
 }

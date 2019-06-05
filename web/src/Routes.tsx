@@ -36,6 +36,9 @@ function Routes() {
         <Route path={Paths.ProductDetails(':sku', '*')} component={ProductDetails} />
         <Route path={Paths.CreateMovement()} exact component={CreateMovement} />
         <Route path={Paths.MovementsIndex()} exact component={MovementsIndex} />
+        {/* <Route path={Paths.Members()} exact component={MembersManager} /> */}
+        <Route path={Paths.Invites()} exact component={InvitesManager} />
+        <Route path={Paths.InviteDetails(':account', ':code')} exact component={InviteDetails} />
         <Route path={Paths.Settings()} exact component={Settings} />
         <Route path={Paths.PageNotFound()} exact component={PageNotFound} />
         <Redirect to={Paths.PageNotFound()} />
