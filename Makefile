@@ -1,31 +1,32 @@
 .PHONY: start
-start: db_start api_start server_start
+start: start_db start_api start_server
 
-.PHONY: db_start
-db_start:
+.PHONY: start_db
+start_db:
 	make -C db start
 
-.PHONY: api_start
-api_start: api_stop
+.PHONY: start_api
+start_api: stop_api
 	docker-compose up --build -d api
 
-.PHONY: server_start
-server_start: server_stop
+.PHONY: start_server
+start_server: stop_server
 	docker-compose up -d server
 
-.PHONY: stop
-stop: server_stop api_stop db_stop
 
-.PHONY: db_stop
-db_stop:
+.PHONY: stop
+stop: stop_server stop_api stop_db
+
+.PHONY: stop_db
+stop_db:
 	make -C db stop
 
-.PHONY: api_stop
-api_stop:
+.PHONY: stop_api
+stop_api:
 	docker-compose stop api
 
-.PHONY: server_stop
-server_stop:
+.PHONY: stop_server
+stop_server:
 	docker-compose stop server
 
 
