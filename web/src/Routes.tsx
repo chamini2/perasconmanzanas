@@ -5,7 +5,7 @@ import Home from './containers/Home';
 import Settings from './containers/Settings';
 import CreateAccount from './containers/CreateAccount';
 import AccountSelector from './containers/AccountSelector';
-import { ToastContainer, Slide } from 'react-toastify';
+import { ToastContainer, cssTransition } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import CreateMovement from './containers/CreateMovement';
 import ProductsIndex from './containers/ProductsIndex';
@@ -13,6 +13,15 @@ import CreateProduct from './containers/CreateProduct';
 import PageNotFound from './containers/PageNotFound';
 import ProductDetails from './containers/ProductDetails';
 import MovementsIndex from './containers/MovementsIndex';
+import InvitesManager from './containers/InvitesManager';
+import InviteDetails from './containers/InviteDetails';
+
+const SlideTransition = cssTransition({
+  enter: 'Toastify__slide-enter',
+  exit: 'Toastify__slide-exit',
+  duration: [180, 180],
+  appendPosition: true
+});
 
 function Routes() {
   return (
@@ -34,7 +43,7 @@ function Routes() {
       <ToastContainer
         autoClose={5000}
         hideProgressBar
-        transition={Slide}
+        transition={SlideTransition}
       />
     </BrowserRouter>
   );

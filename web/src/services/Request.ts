@@ -3,6 +3,8 @@ import { STRINGS } from '../constants';
 import AuthService from './Auth';
 import { toast } from 'react-toastify';
 
+// TODO: move to variables or something
+export const BASE_WEB_URL = 'http://localhost:3000';
 const BASE_API_URL = 'http://localhost:5000';
 const BASE_POSTGREST_URL = 'http://localhost:4000';
 

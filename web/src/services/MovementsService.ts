@@ -11,10 +11,10 @@ export interface Movement {
   description: string;
   created_at: Timestamp;
   product_sku: Product['sku'];
-  account_id: Account['id'];
+  product: Product;
   user_id: User['id'];
   user: User;
-  product: Product;
+  account_id: Account['id'];
 }
 
 const SELECT_STATEMET = '*,product:products(*),user:users(*)'

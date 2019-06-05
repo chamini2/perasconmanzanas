@@ -17,7 +17,11 @@ export interface SessionToken {
 };
 
 export function authHeader() {
-  return { Authorization: 'Bearer ' + TokenHandler.getToken() };
+  if (AuthService.isLoggedIn()) {
+    return { Authorization: 'Bearer ' + TokenHandler.getToken() };
+  } else {
+    return {};
+  }
 }
 
 export default class AuthService {
