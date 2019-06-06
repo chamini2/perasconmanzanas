@@ -1,6 +1,6 @@
 %syntax-version=1.0.0
-%project=i
-%uri=https://github.com/chamini2/i
+%project=schema
+%uri=perasconmanzanas.com/schema
 
 extensions/citext 2019-03-26T20:58:08Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create extension citext
 extensions/pgcrypto 2019-04-01T03:05:08Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create extension pgcrypto

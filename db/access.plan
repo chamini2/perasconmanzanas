@@ -1,6 +1,6 @@
 %syntax-version=1.0.0
-%project=server
-%uri=https://postgrest.org/
+%project=access
+%uri=perasconmanzanas.com/access
 
 config/role_authenticator 2019-03-31T00:09:44Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create authenticator role
 config/role_web_anon 2019-03-28T14:14:51Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create web_anon role
