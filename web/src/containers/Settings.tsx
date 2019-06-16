@@ -24,7 +24,7 @@ class Settings extends Component<AuthInfoProps, {}> {
           <div className='inner-header'>
             <h3>Perfil</h3>
             <Link
-              to='#'
+              to='/'
               onClick={function(event) {
                 event.stopPropagation();
                 AuthService.logout();

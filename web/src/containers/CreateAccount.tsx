@@ -122,4 +122,4 @@ class CreateAccount extends Component<AuthInfoProps & RouteComponentProps, State
 
 }
 
-export default withRouter(withAuthInfo(hasAccountGuard(isLoggedInGuard(CreateAccount))));
+export default withRouter(withAuthInfo(isLoggedInGuard(CreateAccount)));
