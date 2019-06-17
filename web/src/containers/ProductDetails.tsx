@@ -8,7 +8,7 @@ import * as Paths from '../Paths';
 import { toast } from 'react-toastify';
 import MovementsList from '../components/MovementsList';
 import Header, { headerSiblingStyle, headerContainerStyle } from '../components/Header';
-import { timestampTimestampFormat } from '../helpers';
+import { timestampDateFormat } from '../helpers';
 import hasAccountGuard from '../wrappers/hasAccountGuard';
 
 interface RouteParams {
@@ -46,13 +46,9 @@ class ProductDetails extends Component<AuthInfoProps & RouteComponentProps<Route
       <div style={headerSiblingStyle}>
         <h3>{product.sku}</h3>
         <h4>{product.description}</h4>
-        <h4>{timestampTimestampFormat(product.created_at)}</h4>
-        <h4>{product.account_id}</h4>
+        <h6>En el sistema desde el {timestampDateFormat(product.created_at)}</h6>
 
         <MovementsList product={product.sku} />
-
-        <h4>Pendiente: ProductDetails</h4>
-        Leer "Pendiente: ProductIndex"
       </div>
     </div>;
   }
