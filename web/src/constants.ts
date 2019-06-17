@@ -9,3 +9,6 @@ export const LOCALE = 'es';
 // export const DATE_FORMAT = "dd 'de' MMMM 'del' yyyy";
 export const DATE_FORMAT = "dd/MM/yyyy";
 export const TIMESTAMP_FORMAT = "hh:mm:ss a 'el' " + DATE_FORMAT;
+
+export const CONTACT_EMAIL = 'hola@perasconmanzanas.com';
+export const CONTACT_TWITTER = 'chamini2';
