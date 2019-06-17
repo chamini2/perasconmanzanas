@@ -26,11 +26,12 @@ class AuthInfoHandler {
 
   static async updateAuthInfo() {
     this.userId = AuthService.getUser();
+    this.accountId = AuthService.getAccount();
+
     if (this.userId && (!this.user || this.user.id !== this.userId)) {
       this.user = await UsersService.fetchUser(this.userId);
     }
 
-    this.accountId = AuthService.getAccount();
     if (this.accountId && (!this.account || this.account.id !== this.accountId)) {
       this.account = await AccountsService.fetchAccount(this.accountId);
     }
@@ -40,10 +41,11 @@ class AuthInfoHandler {
 
 }
 
+AuthInfoHandler.updateAuthInfo();
+
 AuthService.subscribe(Symbol('AuthInfo'), () => {
   AuthInfoHandler.updateAuthInfo();
 });
-AuthInfoHandler.updateAuthInfo();
 
 export default function withAuthInfo<P extends ComponentProps<any>>(WrappedComponent: ComponentType<AuthInfoProps & P>): ComponentClass<P, AuthInfo> {
 

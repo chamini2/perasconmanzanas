@@ -5,11 +5,9 @@ import isLoggedInGuard from '../wrappers/isLoggedInGuard';
 import { Link } from 'react-router-dom';
 import Profile from './Profile';
 import AuthService from '../services/Auth';
-import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
-import Badge from 'react-bootstrap/Badge';
-import * as Paths from '../Paths';
+import Account from './Account';
 
-class Settings extends Component<AuthInfoProps, {}> {
+class Settings extends Component {
 
   constructor(props: any) {
     super(props);
@@ -35,27 +33,14 @@ class Settings extends Component<AuthInfoProps, {}> {
           </div>
           <Profile />
         </div>
+
         <div className='account'>
           <div className='inner-header'>
             <h3>Cuenta</h3>
             <Link to='/accounts'>Seleccionar cuenta</Link>
           </div>
 
-          {
-            this.props.auth.account
-              ? <div>{this.props.auth.account!.name} <Badge variant='primary'>{this.props.auth.account!.id}</Badge></div>
-              : null
-          }
-
-          <br/>
-          <h4>Pendiente: Cuenta</h4> {/* TODO: Check it out */}
-          <ul>
-            <li>Modificar cuenta</li>
-            <li>¿Eliminar cuenta?</li>
-            <li><Link to={Paths.Invites()}>Invitar miembros a cuenta</Link></li>
-            <li>Sacar miembros de cuenta</li>
-            <li>Encuesta: llamarlo <i>cuenta</i>, <i>proyecto</i>, <i>inventario</i></li>
-          </ul>
+          <Account />
         </div>
       </div>
     </div>;
@@ -63,4 +48,4 @@ class Settings extends Component<AuthInfoProps, {}> {
 
 }
 
-export default withAuthInfo(isLoggedInGuard(Settings));
+export default isLoggedInGuard(Settings);
