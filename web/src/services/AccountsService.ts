@@ -62,7 +62,7 @@ export default class AccountsService {
     }
 
     const { owner, members } = res.data[0];
-    return [owner.id, members.map((o: any) => o.user_id)];
+    return [owner.id, ...members.map((o: any) => o.user_id)];
   }
 
 }

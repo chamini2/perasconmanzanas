@@ -7,7 +7,7 @@ import Profile from './Profile';
 import AuthService from '../services/Auth';
 import Account from './Account';
 import Card from 'react-bootstrap/Card';
-import Collapse from 'react-bootstrap/Collapse';
+import Accordion from 'react-bootstrap/Accordion';
 
 interface State {
   profileCollapse: 'edit' | 'password';
@@ -46,16 +46,24 @@ class Settings extends Component<{}, State> {
             </Link>
           </div>
 
-          <h4 onClick={() => this.setState({ profileCollapse: 'edit' })}>Editar perfil {profileCollapse === 'edit' ? '▽' : '▷'}</h4>
-          <Collapse in={profileCollapse === 'edit'}>
-            <div>
-              <Profile />
-            </div>
-          </Collapse>
-          <h4 onClick={() => this.setState({ profileCollapse: 'password' })}>Cambiar contraseña {profileCollapse === 'password' ? '▽' : '▷'}</h4>
-          <Collapse in={profileCollapse === 'password'}>
-            Pendiente: Cambiar contraseña {/* TODO: HERE*/}
-          </Collapse>
+          <Accordion>
+            <Card>
+              <Accordion.Toggle as={Card.Header} eventKey='edit'> Editar perfil </Accordion.Toggle>
+              <Accordion.Collapse eventKey='edit'>
+                <Card.Body>
+                  <Profile />
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+            <Card>
+              <Accordion.Toggle as={Card.Header} eventKey='password'> Cambiar contraseña </Accordion.Toggle>
+              <Accordion.Collapse eventKey='password'>
+                <Card.Body>
+                  Pendiente: Cambiar contraseña {/* TODO: HERE*/}
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+          </Accordion>
         </div>
 
         <div className='account'>
