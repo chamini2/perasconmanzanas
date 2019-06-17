@@ -56,6 +56,10 @@ class Header extends Component<AuthInfoProps, State> {
   }
 
   render() {
+    const {
+      showContactModal
+    } = this.state;
+
     return <Navbar className='Header'>
       <NavLink title='Inicio' className='home-link' as={Link} to={Paths.Home()}>
         <h4 className='logo'>🍐➕🍎</h4>
@@ -67,7 +71,7 @@ class Header extends Component<AuthInfoProps, State> {
       <Button hidden variant='outline-warning' title='Contáctame' className='to-end' onClick={this.showContactModal.bind(this)}> ✉️ </Button>
       <Button variant='outline-dark' title='Preferencias' className='to-end' as={Link} to={Paths.Settings()}> ⚙️ </Button>
 
-      <Modal className='Modal-contact' show={this.state.showContactModal} onHide={this.hideContactModal.bind(this)}>
+      <Modal className='Modal-Header-contact' show={showContactModal} onHide={this.hideContactModal.bind(this)}>
         <Modal.Header closeButton> Contáctame </Modal.Header>
         <Modal.Body>
           <h4>¿Preguntas, dudas?</h4>
