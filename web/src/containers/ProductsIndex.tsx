@@ -29,11 +29,8 @@ class ProductsIndex extends Component<{}, {}> {
 
         <ProductsList />
 
-        {/* TODO: Check it out */}
-        <h4>Pendiente: ProductIndex</h4>
+        <h4>Pendiente: ProductIndex</h4> {/* TODO: HERE */}
         <ul>
-          <li>Diseñar</li>
-          <li>Diseñar diferencias entre móvil y escritorio</li>
           <li>Agregar información de <i>stock</i></li>
           <li>Modificar producto</li>
           <li>¿Eliminar producto?</li>

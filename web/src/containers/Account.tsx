@@ -63,7 +63,7 @@ class Account extends Component<AuthInfoProps, State> {
       <Button as={Link} to={Paths.Invites()}>Invitaciones</Button>
 
       <br/>
-      <h4>Pendiente: Cuenta</h4> {/* TODO: Check it out */}
+      <h4>Pendiente: Cuenta</h4> {/* TODO: HERE */}
       <ul>
         <li>Modificar cuenta</li>
         <li>¿Eliminar cuenta?</li>

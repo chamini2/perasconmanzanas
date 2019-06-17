@@ -6,18 +6,32 @@ import { Link } from 'react-router-dom';
 import Profile from './Profile';
 import AuthService from '../services/Auth';
 import Account from './Account';
+import Card from 'react-bootstrap/Card';
+import Collapse from 'react-bootstrap/Collapse';
 
-class Settings extends Component {
+interface State {
+  profileCollapse: 'edit' | 'password';
+}
+
+class Settings extends Component<{}, State> {
 
   constructor(props: any) {
     super(props);
-    this.state = {};
+    this.state = {
+      profileCollapse: 'edit'
+    };
   }
 
   render() {
+    const {
+      profileCollapse
+    } = this.state;
+
     return <div style={headerContainerStyle} className='Settings container'>
       <Header />
+
       <div style={headerSiblingStyle} className='grid'>
+
         <div className='profile'>
           <div className='inner-header'>
             <h3>Perfil</h3>
@@ -31,7 +45,17 @@ class Settings extends Component {
             Cerrar sesión
             </Link>
           </div>
-          <Profile />
+
+          <h4 onClick={() => this.setState({ profileCollapse: 'edit' })}>Editar perfil {profileCollapse === 'edit' ? '▽' : '▷'}</h4>
+          <Collapse in={profileCollapse === 'edit'}>
+            <div>
+              <Profile />
+            </div>
+          </Collapse>
+          <h4 onClick={() => this.setState({ profileCollapse: 'password' })}>Cambiar contraseña {profileCollapse === 'password' ? '▽' : '▷'}</h4>
+          <Collapse in={profileCollapse === 'password'}>
+            Pendiente: Cambiar contraseña {/* TODO: HERE*/}
+          </Collapse>
         </div>
 
         <div className='account'>
