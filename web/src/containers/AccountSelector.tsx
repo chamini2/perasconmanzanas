@@ -84,6 +84,7 @@ class AccountSelector extends Component<AuthInfoProps & RouteComponentProps, Sta
             to='/accounts/new'
             variant='secondary'
             action
+            style={{ cursor: 'pointer' }}
           >
             Crear una cuenta
           </ListGroupItem>

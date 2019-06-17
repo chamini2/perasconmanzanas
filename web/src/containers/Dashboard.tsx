@@ -24,7 +24,7 @@ class Dashboard extends Component {
           as={Link}
           to='/products'
         >
-          Ver productos
+          Productos
         </Button>
 
         <h4>Movimientos recientes</h4>

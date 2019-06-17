@@ -19,7 +19,7 @@ class RecoverPassword extends Component {
     >
       {/* TODO: this */}
       Olvidé mi contraseña <br/>
-      PENDIENTE
+      (PENDIENTE, aún no funciona)
     </Link>;
   }
 }

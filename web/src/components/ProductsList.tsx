@@ -33,10 +33,10 @@ class ProductsList extends Component<AuthInfoProps & RouteComponentProps, State>
         event.stopPropagation();
         this.props.history.push(Paths.ProductDetails(product.sku, product.description));
       }}
+      style={{ cursor: 'pointer' }}
     >
       <td>{product.sku}</td>
       <td>{product.description}</td>
-      <td>{timestampTimestampFormat(product.created_at)}</td>
     </tr>;
   }
 
@@ -50,12 +50,11 @@ class ProductsList extends Component<AuthInfoProps & RouteComponentProps, State>
     }
 
     return <div className='ProductsList'>
-      <Table>
+      <Table variant='sm' hover>
         <thead>
           <tr>
             <th scope='col'>SKU</th>
             <th scope='col'>Descripción</th>
-            <th scope='col'>Fecha</th>
           </tr>
         </thead>
         <tbody>

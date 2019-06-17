@@ -1,11 +1,10 @@
 import './MovementsList.scss';
 import React, { Component } from 'react';
-import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 import MovementsService, { Movement } from '../services/MovementsService';
 import isUndefined from 'lodash/isUndefined';
 import Table from 'react-bootstrap/Table';
 import * as Paths from '../Paths';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import { timestampDateFormat } from '../helpers';
 
@@ -18,7 +17,7 @@ interface State {
   movements: Movement[] | undefined;
 }
 
-class MovementsList extends Component<AuthInfoProps & RouteComponentProps & Props, State> {
+class MovementsList extends Component<Props, State> {
 
   constructor(props: any) {
     super(props);
@@ -48,13 +47,8 @@ class MovementsList extends Component<AuthInfoProps & RouteComponentProps & Prop
 
     return <tr key={movement.id}>
       <td>{icon} {Math.abs(movement.quantity)}</td>
-      <td
-        onClick={event => {
-          event.stopPropagation();
-          this.props.history.push(Paths.ProductDetails(movement.product.sku, movement.product.description));
-        }}
-      >
-        {movement.product.sku}
+      <td>
+        <Link to={Paths.ProductDetails(movement.product.sku, movement.product.description)}>{movement.product.sku}</Link>
       </td>
       <td>{movement.user.username}</td>
       <td>{timestampDateFormat(movement.created_at)}</td>
@@ -87,7 +81,7 @@ class MovementsList extends Component<AuthInfoProps & RouteComponentProps & Prop
 
   render() {
     return <div className='MovementsList'>
-      <Table>
+      <Table striped variant='sm'>
         <thead>
           <tr>
             <th scope='col'>Cantidad</th>
@@ -105,4 +99,4 @@ class MovementsList extends Component<AuthInfoProps & RouteComponentProps & Prop
 
 }
 
-export default withRouter(withAuthInfo(MovementsList));
+export default MovementsList;
