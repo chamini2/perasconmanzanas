@@ -13,7 +13,6 @@ import AccountsService from '../services/AccountsService';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 import AuthService from '../services/Auth';
-import hasAccountGuard from '../wrappers/hasAccountGuard';
 
 interface State {
   id: string;

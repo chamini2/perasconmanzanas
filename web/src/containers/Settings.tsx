@@ -8,12 +8,15 @@ import AuthService from '../services/Auth';
 import Account from './Account';
 import Card from 'react-bootstrap/Card';
 import Accordion from 'react-bootstrap/Accordion';
+import ChangePassword from './ChangePassword';
+import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
+import Button from 'react-bootstrap/Button';
 
 interface State {
   profileCollapse: 'edit' | 'password';
 }
 
-class Settings extends Component<{}, State> {
+class Settings extends Component<AuthInfoProps, State> {
 
   constructor(props: any) {
     super(props);
@@ -59,25 +62,32 @@ class Settings extends Component<{}, State> {
               <Accordion.Toggle as={Card.Header} eventKey='password'> Cambiar contraseña </Accordion.Toggle>
               <Accordion.Collapse eventKey='password'>
                 <Card.Body>
-                  Pendiente: Cambiar contraseña {/* TODO: HERE*/}
+                  <ChangePassword />
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
           </Accordion>
         </div>
 
-        <div className='account'>
-          <div className='inner-header'>
-            <h3>Cuenta</h3>
-            <Link to='/accounts'>Seleccionar cuenta</Link>
-          </div>
+        {
+          this.props.auth.account
+            ? <div className='account'>
+                <div className='inner-header'>
+                  <h3>Cuenta</h3>
+                  <Link to='/accounts'>Seleccionar cuenta</Link>
+                </div>
 
-          <Account />
-        </div>
+                <Account />
+
+              </div>
+            : <div className='account'>
+                <Button as={Link} to='/accounts' style={{display: 'block'}}>Seleccionar cuenta</Button>
+              </div>
+        }
       </div>
     </div>;
   }
 
 }
 
-export default isLoggedInGuard(Settings);
+export default withAuthInfo<{}>(isLoggedInGuard(Settings));

@@ -1,18 +1,16 @@
 import './ProductsList.scss';
 import React, { Component } from 'react';
-import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 import isUndefined from 'lodash/isUndefined';
 import Table from 'react-bootstrap/Table';
 import * as Paths from '../Paths';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import ProductsService, { Product } from '../services/ProductsService';
-import { timestampTimestampFormat } from '../helpers';
 
 interface State {
   products: Product[] | undefined;
 }
 
-class ProductsList extends Component<AuthInfoProps & RouteComponentProps, State> {
+class ProductsList extends Component<RouteComponentProps, State> {
 
   constructor(props: any) {
     super(props);
@@ -66,4 +64,4 @@ class ProductsList extends Component<AuthInfoProps & RouteComponentProps, State>
 
 }
 
-export default withRouter(withAuthInfo(ProductsList));
+export default withRouter(ProductsList);

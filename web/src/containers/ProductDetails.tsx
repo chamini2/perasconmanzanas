@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
-import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import ProductsService, { Product } from '../services/ProductsService';
 import isEmpty from 'lodash/isEmpty';
@@ -15,7 +14,7 @@ interface RouteParams {
   sku: string;
 }
 
-class ProductDetails extends Component<AuthInfoProps & RouteComponentProps<RouteParams>, Product | {}> {
+class ProductDetails extends Component<RouteComponentProps<RouteParams>, Product | {}> {
 
   constructor(props: any) {
     super(props);
@@ -55,4 +54,4 @@ class ProductDetails extends Component<AuthInfoProps & RouteComponentProps<Route
 
 }
 
-export default withRouter(withAuthInfo(hasAccountGuard(isLoggedInGuard(ProductDetails))));
+export default withRouter(hasAccountGuard(isLoggedInGuard(ProductDetails)));

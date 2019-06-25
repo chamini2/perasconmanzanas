@@ -14,6 +14,7 @@ import isEqual from 'lodash/isEqual';
 import './Profile.scss';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
 import { timestampDateFormat } from '../helpers';
+import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 
 interface State {
   email: User['email'];
@@ -22,7 +23,7 @@ interface State {
   user?: User;
 }
 
-class Profile extends Component<{}, State> {
+class Profile extends Component<AuthInfoProps, State> {
 
   constructor(props: any) {
     super(props);
@@ -34,8 +35,8 @@ class Profile extends Component<{}, State> {
   }
 
   async componentDidMount() {
-    const userId = AuthService.getUser()!;
-    const user = await UsersService.fetchUser(userId);
+    const user = this.props.auth.user!;
+
     this.setState({
       user,
       email: user.email,
@@ -161,4 +162,4 @@ class Profile extends Component<{}, State> {
 
 }
 
-export default isLoggedInGuard(Profile);
+export default withAuthInfo<{}>(isLoggedInGuard(Profile));

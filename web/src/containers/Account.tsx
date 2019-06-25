@@ -75,4 +75,4 @@ class Account extends Component<AuthInfoProps, State> {
 
 }
 
-export default withAuthInfo<{}>(hasAccountGuard(isLoggedInGuard(Account)));
+export default withAuthInfo<{}>(isLoggedInGuard(Account));

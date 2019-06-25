@@ -10,9 +10,9 @@ export interface AuthInfoProps {
 
 export interface AuthInfo {
   userId: number | undefined;
-  user?: User;
+  user: User | undefined;
   accountId: string | undefined;
-  account?: Account;
+  account: Account | undefined;
 }
 
 class AuthInfoHandler {
@@ -27,6 +27,14 @@ class AuthInfoHandler {
   static async updateAuthInfo() {
     this.userId = AuthService.getUser();
     this.accountId = AuthService.getAccount();
+
+    if (!this.userId) {
+      this.user = undefined;
+    }
+
+    if (!this.accountId) {
+      this.account = undefined;
+    }
 
     if (this.userId && (!this.user || this.user.id !== this.userId)) {
       this.user = await UsersService.fetchUser(this.userId);
@@ -47,17 +55,28 @@ AuthService.subscribe(Symbol('AuthInfo'), () => {
   AuthInfoHandler.updateAuthInfo();
 });
 
-export default function withAuthInfo<P extends ComponentProps<any>>(WrappedComponent: ComponentType<AuthInfoProps & P>): ComponentClass<P, AuthInfo> {
+interface State {
+  info: AuthInfo;
+  ready: boolean
+}
 
-  return class extends Component<P, AuthInfo> {
+export default function withAuthInfo<P extends ComponentProps<any>>(WrappedComponent: ComponentType<AuthInfoProps & P>): ComponentClass<P, State> {
+
+  return class extends Component<P, State> {
     symbol: symbol;
     authInfoHandlerSubscription?: rxjs.Subscription;
 
     constructor(props: any) {
       super(props);
+
       this.state = {
-        userId: AuthInfoHandler.userId,
-        accountId: AuthInfoHandler.accountId,
+        info: {
+          userId: AuthInfoHandler.userId,
+          user: AuthInfoHandler.user,
+          accountId: AuthInfoHandler.accountId,
+          account: AuthInfoHandler.account,
+        },
+        ready: false
       };
 
       this.symbol = Symbol('withAuthInfo');
@@ -66,10 +85,13 @@ export default function withAuthInfo<P extends ComponentProps<any>>(WrappedCompo
     componentWillMount() {
       this.authInfoHandlerSubscription = AuthInfoHandler.observable.subscribe(() => {
         this.setState({
-          userId: AuthInfoHandler.userId,
-          user: AuthInfoHandler.user,
-          accountId: AuthInfoHandler.accountId,
-          account: AuthInfoHandler.account,
+          info: {
+            userId: AuthInfoHandler.userId,
+            user: AuthInfoHandler.user,
+            accountId: AuthInfoHandler.accountId,
+            account: AuthInfoHandler.account,
+          },
+          ready: true,
         });
       });
     }
@@ -81,7 +103,14 @@ export default function withAuthInfo<P extends ComponentProps<any>>(WrappedCompo
     }
 
     render() {
-      return <WrappedComponent {...this.props} auth={this.state} />;
+      if (this.state.ready) {
+        return <WrappedComponent
+          {...this.props}
+          auth={this.state.info}
+        />;
+      } else {
+        return null;
+      }
     }
   };
 
