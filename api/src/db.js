@@ -1,6 +1,8 @@
 const { Pool } = require('pg')
 
-const pool = new Pool()
+const pool = new Pool({
+    connectionString: process.env.API_DB_URI
+})
 
 // the pool emits errors on behalf of any idle clients
 pool.on('error', function(err, client) {

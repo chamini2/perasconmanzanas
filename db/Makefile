@@ -1,8 +1,9 @@
-COMPOSE_FILE=../docker-compose.yml
+COMPOSE_FILE=../docker-compose.dev.yml
+TEST_COMPOSE_FILE=docker-compose.test.yml
 
 .PHONY: init
 init:
-	docker-compose -f $(COMPOSE_FILE) up -d db
+	docker-compose -f $(COMPOSE_FILE) up --build -d db
 
 .PHONY: start
 start: init
@@ -14,7 +15,7 @@ stop:
 
 .PHONY: test
 test:
-	docker-compose -f $(COMPOSE_FILE) -f docker-compose.test.yml run --rm db_test
+	docker-compose -f $(COMPOSE_FILE) -f $(TEST_COMPOSE_FILE) run --rm db_test
 
 .PHONY: revert_schema
 revert_schema:

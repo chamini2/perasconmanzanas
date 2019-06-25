@@ -1,7 +1,7 @@
 const httpErrors = require('http-errors')
 const jwt = require('jsonwebtoken')
 
-const JWT_SECRET = '7a42166a63c5747b6e94bea42d5821b1' // TODO: change for real key
+const JWT_SECRET = process.env.JWT_SECRET
 const JWT_EXPIRATION = '7d' // 7 days
 
 function verifyToken(req, res, next) {

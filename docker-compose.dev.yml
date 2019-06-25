@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  server:
+    image: postgrest/postgrest
+    restart: unless-stopped
+    ports:
+      - 4000:3000
+    environment:
+      PGRST_DB_URI: $PGRST_DB_URI
+      PGRST_DB_SCHEMA: $PGRST_DB_SCHEMA
+      PGRST_DB_ANON_ROLE: $PGRST_DB_ANON_ROLE
+      PGRST_JWT_SECRET: $JWT_SECRET
+
+  api:
+    image: node:11
+    restart: unless-stopped
+    user: node
+    working_dir: /home/node/app
+    environment:
+      API_DB_URI: $API_DB_URI
+      JWT_SECRET: $JWT_SECRET
+    ports:
+      - 5000:5000
+    volumes:
+      - ./api:/home/node/app
+    command: npm start
+
+  db:
+    image: postgres:11.2-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_DB: $POSTGRES_DB
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+
+  wait_db:
+    image: waisbrot/wait
+    environment:
+      TARGETS: db:5432
+

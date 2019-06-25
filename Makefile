@@ -1,3 +1,5 @@
+COMPOSE_FILE=docker-compose.dev.yml
+
 .PHONY: start
 start: start_db start_api start_server
 
@@ -7,11 +9,11 @@ start_db:
 
 .PHONY: start_api
 start_api: stop_api
-	docker-compose up --build -d api
+	docker-compose -f $(COMPOSE_FILE) up --build -d api
 
 .PHONY: start_server
 start_server: stop_server
-	docker-compose up -d server
+	docker-compose -f $(COMPOSE_FILE) up --build -d server
 
 
 .PHONY: stop
@@ -23,11 +25,11 @@ stop_db:
 
 .PHONY: stop_api
 stop_api:
-	docker-compose stop api
+	docker-compose -f $(COMPOSE_FILE) stop api
 
 .PHONY: stop_server
 stop_server:
-	docker-compose stop server
+	docker-compose -f $(COMPOSE_FILE) stop server
 
 
 .PHONY: test
@@ -36,5 +38,5 @@ test:
 
 .PHONY: destroy
 destroy:
-	docker-compose down -v
+	docker-compose -f $(COMPOSE_FILE) down -v
 	rm -rf data/
