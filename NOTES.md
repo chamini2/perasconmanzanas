@@ -8,3 +8,9 @@
 
 - [ ] Add Metabase
 - [ ] Add Analytics
+
+# To-do for deployment
+
+- [ ] Reverse proxy (nginx) to differentiate between `db.*` and `api.*`
+- [ ] SSL with Let's Encrypt
+- [ ] Figure out how to deploy React App (S3, probably)
