@@ -1,15 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component, MouseEvent } from 'react';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 import Badge from 'react-bootstrap/Badge';
 import { Link } from 'react-router-dom';
 import * as Paths from '../Paths';
 import UsersService, { User } from '../services/UsersService';
-import hasAccountGuard from '../wrappers/hasAccountGuard';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
 import isUndefined from 'lodash/isUndefined';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import ListGroupItem from 'react-bootstrap/ListGroupItem';
+import { Account as AccountType } from '../services/AccountsService';
+import MembersService from '../services/MemebersService';
+import { toast } from 'react-toastify';
+import { STRINGS } from '../constants';
+import { errorPGMessage } from '../services/Request';
+import { AxiosResponse } from 'axios';
 
 interface State {
   members?: User[];
