@@ -14,3 +14,7 @@ export const TIMESTAMP_FORMAT = "hh:mm:ss a 'el' " + DATE_FORMAT;
 
 export const CONTACT_EMAIL = 'hola@perasconmanzanas.com';
 export const CONTACT_TWITTER = 'chamini2';
+
+export const BASE_WEB_URL = process.env.REACT_APP_BASE_WEB_URL;
+export const BASE_POSTGREST_URL = process.env.REACT_APP_BASE_POSTGREST_URL;
+export const BASE_API_URL = process.env.REACT_APP_BASE_API_URL;

@@ -1,12 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosPromise, AxiosError, AxiosResponse } from 'axios';
-import { STRINGS } from '../constants';
+import { STRINGS, BASE_API_URL, BASE_POSTGREST_URL } from '../constants';
 import AuthService from './Auth';
 import { toast } from 'react-toastify';
-
-// TODO: move to variables or something
-export const BASE_WEB_URL = 'http://localhost:3000';
-const BASE_API_URL = 'http://localhost:5000';
-const BASE_POSTGREST_URL = 'http://localhost:4000';
 
 export const axiosAPI = axios.create({
   baseURL: BASE_API_URL,

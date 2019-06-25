@@ -12,7 +12,7 @@ import isLoggedInGuard from '../wrappers/isLoggedInGuard';
 import InvitesService, { Invite } from '../services/InvitesService';
 import isUndefined from 'lodash/isUndefined';
 import { timestampDateFormat } from '../helpers';
-import { BASE_WEB_URL } from '../services/Request';
+import { BASE_WEB_URL } from '../constants';
 import { toast } from 'react-toastify';
 import hasAccountGuard from '../wrappers/hasAccountGuard';
 import isEmpty from 'lodash/isEmpty';
