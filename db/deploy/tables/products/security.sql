@@ -4,6 +4,10 @@ BEGIN;
 
 ALTER TABLE app.products ENABLE ROW LEVEL SECURITY;
 
+CREATE POLICY api_all ON app.products
+    FOR ALL TO api
+    USING (true);
+
 CREATE POLICY user_select ON app.products
     FOR SELECT TO web_user
     USING (account_id = current_setting('request.jwt.claim.account', true));
