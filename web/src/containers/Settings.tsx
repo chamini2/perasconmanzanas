@@ -49,7 +49,7 @@ class Settings extends Component<AuthInfoProps, State> {
             </Link>
           </div>
 
-          <Accordion>
+          <Accordion defaultActiveKey='edit'>
             <Card>
               <Accordion.Toggle as={Card.Header} eventKey='edit'> Editar perfil </Accordion.Toggle>
               <Accordion.Collapse eventKey='edit'>

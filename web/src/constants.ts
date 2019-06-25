@@ -4,6 +4,8 @@ export const STRINGS = {
   UNKNOWN_ERROR: 'Error inesperado, avísale a los desarrolladores'
 };
 
+export const MIN_PASSWORD_LENGTH = 6;
+
 export const DATE_LOCALE = es;
 export const LOCALE = 'es';
 // export const DATE_FORMAT = "dd 'de' MMMM 'del' yyyy";

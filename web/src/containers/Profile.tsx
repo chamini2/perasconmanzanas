@@ -135,7 +135,7 @@ class Profile extends Component<AuthInfoProps, State> {
             onChange={this.handleChange('email')}
           />
         </FormGroup>
-        <FormGroup controlId='id' className='one-liner'>
+        <FormGroup hidden controlId='id' className='one-liner'>
           <FormLabel>ID</FormLabel>
           <FormControl
             value={user.id.toString()}

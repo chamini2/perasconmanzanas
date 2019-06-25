@@ -31,13 +31,39 @@ export default class AuthService {
     return decoded && decoded.user;
   }
 
+  static async changePassword(old_password: string, new_password: string): Promise<void> {
+    await axiosAPI.post(
+      '/api/password',
+      {
+        old_password,
+        new_password
+      },
+      { headers: authHeader(), validateStatus: defaultValidateStatus });
+  }
+
   static async login(identifier: string, password: string): Promise<void> {
-    const response = await axiosAPI.post('/api/authenticate', { identifier, password }, { responseType: 'text', validateStatus: defaultValidateStatus });
+    const response = await axiosAPI.post(
+      '/api/authenticate',
+      {
+        identifier,
+        password
+      },
+      { responseType: 'text', validateStatus: defaultValidateStatus }
+    );
     TokenHandler.storeToken(response.data);
   }
 
   static async signup(username: string, email: string, full_name: string, password: string): Promise<void> {
-    const response = await axiosAPI.post('/api/users', { username, email, full_name, password }, { responseType: 'text' });
+    const response = await axiosAPI.post(
+      '/api/users',
+      {
+        username,
+        email,
+        full_name,
+        password
+      },
+      { responseType: 'text' }
+    );
     TokenHandler.storeToken(response.data);
   }
 
@@ -55,7 +81,13 @@ export default class AuthService {
   }
 
   static async setAccount(id: string): Promise<void> {
-    const response = await axiosAPI.put('/api/account', { account: id }, { headers: authHeader(), responseType: 'text' });
+    const response = await axiosAPI.put(
+      '/api/account',
+      {
+        account: id
+      },
+      { headers: authHeader(), responseType: 'text' }
+    );
     TokenHandler.storeToken(response.data);
   }
 

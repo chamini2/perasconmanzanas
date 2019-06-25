@@ -7,7 +7,7 @@ import FormLabel from 'react-bootstrap/FormLabel';
 import AuthService from '../services/Auth';
 import { AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
-import { STRINGS } from '../constants';
+import { STRINGS, MIN_PASSWORD_LENGTH } from '../constants';
 
 interface State {
   email: string;
@@ -15,8 +15,6 @@ interface State {
   full_name: string;
   password: string;
 }
-
-const MIN_PASSWORD_LENGTH = 6;
 
 class Signup extends Component<any, State> {
 
