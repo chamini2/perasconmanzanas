@@ -4,10 +4,10 @@ import decode from 'jwt-decode';
 export type SessionRole = 'web_user' | 'web_admin';
 
 // 'exp': 1555714606
-// 'iat': 1555109806,
-// 'user': 10,
-// 'account': 'zoi',
-// 'role': 'web_user',
+// 'iat': 1555109806
+// 'user': 10
+// 'account': 'zoi'
+// 'role': 'web_user' | 'web_admin'
 export interface SessionToken {
   exp: number; // Expiration
   iat: number; // Issued at
@@ -93,6 +93,11 @@ export default class AuthService {
 
   static isAccountSet(): boolean {
     return !!AuthService.getAccount();
+  }
+
+  static getRole(): SessionRole | undefined {
+    const decoded = TokenHandler.getDecoded();
+    return decoded && decoded.role;
   }
 
   static subscribe(symbol: Symbol, cb: (event: AuthEvent) => void): void {

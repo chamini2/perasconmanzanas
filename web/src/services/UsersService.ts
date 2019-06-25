@@ -1,7 +1,8 @@
 import { axiosPG, preferHeader } from './Request';
 import { authHeader } from './Auth';
 import { Timestamp } from '../types';
-import AccountsService, { Account } from './AccountsService';
+import { Account } from './AccountsService';
+import MembersService from './MemebersService';
 
 export interface User {
   id: number;
@@ -39,7 +40,7 @@ export default class UsersService {
   }
 
   static async fetchAccountUsers(account_id: Account['id']) {
-    const userIds = await AccountsService.fetchAccountUserIds(account_id);
+    const userIds = await MembersService.fetchMembersUserIds(account_id);
 
     return await axiosPG.get<User[]>('/users', {
       headers: authHeader(),

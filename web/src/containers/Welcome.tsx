@@ -20,6 +20,7 @@ class Welcome extends Component {
           {/* TODO: create and upload video */}
           <div className='demo'>
             <iframe
+              hidden
               width='100%'
               height='100%'
               src='https://www.youtube-nocookie.com/embed/7ooW3hp7og4'
@@ -32,7 +33,7 @@ class Welcome extends Component {
         <div className='auth'>
           <Login />
           <RecoverPassword />
-          <div className='separator'></div>
+          <div className='separator-line'></div>
           <Signup />
         </div>
       </div>

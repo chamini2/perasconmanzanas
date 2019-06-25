@@ -34,13 +34,55 @@ class Account extends Component<AuthInfoProps, State> {
     }
   }
 
+  removeMember(userId: User['id'], accountId: AccountType['id']) {
+    return async (event: MouseEvent) => {
+      event.stopPropagation();
+
+      if (!window.confirm('¿Seguro que quieres sacar al miembro?')) {
+        return;
+      }
+
+      try {
+        await MembersService.removeMember(userId, accountId);
+        toast('Miembro sacado', { type: 'info' });
+
+        this.setState({ members: undefined });
+        this.componentDidMount();
+      } catch (err) {
+        console.error(err);
+        if (err.response) {
+          const errResponse = err.response as AxiosResponse<string>;
+          toast('Error en petición: ' + errorPGMessage(errResponse), { type: 'error' });
+        } else {
+          toast(STRINGS.UNKNOWN_ERROR, { type: 'error' });
+        }
+      }
+    }
+  }
+
   renderMember(user: User) {
     return <ListGroupItem
       key={user.id}
-      active={this.props.auth.userId === user.id}
     >
       {user.full_name}
       <Badge>{user.email}</Badge>
+      {
+        this.props.auth.userId === user.id
+          ? <Badge variant='primary'>Tú</Badge>
+          : null
+      }
+      {
+        this.props.auth.account!.owner_id === user.id
+          ? <Badge variant='light'>Dueño</Badge>
+          : null
+      }
+      <div style={{ float: 'right' }}>
+        {
+          this.props.auth.role === 'web_admin' && this.props.auth.account!.owner_id !== user.id
+            ? <Button variant='danger' size='sm' onClick={this.removeMember(user.id, this.props.auth.accountId!).bind(this)}>Sacar</Button>
+            : null
+        }
+      </div>
     </ListGroupItem>;
   }
 
@@ -56,7 +98,8 @@ class Account extends Component<AuthInfoProps, State> {
           : null
       }
 
-      <h3>Miembros</h3>
+      <br/>
+      <h5>Miembros</h5>
       <ListGroup>
           {
             isUndefined(members)
@@ -65,14 +108,15 @@ class Account extends Component<AuthInfoProps, State> {
           }
       </ListGroup>
 
+      <br/>
       <Button as={Link} to={Paths.Invites()}>Invitaciones</Button>
 
       <br/>
-      <h4>Pendiente: Cuenta</h4> {/* TODO: HERE */}
+      <br/>
+      <h5>Pendiente: Cuenta</h5> {/* TODO: HERE */}
       <ul>
         <li>Modificar cuenta</li>
         <li>¿Eliminar cuenta?</li>
-        <li>Sacar miembros de cuenta</li>
         <li>Encuesta: llamarlo <i>cuenta</i>, <i>proyecto</i>, <i>inventario</i></li>
       </ul>
     </div>;

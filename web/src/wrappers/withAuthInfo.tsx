@@ -1,5 +1,5 @@
 import React, { Component, ComponentClass, ComponentProps, ComponentType } from 'react';
-import AuthService from '../services/Auth';
+import AuthService, { SessionRole } from '../services/Auth';
 import UsersService, { User } from '../services/UsersService';
 import AccountsService, { Account } from '../services/AccountsService';
 import * as rxjs from 'rxjs';
@@ -13,6 +13,7 @@ export interface AuthInfo {
   user: User | undefined;
   accountId: string | undefined;
   account: Account | undefined;
+  role: SessionRole | undefined;
 }
 
 class AuthInfoHandler {
@@ -21,12 +22,14 @@ class AuthInfoHandler {
   static user?: User;
   static accountId?: string;
   static account?: Account;
+  static role?: SessionRole;
 
   static observable: rxjs.ReplaySubject<void> = new rxjs.ReplaySubject();
 
   static async updateAuthInfo() {
     this.userId = AuthService.getUser();
     this.accountId = AuthService.getAccount();
+    this.role = AuthService.getRole();
 
     if (!this.userId) {
       this.user = undefined;
@@ -75,6 +78,7 @@ export default function withAuthInfo<P extends ComponentProps<any>>(WrappedCompo
           user: AuthInfoHandler.user,
           accountId: AuthInfoHandler.accountId,
           account: AuthInfoHandler.account,
+          role: AuthInfoHandler.role,
         },
         ready: false
       };
@@ -90,6 +94,7 @@ export default function withAuthInfo<P extends ComponentProps<any>>(WrappedCompo
             user: AuthInfoHandler.user,
             accountId: AuthInfoHandler.accountId,
             account: AuthInfoHandler.account,
+            role: AuthInfoHandler.role,
           },
           ready: true,
         });
