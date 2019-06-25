@@ -4,10 +4,6 @@ BEGIN;
 
 ALTER TABLE app.movements ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY api_all ON app.movements
-    FOR ALL TO api
-    USING (true);
-
 CREATE POLICY user_select ON app.movements
     FOR SELECT TO web_user
     USING (account_id = current_setting('request.jwt.claim.account', true));

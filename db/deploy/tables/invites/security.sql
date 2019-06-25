@@ -4,10 +4,6 @@ BEGIN;
 
 ALTER TABLE app.invites ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY api_all ON app.invites
-    FOR ALL TO api
-    USING (true);
-
 CREATE POLICY admin_select ON app.invites
     FOR SELECT TO web_admin
     USING (account_id = current_setting('request.jwt.claim.account', true));

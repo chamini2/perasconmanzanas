@@ -4,10 +4,6 @@ BEGIN;
 
 ALTER TABLE app.accounts ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY api_all ON app.accounts
-    FOR ALL TO api
-    USING (true);
-
 CREATE POLICY user_select ON app.accounts
     FOR SELECT TO web_user
     USING (
