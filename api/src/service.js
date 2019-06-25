@@ -4,6 +4,11 @@ const { pool, transacting } = require('./db')
 const USER_ROLE = 'web_user'
 const ADMIN_ROLE = 'web_admin'
 
+/** @param {number} arg */
+function salting(arg) {
+    return `crypt($${arg}, gen_salt('md5'))`;
+}
+
 async function register(data) {
     const { email, username, password, full_name } = data
     let user
@@ -19,7 +24,7 @@ async function register(data) {
 
         await client.query(`
             INSERT INTO auth.users (id, password)
-            VALUES ($1, crypt($2, gen_salt('md5')))
+            VALUES ($1, ${salting(2)})
             `, [user.id, password])
     })
 
@@ -41,6 +46,30 @@ async function signIn(credentials) {
 
     return tokenData(user.id)
 }
+
+async function changePassword(decodedToken, passwordData) {
+    const userId = decodedToken.user
+    const { old_password, new_password } = passwordData
+
+    const user = await findUserByUserIdPassword(userId, old_password)
+
+    if (!user) {
+        throw httpErrors.Unauthorized('Wrong password')
+    }
+
+    const { rows } = await pool.query(`
+            UPDATE auth.users SET
+                password = ${salting(2)}
+            WHERE id = $1
+            RETURNING id
+        `, [userId, new_password])
+
+    console.log(rows, rows.count);
+    if (!rows) {
+        throw httpErrors.InternalServerError('Password not updated, try again')
+    }
+}
+
 
 async function selectAccount(decodedToken, accountId) {
     const userId = decodedToken.user
@@ -109,6 +138,17 @@ function tokenData(user, account, admin = false) {
     }
 }
 
+async function findUserByUserIdPassword(userId, password) {
+    const { rows } = await pool.query(`
+        SELECT u.*
+        FROM app.users u
+        INNER JOIN auth.users a USING (id)
+        WHERE u.id = $1 AND a.password = crypt($2, a.password)
+        `, [userId, password])
+
+    return rows[0] || null
+}
+
 async function findUserByUsernamePassword(username, password) {
     const { rows } = await pool.query(`
         SELECT u.*
@@ -134,6 +174,7 @@ async function findUserByEmailPassword(email, password) {
 module.exports = {
     register,
     signIn,
+    changePassword,
     selectAccount,
     findInvite,
     claimInvite

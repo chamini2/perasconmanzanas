@@ -26,8 +26,8 @@ app.use(cors())
 
 app.post(
     '/api/users',
-    verifyNoToken,
     express.json(),
+    verifyNoToken,
     celebrate({
         body: Joi.object({
             email: Joi.string().required(),
@@ -45,8 +45,8 @@ app.post(
 
 app.post(
     '/api/authenticate',
-    verifyNoToken,
     express.json(),
+    verifyNoToken,
     celebrate({
         body: Joi.object({
             identifier: Joi.string().required(),
@@ -57,6 +57,22 @@ app.post(
         const data = await service.signIn(req.body)
         const token = jwtSign(data)
         res.status(200).send(token)
+    })
+)
+
+app.post(
+    '/api/password',
+    express.json(),
+    verifyToken,
+    celebrate({
+        body: Joi.object({
+            old_password: Joi.string().required(),
+            new_password: Joi.string().required()
+        })
+    }),
+    asyncHandler(async function(req, res) {
+        const data = await service.changePassword(req.decoded, req.body)
+        res.status(204).send()
     })
 )
 
