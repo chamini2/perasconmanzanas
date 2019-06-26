@@ -19,7 +19,7 @@ test:
 
 .PHONY: revert_schema
 revert_schema:
-	sqitch revert -f sqitch.plan -y
+	sqitch revert -f sqitch.plan
 
 .PHONY: revert_access
 revert_access:
@@ -35,6 +35,7 @@ deploy_access:
 
 .PHONY: deploy
 deploy: deploy_schema deploy_access
+	# Remember to check access
 
 .PHONY: revert
 revert: revert_access revert_schema
