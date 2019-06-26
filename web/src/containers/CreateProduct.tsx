@@ -13,10 +13,13 @@ import { STRINGS } from '../constants';
 import { AxiosResponse } from 'axios';
 import ProductsService, { Product } from '../services/ProductsService';
 import hasAccountGuard from '../wrappers/hasAccountGuard';
+import MovementsService, { Movement } from '../services/MovementsService';
+import Paths from '../Paths';
 
 interface State {
   sku: Product['sku'];
   description: Product['description'];
+  initial_stock: Movement['quantity'];
 }
 
 class CreateProduct extends Component<RouteComponentProps & AuthInfoProps, State> {
@@ -25,7 +28,8 @@ class CreateProduct extends Component<RouteComponentProps & AuthInfoProps, State
     super(props);
     this.state = {
       sku: '',
-      description: ''
+      description: '',
+      initial_stock: 0
     };
   }
 
@@ -53,13 +57,30 @@ class CreateProduct extends Component<RouteComponentProps & AuthInfoProps, State
 
     const {
       sku,
-      description
+      description,
+      initial_stock
     } = this.state;
 
     try {
       await ProductsService.postProduct({ sku, description, account_id: this.props.auth.accountId });
-      toast('Producto creado', { type: 'info' });
-      this.props.history.goBack();
+      try {
+        if (initial_stock != 0) {
+          await MovementsService.postMovement({
+            product_sku: sku,
+            quantity: initial_stock,
+            description: 'Inventario inicial',
+            account_id: this.props.auth.accountId,
+            user_id: this.props.auth.userId
+          });
+        }
+
+        this.props.history.goBack();
+      } catch (err) {
+        this.props.history.push(Paths.CreateMovement(sku));
+      } finally {
+        toast('Producto creado', { type: 'info' });
+      }
+
     } catch (err) {
       console.error(err);
       if (err.response) {
@@ -74,7 +95,8 @@ class CreateProduct extends Component<RouteComponentProps & AuthInfoProps, State
   render() {
     const {
       sku,
-      description
+      description,
+      initial_stock
     } = this.state;
 
     return <div className='container'>
@@ -98,6 +120,14 @@ class CreateProduct extends Component<RouteComponentProps & AuthInfoProps, State
           <FormControl
             value={description}
             onChange={this.handleChange('description')}
+          />
+        </FormGroup>
+        <FormGroup controlId='stock'>
+          <FormLabel>Inventario inicial</FormLabel>
+          <FormControl
+            type='number'
+            value={initial_stock + ''}
+            onChange={this.handleChange('initial_stock')}
           />
         </FormGroup>
 
