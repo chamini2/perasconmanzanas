@@ -44,9 +44,9 @@ VALUES
     ('L-GRAY', 'gloves', 100, 20, 'Inventory start', CURRENT_TIMESTAMP - interval '1 month'),
     ('M-GRAY', 'gloves', 200, 2, 'Inventory start', CURRENT_TIMESTAMP - interval '1 month'),
     ('M-CUB', 'puros', 200, 204, 'Comienzo de inventario', CURRENT_TIMESTAMP - interval '2 weeks'),
-    ('L-GRAY', 'gloves', 100, -12, 'Venta a Luis', CURRENT_TIMESTAMP - interval '13 days'),
-    ('L-GRAY', 'gloves', 300, -24, 'Venta a José', CURRENT_TIMESTAMP - interval '12 days 20 hours'),
-    ('L-GRAY', 'gloves', 100, -12, 'Venta a Carlos', CURRENT_TIMESTAMP - interval '8 days'),
-    ('L-GRAY', 'gloves', 300, -6, 'Venta a Manuel', CURRENT_TIMESTAMP - interval '20 hours'),
-    ('M-GRAY', 'gloves', 300, -2, 'Venta a proveedor', CURRENT_TIMESTAMP - interval '2 hours'),
-    ('L-GRAY', 'gloves', 300, -36, 'Venta a Alberto', CURRENT_TIMESTAMP);
+    ('M-CUB', 'puros', 100, -12, 'Venta a Luis', CURRENT_TIMESTAMP - interval '13 days'),
+    ('M-CUB', 'puros', 300, -24, 'Venta a José', CURRENT_TIMESTAMP - interval '12 days 20 hours'),
+    ('M-CUB', 'puros', 100, -12, 'Venta a Carlos', CURRENT_TIMESTAMP - interval '8 days'),
+    ('M-CUB', 'puros', 300, -6, 'Venta a Manuel', CURRENT_TIMESTAMP - interval '20 hours'),
+    ('M-CUB', 'puros', 300, -2, 'Venta a proveedor', CURRENT_TIMESTAMP - interval '2 hours'),
+    ('M-CUB', 'puros', 300, -36, 'Venta a Alberto', CURRENT_TIMESTAMP);
