@@ -34,7 +34,7 @@ class ProductDetails extends Component<RouteComponentProps<RouteParams>, Product
 
   render() {
     if (isEmpty(this.state)) {
-      return <h3>Cargando producto...</h3>;
+      return <h3>Cargando...</h3>;
     }
 
     const product = this.state as Product;

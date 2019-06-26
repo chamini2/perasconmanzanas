@@ -18,6 +18,8 @@ import { ValueType } from 'react-select/lib/types';
 import isUndefined from 'lodash/isUndefined';
 import MovementsService from '../services/MovementsService';
 import hasAccountGuard from '../wrappers/hasAccountGuard';
+import { Link } from 'react-router-dom';
+import * as Paths from '../Paths';
 
 interface State {
   product_sku: Product['sku'] | undefined;
@@ -135,6 +137,27 @@ class CreateMovement extends Component<AuthInfoProps & RouteComponentProps, Stat
       options
     } = this.state;
 
+    if (options && options.length == 0) {
+      return <div className='CreateMovement container'>
+        <h3>Nuevo movimiento</h3>
+
+        <div>Antes de crear un movimiento debes crear un producto a asociar.</div>
+
+        <Button as={Link} to={Paths.CreateProduct()}>Nuevo producto</Button>
+        <Button
+          variant='secondary'
+          block
+          onClick={(event: React.MouseEvent) => {
+            event.stopPropagation();
+            console.log(this.props.history.length);
+            this.props.history.goBack();
+          }}
+        >
+          Cancelar
+        </Button>
+      </div>;
+    }
+
     return <div className='CreateMovement container'>
       <h3>Nuevo movimiento</h3>
 
@@ -142,9 +165,11 @@ class CreateMovement extends Component<AuthInfoProps & RouteComponentProps, Stat
         <FormGroup controlId='sku'>
           <FormLabel>Producto</FormLabel>
           <Select
+            autoFocus
             isLoading={isUndefined(options)}
             isSearchable
             options={options}
+            defaultMenuIsOpen
             onChange={this.handleSelectChange('product_sku', '')}
           />
         </FormGroup>
