@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 import { Link } from 'react-router-dom';
-import * as Paths from '../Paths';
+import Paths from '../Paths';
 import { CONTACT_EMAIL, CONTACT_TWITTER } from '../constants';
 
 export const headerContainerStyle: React.CSSProperties = {

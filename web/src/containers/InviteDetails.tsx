@@ -10,7 +10,7 @@ import { AxiosResponse } from 'axios';
 import { errorPGMessage } from '../services/Request';
 import isUndefined from 'lodash/isUndefined';
 import AuthService from '../services/Auth';
-import * as Paths from '../Paths';
+import Paths from '../Paths';
 
 interface RouteParams {
   account: string;

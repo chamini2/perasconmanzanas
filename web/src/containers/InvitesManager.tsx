@@ -17,7 +17,7 @@ import { toast } from 'react-toastify';
 import hasAccountGuard from '../wrappers/hasAccountGuard';
 import isEmpty from 'lodash/isEmpty';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
-import * as Paths from '../Paths';
+import Paths from '../Paths';
 
 interface State {
   claimed: Invite[] | undefined;

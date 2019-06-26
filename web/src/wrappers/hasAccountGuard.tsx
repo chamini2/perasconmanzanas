@@ -2,7 +2,7 @@ import React, { Component, ComponentClass, ComponentProps, ComponentType } from 
 import AuthService from '../services/Auth';
 import { Redirect, withRouter, RouteComponentProps } from 'react-router';
 import querystring from 'query-string';
-import * as Paths from '../Paths';
+import Paths from '../Paths';
 
 export default function hasAccountGuard<P extends ComponentProps<any>>(WrappedComponent: ComponentType<P>): ComponentClass<P> {
 

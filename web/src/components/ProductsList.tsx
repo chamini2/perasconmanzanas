@@ -2,7 +2,7 @@ import './ProductsList.scss';
 import React, { Component } from 'react';
 import isUndefined from 'lodash/isUndefined';
 import Table from 'react-bootstrap/Table';
-import * as Paths from '../Paths';
+import Paths from '../Paths';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import ProductsService, { Product } from '../services/ProductsService';
 

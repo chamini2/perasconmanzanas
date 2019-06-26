@@ -19,7 +19,8 @@ import isUndefined from 'lodash/isUndefined';
 import MovementsService from '../services/MovementsService';
 import hasAccountGuard from '../wrappers/hasAccountGuard';
 import { Link } from 'react-router-dom';
-import * as Paths from '../Paths';
+import Paths from '../Paths';
+import querystring from 'query-string';
 
 interface State {
   product_sku: Product['sku'] | undefined;

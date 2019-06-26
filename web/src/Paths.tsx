@@ -1,65 +1,77 @@
 import isUndefined from 'lodash/isUndefined';
+import { Product } from './services/ProductsService';
+import { Invite } from './services/InvitesService';
 
-export function Home(path?: string) {
-  if (isUndefined(path)) {
-    return '/';
-  } else {
-    return '/?back=' + encodeURIComponent(path);
+export default {
+  Home(path?: string) {
+    const base = '/';
+    if (isUndefined(path)) {
+      return base;
+    } else {
+      return base + '?back=' + encodeURIComponent(path);
+    }
+  },
+
+  AccountSelector(path?: string) {
+    const base = '/accounts';
+    if (isUndefined(path)) {
+      return base;
+    } else {
+      return base + '?back=' + encodeURIComponent(path);
+    }
+  },
+
+  CreateAccount() {
+    return '/accounts/new';
+  },
+
+  ProductsIndex() {
+    return '/products';
+  },
+
+  CreateProduct() {
+    return '/products/new';
+  },
+
+  ProductDetails(sku: Product['sku'], description?: Product['description']) {
+    const base = '/products/' + sku;
+    if (isUndefined(description)) {
+      return base;
+    } else {
+      return base + '/' + description;
+    }
+  },
+
+  MovementsIndex() {
+    return '/movements';
+  },
+
+  CreateMovement(sku?: Product['sku']) {
+    const base = '/movements/new';
+    if (isUndefined(sku)) {
+      return base;
+    } else {
+      return base + '?sku=' + sku;
+    }
+  },
+
+  Members() {
+    return '/members';
+  },
+
+  Invites() {
+    return '/invites';
+  },
+
+  InviteDetails(account: Account['id'], code: Invite['id']) {
+    return '/invites/' + account + '/' + code;
+  },
+
+  Settings() {
+    return '/settings';
+  },
+
+  PageNotFound() {
+    return '/404';
   }
-}
-
-export function AccountSelector(path?: string) {
-  if (isUndefined(path)) {
-    return '/accounts';
-  } else {
-    return '/accounts?back=' + encodeURIComponent(path);
-  }
-}
-
-export function CreateAccount() {
-  return '/accounts/new';
-}
-
-export function ProductsIndex() {
-  return '/products';
-}
-
-export function CreateProduct() {
-  return '/products/new';
-}
-
-export function ProductDetails(sku: string, description?: string) {
-  if (description) {
-    return `/products/${sku}/${description}`;
-  } else {
-    return `/products/${sku}`;
-  }
-}
-
-export function MovementsIndex() {
-  return '/movements';
-}
-
-export function CreateMovement() {
-  return '/movements/new';
-}
-
-export function Members() {
-  return '/members';
-}
-
-export function Invites() {
-  return '/invites';
-}
-
-export function InviteDetails(account: string, code: string) {
-  return `/invites/${account}/${code}`;
-}
-
-export function Settings() {
-  return '/settings';
-}
-
-export function PageNotFound() {
-  return '/404';
 }

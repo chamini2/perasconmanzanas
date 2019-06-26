@@ -12,7 +12,7 @@ import { RouteComponentProps, Redirect } from 'react-router';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
 import isUndefined from 'lodash/isUndefined';
 import querystring from 'query-string';
-import * as Paths from '../Paths';
+import Paths from '../Paths';
 
 interface State {
   accounts: Account[] | undefined;
