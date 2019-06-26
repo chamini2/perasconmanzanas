@@ -3,6 +3,7 @@ version: '3'
 services:
   nginx:
     image: nginx:1.15-alpine
+    container_name: nginx
     restart: unless-stopped
     volumes:
       - ./deploy/data/nginx/:/etc/nginx/conf.d
@@ -11,18 +12,25 @@ services:
     ports:
       - 80:80
       - 443:443
+    depends_on:
+      - api
+      - server
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
   certbot:
     image: certbot/certbot
+    container_name: certbot
     restart: unless-stopped
     volumes:
       - ./deploy/data/certbot/conf:/etc/letsencrypt
       - ./deploy/data/certbot/www:/var/www/certbot
+    depends_on:
+      - nginx
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
   server:
     image: postgrest/postgrest
+    container_name: server
     restart: unless-stopped
     ports:
       - 4000:3000
@@ -34,6 +42,7 @@ services:
 
   api:
     image: node:11
+    container_name: api
     restart: unless-stopped
     user: node
     working_dir: /home/node/app
@@ -44,4 +53,4 @@ services:
       - 5000:5000
     volumes:
       - ./api:/home/node/app
-    command: npm start
+    command: "/bin/sh -c 'npm ci --production && npm start'"

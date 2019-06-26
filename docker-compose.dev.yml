@@ -24,7 +24,7 @@ services:
       - 5000:5000
     volumes:
       - ./api:/home/node/app
-    command: npm start
+    command: "/bin/sh -c 'npm install && npm start'"
 
   db:
     image: postgres:11.2-alpine
