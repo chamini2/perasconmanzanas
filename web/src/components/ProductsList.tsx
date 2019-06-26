@@ -4,10 +4,10 @@ import isUndefined from 'lodash/isUndefined';
 import Table from 'react-bootstrap/Table';
 import Paths from '../Paths';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import ProductsService, { Product } from '../services/ProductsService';
+import ProductsService, { ProductView } from '../services/ProductsService';
 
 interface State {
-  products: Product[] | undefined;
+  products: ProductView[] | undefined;
 }
 
 class ProductsList extends Component<RouteComponentProps, State> {
@@ -24,7 +24,7 @@ class ProductsList extends Component<RouteComponentProps, State> {
     this.setState({ products });
   }
 
-  renderProduct(product: Product) {
+  renderProduct(product: ProductView) {
     return <tr
       key={product.sku}
       onClick={event => {
@@ -35,6 +35,7 @@ class ProductsList extends Component<RouteComponentProps, State> {
     >
       <td>{product.sku}</td>
       <td>{product.description}</td>
+      <td>{product.stock}</td>
     </tr>;
   }
 
@@ -53,6 +54,7 @@ class ProductsList extends Component<RouteComponentProps, State> {
           <tr>
             <th scope='col'>SKU</th>
             <th scope='col'>Descripción</th>
+            <th scope='col'>Cantidad</th>
           </tr>
         </thead>
         <tbody>

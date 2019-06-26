@@ -10,10 +10,14 @@ export interface Product {
   account_id: Account['id'];
 }
 
+export interface ProductView extends Product {
+  stock: number;
+}
+
 export default class ProductsService {
 
   static async fetchAllProducts() {
-    const res = await axiosPG.get<Product[]>('/products', {
+    const res = await axiosPG.get<ProductView[]>('/products_view', {
       headers: {
         ...authHeader(),
       },
@@ -26,7 +30,7 @@ export default class ProductsService {
   }
 
   static async fetchProduct(sku: Product['sku']) {
-    const res = await axiosPG.get<Product[]>('/products', {
+    const res = await axiosPG.get<ProductView[]>('/products_view', {
       headers: {
         ...authHeader(),
       },
@@ -39,7 +43,7 @@ export default class ProductsService {
   }
 
   static async postProduct(payload: Partial<Product>) {
-    const res = await axiosPG.post<Account[]>('/products', payload, {
+    const res = await axiosPG.post<Product[]>('/products', payload, {
       headers: {
         ...authHeader(),
         ...preferHeader({ return: 'representation' })

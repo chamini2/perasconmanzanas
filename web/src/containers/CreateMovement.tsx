@@ -2,7 +2,7 @@ import './CreateMovement.scss';
 import React, { Component } from 'react';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
-import ProductsService, { Product } from '../services/ProductsService';
+import ProductsService, { Product, ProductView } from '../services/ProductsService';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import FormGroup from 'react-bootstrap/FormGroup';
@@ -24,6 +24,9 @@ import querystring from 'query-string';
 
 interface State {
   product_sku: Product['sku'] | undefined;
+  default_sku?: Product['sku'];
+  products?: ProductView[];
+  product?: ProductView;
   quantity: number;
   positive: boolean;
   description: string;
@@ -37,18 +40,35 @@ class CreateMovement extends Component<AuthInfoProps & RouteComponentProps, Stat
 
   constructor(props: any) {
     super(props);
+
+    const queryParams = querystring.parse(this.props.location.search);
     this.state = {
-      product_sku: undefined,
       quantity: 1,
       positive: false,
-      description: ''
+      description: '',
+      product_sku: undefined,
+      default_sku: queryParams.sku && typeof queryParams.sku === 'string' ? queryParams.sku : undefined
     };
   }
 
   async componentDidMount() {
     const products = await ProductsService.fetchAllProducts();
     const options = products.map(product => ({ value: product.sku, label: `${product.description} - ${product.sku}` }))
-    this.setState({ options });
+
+    this.setState({ products, options });
+  }
+
+  componentDidUpdate(_prevProps: CreateMovement['props'], prevState: State) {
+    const {
+      product_sku,
+      products
+    } = this.state;
+    if (products && prevState.product_sku !== product_sku && !isUndefined(product_sku)) {
+      const product = products.find(prod => prod.sku === product_sku);
+      if (product) {
+        this.setState({ product });
+      }
+    }
   }
 
   validateForm() {
@@ -57,8 +77,6 @@ class CreateMovement extends Component<AuthInfoProps & RouteComponentProps, Stat
       quantity,
       description
     } = this.state;
-
-    console.log(this.state);
 
     return !!product_sku && quantity > 0 && description.length > 0;
   }
@@ -132,6 +150,8 @@ class CreateMovement extends Component<AuthInfoProps & RouteComponentProps, Stat
 
   render() {
     const {
+      default_sku,
+      product,
       quantity,
       description,
       positive,
@@ -166,11 +186,12 @@ class CreateMovement extends Component<AuthInfoProps & RouteComponentProps, Stat
         <FormGroup controlId='sku'>
           <FormLabel>Producto</FormLabel>
           <Select
+            options={options}
             autoFocus
+            defaultInputValue={default_sku}
+            defaultMenuIsOpen
             isLoading={isUndefined(options)}
             isSearchable
-            options={options}
-            defaultMenuIsOpen
             onChange={this.handleSelectChange('product_sku', '')}
           />
         </FormGroup>
@@ -200,7 +221,7 @@ class CreateMovement extends Component<AuthInfoProps & RouteComponentProps, Stat
         </FormGroup>
 
         <FormGroup controlId='quantity'>
-          <FormLabel>Cantidad: Mayor o igual a 1</FormLabel>
+          <FormLabel>Cantidad: Mayor o igual a 1 {product ? `(hay ${product.stock})` : null}</FormLabel>
           <FormControl
             value={quantity + ''}
             onChange={this.handleChange('quantity')}

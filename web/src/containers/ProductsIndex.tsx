@@ -31,7 +31,6 @@ class ProductsIndex extends Component<{}, {}> {
 
         <h4>Pendiente: ProductIndex</h4> {/* TODO: HERE */}
         <ul>
-          <li>Agregar información de <i>stock</i></li>
           <li>Modificar producto</li>
           <li>¿Eliminar producto?</li>
         </ul>
