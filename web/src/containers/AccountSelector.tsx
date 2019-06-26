@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
 import ListGroupItem from 'react-bootstrap/ListGroupItem';
 import Badge from 'react-bootstrap/Badge';
@@ -80,8 +80,7 @@ class AccountSelector extends Component<AuthInfoProps & RouteComponentProps, Sta
               : accounts.map(this.renderAccount)
           }
           <ListGroupItem
-            as={Link}
-            to='/accounts/new'
+            href='/accounts/new'
             variant='secondary'
             action
             style={{ cursor: 'pointer' }}

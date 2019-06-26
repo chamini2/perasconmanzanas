@@ -1,7 +1,6 @@
 import React, { Component, MouseEvent } from 'react';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 import Badge from 'react-bootstrap/Badge';
-import { Link } from 'react-router-dom';
 import Paths from '../Paths';
 import UsersService, { User } from '../services/UsersService';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
@@ -109,7 +108,7 @@ class Account extends Component<AuthInfoProps, State> {
       </ListGroup>
 
       <br/>
-      <Button as={Link} to={Paths.Invites()}>Invitaciones</Button>
+      <Button href={Paths.Invites()}>Invitaciones</Button>
 
       <br/>
       <br/>

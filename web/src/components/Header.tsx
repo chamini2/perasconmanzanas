@@ -6,7 +6,6 @@ import NavLink from 'react-bootstrap/NavLink';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
-import { Link } from 'react-router-dom';
 import Paths from '../Paths';
 import { CONTACT_EMAIL, CONTACT_TWITTER } from '../constants';
 
@@ -61,7 +60,7 @@ class Header extends Component<AuthInfoProps, State> {
     } = this.state;
 
     return <Navbar className='Header'>
-      <NavLink title='Inicio' className='home-link' as={Link} to={Paths.Home()}>
+      <NavLink title='Inicio' className='home-link' href={Paths.Home()}>
         <h4 className='logo'>🍐➕🍎</h4>
         {this.account()}
       </NavLink>
@@ -69,7 +68,7 @@ class Header extends Component<AuthInfoProps, State> {
       <div className='separator'></div>
 
       <Button hidden variant='outline-warning' title='Contáctame' className='to-end' onClick={this.showContactModal.bind(this)}> ✉️ </Button>
-      <Button variant='outline-dark' title='Preferencias' className='to-end' as={Link} to={Paths.Settings()}> ⚙️ </Button>
+      <Button variant='outline-dark' title='Preferencias' className='to-end' href={Paths.Settings()}> ⚙️ </Button>
 
       <Modal className='Modal-Header-contact' show={showContactModal} onHide={this.hideContactModal.bind(this)}>
         <Modal.Header closeButton> Contáctame </Modal.Header>

@@ -18,7 +18,6 @@ import { ValueType } from 'react-select/lib/types';
 import isUndefined from 'lodash/isUndefined';
 import MovementsService from '../services/MovementsService';
 import hasAccountGuard from '../wrappers/hasAccountGuard';
-import { Link } from 'react-router-dom';
 import Paths from '../Paths';
 import querystring from 'query-string';
 
@@ -164,7 +163,7 @@ class CreateMovement extends Component<AuthInfoProps & RouteComponentProps, Stat
 
         <div>Antes de crear un movimiento debes crear un producto a asociar.</div>
 
-        <Button as={Link} to={Paths.CreateProduct()}>Nuevo producto</Button>
+        <Button href={Paths.CreateProduct()}>Nuevo producto</Button>
         <Button
           variant='secondary'
           block

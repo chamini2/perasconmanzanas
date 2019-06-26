@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
-import { withRouter, RouteComponentProps, Link } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import ProductsService, { ProductView } from '../services/ProductsService';
 import isUndefined from 'lodash/isUndefined';
@@ -54,10 +54,7 @@ class ProductDetails extends Component<RouteComponentProps<RouteParams>, State> 
         <h6>En el sistema desde el {timestampDateFormat(product.created_at)}</h6>
 
         <MovementsList product={product.sku} />
-        <Button
-          as={Link}
-          to={Paths.CreateMovement(product.sku)}
-        >
+        <Button href={Paths.CreateMovement(product.sku)}>
           Agregar un movimiento
         </Button>
       </div>

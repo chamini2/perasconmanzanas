@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import MovementsList from '../components/MovementsList';
 import hasAccountGuard from '../wrappers/hasAccountGuard';
+import Paths from '../Paths';
 
 class Dashboard extends Component {
 
@@ -13,17 +14,11 @@ class Dashboard extends Component {
       <Header />
 
       <div style={headerSiblingStyle} className='inner'>
-        <Button
-          as={Link}
-          to='/movements/new'
-        >
+        <Button href={Paths.CreateMovement()}>
           Agregar un movimiento
         </Button>
 
-        <Button
-          as={Link}
-          to='/products'
-        >
+        <Button href={Paths.ProductsIndex()} >
           Productos
         </Button>
 

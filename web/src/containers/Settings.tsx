@@ -11,6 +11,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import ChangePassword from './ChangePassword';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 import Button from 'react-bootstrap/Button';
+import Paths from '../Paths';
 
 interface State {
   profileCollapse: 'edit' | 'password';
@@ -74,14 +75,14 @@ class Settings extends Component<AuthInfoProps, State> {
             ? <div className='account'>
                 <div className='inner-header'>
                   <h3>Cuenta</h3>
-                  <Link to='/accounts'>Seleccionar cuenta</Link>
+                  <Link to={Paths.AccountSelector()}>Seleccionar cuenta</Link>
                 </div>
 
                 <Account />
 
               </div>
             : <div className='account'>
-                <Button as={Link} to='/accounts' style={{display: 'block'}}>Seleccionar cuenta</Button>
+                <Button href={Paths.AccountSelector()} style={{display: 'block'}}>Seleccionar cuenta</Button>
               </div>
         }
       </div>
