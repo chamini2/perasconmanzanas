@@ -63,7 +63,10 @@ interface State {
   ready: boolean
 }
 
-export default function withAuthInfo<P extends ComponentProps<any>>(WrappedComponent: ComponentType<AuthInfoProps & P>): ComponentClass<P, State> {
+export default function withAuthInfo<P extends ComponentProps<any>>(
+  WrappedComponent: ComponentType<AuthInfoProps & P>,
+  notReadyHandling: boolean = false
+): ComponentClass<P, State> {
 
   return class extends Component<P, State> {
     symbol: symbol;
@@ -108,7 +111,7 @@ export default function withAuthInfo<P extends ComponentProps<any>>(WrappedCompo
     }
 
     render() {
-      if (this.state.ready) {
+      if (this.state.ready || notReadyHandling) {
         return <WrappedComponent
           {...this.props}
           auth={this.state.info}

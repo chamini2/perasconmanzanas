@@ -68,7 +68,7 @@ class Header extends Component<AuthInfoProps, State> {
       <div className='separator'></div>
 
       <Button hidden variant='outline-warning' title='Contáctame' className='to-end' onClick={this.showContactModal.bind(this)}> ✉️ </Button>
-      <Button variant='outline-dark' title='Preferencias' className='to-end' href={Paths.Settings()}> ⚙️ </Button>
+      <Button variant='outline-dark' title='Preferencias' className='to-end' href={Paths.Settings()}> ⚙️ Preferencias </Button>
 
       <Modal className='Modal-Header-contact' show={showContactModal} onHide={this.hideContactModal.bind(this)}>
         <Modal.Header closeButton> Contáctame </Modal.Header>
@@ -86,4 +86,4 @@ class Header extends Component<AuthInfoProps, State> {
 
 }
 
-export default withAuthInfo<{}>(Header);
+export default withAuthInfo<{}>(Header, true);
