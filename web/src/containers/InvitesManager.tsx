@@ -66,13 +66,16 @@ class InvitesManager extends Component<AuthInfoProps, State> {
       key={invite.id}
       className='invite'
     >
-      <code className='notes'>{invite.notes}</code>
+      <code className='notes'>
+        {invite.notes}<br/>
+        {timestampDateFormat(invite.created_at)}
+      </code>
       <span style={{display: 'flex'}}>
-        <code>{timestampDateFormat(invite.created_at)}</code>
-        <div
+        <Button
+          size='sm'
+          variant='outline-warning'
           hidden={!isDeleted}
           className='action'
-          title='Deshacer eliminado'
           onClick={async (event: React.MouseEvent) => {
             event.stopPropagation();
             await InvitesService.postInvite({ ...invite, claimed_by: undefined });
@@ -84,13 +87,14 @@ class InvitesManager extends Component<AuthInfoProps, State> {
             this.setState({ deleted });
           }}
         >
-          ⏮
-        </div>
+          Deshacer
+        </Button>
 
-        <div
+        <Button
+          size='sm'
+          variant='outline-primary'
           hidden={isDeleted}
           className='action'
-          title='Copiar enlace'
           onClick={async (event: React.MouseEvent) => {
             event.stopPropagation();
 
@@ -110,10 +114,12 @@ class InvitesManager extends Component<AuthInfoProps, State> {
             toast('Enlace copiado', { type: 'info', toastId: 'invite-clipboard-copied' });
           }}
         >
-          📋
-        </div>
+          Copiar
+        </Button>
 
-        <div
+        <Button
+          size='sm'
+          variant='outline-danger'
           hidden={isDeleted}
           className='action'
           title='Eliminar'
@@ -129,7 +135,7 @@ class InvitesManager extends Component<AuthInfoProps, State> {
           }}
         >
           🗑
-        </div>
+        </Button>
       </span>
     </ListGroupItem>;
   }
@@ -165,7 +171,7 @@ class InvitesManager extends Component<AuthInfoProps, State> {
     return <div style={headerContainerStyle} className='container'>
       <Header />
       <div style={headerSiblingStyle} className='InvitesManager'>
-      <h3>Enviar invitación</h3>
+        <h3>Crear invitación</h3>
         <Form
           onSubmit={async (event: React.FormEvent) => {
             event.preventDefault();
@@ -186,11 +192,12 @@ class InvitesManager extends Component<AuthInfoProps, State> {
             />
           </FormGroup>
           <Button type='submit'>
-            Enviar
+            Crear
           </Button>
         </Form>
+        <br />
 
-        <h3>Invitaciones enviadas</h3>
+        <h3>Invitaciones por usar</h3>
         <div>
           Copia el enlace de la invitación que quieras enviar y
           pásalo al destinatario por correo, mensaje u otro medio.
