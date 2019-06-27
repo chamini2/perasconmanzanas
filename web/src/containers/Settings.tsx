@@ -81,8 +81,8 @@ class Settings extends Component<AuthInfoProps, State> {
                 <Account />
 
               </div>
-            : <div className='account'>
-                <Button href={Paths.AccountSelector()} style={{display: 'block'}}>Seleccionar proyecto</Button>
+            : <div className='account' style={{ textAlign: 'center' }}>
+                <Button href={Paths.AccountSelector(Paths.Settings())}>Seleccionar proyecto</Button>
               </div>
         }
       </div>
