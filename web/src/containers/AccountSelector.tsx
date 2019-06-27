@@ -72,7 +72,7 @@ class AccountSelector extends Component<AuthInfoProps & RouteComponentProps, Sta
     return <div style={headerContainerStyle} className='container'>
       <Header />
       <div style={headerSiblingStyle} className='AccountSelector'>
-        <h3>Selecciona en la cuenta que vas a trabajar</h3>
+        <h3>Selecciona el proyecto en el que vas a trabajar</h3>
         <ListGroup>
           {
             isUndefined(accounts)
@@ -85,7 +85,7 @@ class AccountSelector extends Component<AuthInfoProps & RouteComponentProps, Sta
             action
             style={{ cursor: 'pointer' }}
           >
-            Crear una cuenta
+            Crear un proyecto
           </ListGroupItem>
         </ListGroup>
       </div>

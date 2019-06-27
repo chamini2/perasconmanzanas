@@ -74,15 +74,15 @@ class Settings extends Component<AuthInfoProps, State> {
           this.props.auth.account
             ? <div className='account'>
                 <div className='inner-header'>
-                  <h3>Cuenta</h3>
-                  <Link to={Paths.AccountSelector()}>Seleccionar cuenta</Link>
+                  <h3>Proyecto</h3>
+                  <Link to={Paths.AccountSelector()}>Seleccionar proyecto</Link>
                 </div>
 
                 <Account />
 
               </div>
             : <div className='account'>
-                <Button href={Paths.AccountSelector()} style={{display: 'block'}}>Seleccionar cuenta</Button>
+                <Button href={Paths.AccountSelector()} style={{display: 'block'}}>Seleccionar proyecto</Button>
               </div>
         }
       </div>

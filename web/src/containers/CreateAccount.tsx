@@ -58,7 +58,7 @@ class CreateAccount extends Component<AuthInfoProps & RouteComponentProps, State
 
     try {
       const account = await AccountsService.postAccount({ id, name, owner_id: this.props.auth.userId });
-      toast('Cuenta creada', { type: 'info' });
+      toast('Proyecto creado', { type: 'info' });
       await AuthService.setAccount(account.id);
       this.props.history.replace('/');
     } catch (err) {
@@ -79,7 +79,7 @@ class CreateAccount extends Component<AuthInfoProps & RouteComponentProps, State
     } = this.state;
 
     return <div className='container'>
-      <h3>Nueva cuenta</h3>
+      <h3>Nuevo proyecto</h3>
 
       <Form onSubmit={this.handleSubmit}>
         <FormGroup controlId='id'>
@@ -90,7 +90,7 @@ class CreateAccount extends Component<AuthInfoProps & RouteComponentProps, State
           />
         </FormGroup>
         <FormGroup controlId='name'>
-          <FormLabel>Nombre: un nombre más descriptivo de tu cuenta</FormLabel>
+          <FormLabel>Nombre: un nombre más descriptivo de tu proyecto</FormLabel>
           <FormControl
             value={name}
             onChange={this.handleChange('name')}
@@ -102,7 +102,7 @@ class CreateAccount extends Component<AuthInfoProps & RouteComponentProps, State
           disabled={!this.validateForm()}
           type='submit'
         >
-          Crear cuenta
+          Crear proyecto
         </Button>
 
         <Button

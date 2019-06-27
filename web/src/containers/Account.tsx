@@ -112,11 +112,10 @@ class Account extends Component<AuthInfoProps, State> {
 
       <br/>
       <br/>
-      <h5>Pendiente: Cuenta</h5> {/* TODO: HERE */}
+      <h5>Pendiente: Proyecto</h5> {/* TODO: HERE */}
       <ul>
-        <li>Modificar cuenta</li>
-        <li>¿Eliminar cuenta?</li>
-        <li>Encuesta: llamarlo <i>cuenta</i>, <i>proyecto</i>, <i>inventario</i></li>
+        <li>Modificar proyecto</li>
+        <li>¿Eliminar proyecto?</li>
       </ul>
     </div>;
   }
