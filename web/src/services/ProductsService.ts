@@ -53,4 +53,18 @@ export default class ProductsService {
     return res.data[0];
   }
 
+  static async patchProduct(sku: Product['sku'], payload: Partial<Product>) {
+    const res = await axiosPG.patch<Product[]>('/products', payload, {
+      headers: {
+        ...authHeader(),
+        ...preferHeader({ return: 'representation' })
+      },
+      params: {
+        sku: 'eq.' + sku
+      }
+    });
+
+    return res.data[0];
+  }
+
 }
