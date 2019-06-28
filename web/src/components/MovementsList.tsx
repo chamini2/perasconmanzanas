@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import MovementsService, { Movement } from '../services/MovementsService';
 import isUndefined from 'lodash/isUndefined';
 import Table from 'react-bootstrap/Table';
+import Accordion from 'react-bootstrap/Accordion'
 import Paths from '../Paths';
 import { Link } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
@@ -45,10 +46,17 @@ class MovementsList extends Component<Props, State> {
     const negative = movement.quantity < 0;
     const icon = negative ? <span style={{ color: 'red' }}>↓</span> : <span style={{ color: 'green' }}>↑</span>;
 
+    const descriptionId = 'description-' + movement.id;
     return <tr key={movement.id}>
       <td>{icon} {Math.abs(movement.quantity)}</td>
-      <td>
-        <Link to={Paths.ProductDetails(movement.product.sku, movement.product.description)}>{movement.product.sku}</Link>
+      <td title={movement.product.description} style={{ width: '50%'}}>
+        <Accordion>
+          <div style={{ display: 'flex' }}>
+            <Link to={Paths.ProductDetails(movement.product.sku, movement.product.description)}>{movement.product.sku}</Link>
+            <Accordion.Toggle as='span' style={{ marginLeft: 'auto' }} eventKey={descriptionId}>🔍</Accordion.Toggle>
+          </div>
+          <Accordion.Collapse style={{ width: '100%' }} eventKey={descriptionId}><>{movement.product.description}</></Accordion.Collapse>
+        </Accordion>
       </td>
       <td>{movement.user.username}</td>
       <td>{timestampDateFormat(movement.created_at)}</td>
