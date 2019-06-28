@@ -15,6 +15,7 @@ import ProductsService, { Product } from '../services/ProductsService';
 import hasAccountGuard from '../wrappers/hasAccountGuard';
 import MovementsService, { Movement } from '../services/MovementsService';
 import Paths from '../Paths';
+import Badge from 'react-bootstrap/Badge';
 
 interface RouteParams {
   sku: string;
@@ -98,6 +99,12 @@ class EditProduct extends Component<RouteComponentProps<RouteParams> & AuthInfoP
 
     return <div className='container'>
       <h3>Editar producto <code>{old_sku}</code></h3>
+
+      {
+        this.props.auth.role !== 'web_admin'
+          ? <><Badge variant='warning'>Debes ser administrador de la cuenta</Badge> <br/> <br/></>
+          : null
+      }
 
       <Form onSubmit={this.handleSubmit}>
         <FormGroup controlId='sku'>

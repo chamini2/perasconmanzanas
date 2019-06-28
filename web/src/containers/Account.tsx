@@ -114,6 +114,7 @@ class Account extends Component<AuthInfoProps, State> {
       <br/>
       <h5>Pendiente: Proyecto</h5> {/* TODO: HERE */}
       <ul>
+        <li>Agregar/quitar administradores</li>
         <li>Modificar proyecto</li>
         <li>¿Eliminar proyecto?</li>
       </ul>
