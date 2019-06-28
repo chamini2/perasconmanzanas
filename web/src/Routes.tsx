@@ -15,6 +15,7 @@ import ProductDetails from './containers/ProductDetails';
 import MovementsIndex from './containers/MovementsIndex';
 import InvitesManager from './containers/InvitesManager';
 import InviteDetails from './containers/InviteDetails';
+import EditProduct from './containers/EditProduct';
 
 const SlideTransition = cssTransition({
   enter: 'Toastify__slide-enter',
@@ -32,15 +33,15 @@ function Routes() {
         <Route path={Paths.CreateAccount()} exact component={CreateAccount} />
         <Route path={Paths.ProductsIndex()} exact component={ProductsIndex} />
         <Route path={Paths.CreateProduct()} exact component={CreateProduct} />
-        <Route path={Paths.ProductDetails(':sku')} component={ProductDetails} />
-        <Route path={Paths.ProductDetails(':sku', '*')} component={ProductDetails} />
+        <Route path={Paths.EditProduct(':sku', true)} component={EditProduct} />
+        <Route path={Paths.ProductDetails(':sku', undefined, true)} component={ProductDetails} />
+        <Route path={Paths.ProductDetails(':sku', '*', true)} component={ProductDetails} />
         <Route path={Paths.CreateMovement()} exact component={CreateMovement} />
         <Route path={Paths.MovementsIndex()} exact component={MovementsIndex} />
         <Route path={Paths.Invites()} exact component={InvitesManager} />
-        <Route path={Paths.InviteDetails(':account', ':code')} exact component={InviteDetails} />
+        <Route path={Paths.InviteDetails(':account', ':code', true)} exact component={InviteDetails} />
         <Route path={Paths.Settings()} exact component={Settings} />
-        <Route path={Paths.PageNotFound()} exact component={PageNotFound} />
-        <Redirect to={Paths.PageNotFound()} />
+        <Route component={PageNotFound} />
       </Switch>
       <ToastContainer
         autoClose={5000}

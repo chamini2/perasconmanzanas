@@ -27,13 +27,13 @@ class ProductDetails extends Component<RouteComponentProps<RouteParams>, State> 
   }
 
   async componentDidMount() {
-    const product = await ProductsService.fetchProduct(this.props.match.params['sku']);
+    const product = await ProductsService.fetchProduct(decodeURIComponent(this.props.match.params['sku']));
     if (product) {
       this.props.history.replace(Paths.ProductDetails(product.sku, product.description));
       this.setState({ product });
     } else {
       toast('Producto no encontrado', { type: 'error' });
-      this.props.history.replace('/products');
+      this.props.history.goBack();
     }
   }
 
@@ -56,6 +56,9 @@ class ProductDetails extends Component<RouteComponentProps<RouteParams>, State> 
         <MovementsList product={product.sku} />
         <Button href={Paths.CreateMovement(product.sku)}>
           Agregar un movimiento
+        </Button>
+        <Button href={Paths.EditProduct(product.sku)} style={{marginLeft: '20px'}}>
+          Editar
         </Button>
       </div>
     </div>;

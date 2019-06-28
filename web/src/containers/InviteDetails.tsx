@@ -32,7 +32,10 @@ class InviteDetails extends Component<RouteComponentProps<RouteParams>, State> {
 
   async componentDidMount() {
     try {
-      const invite = await InvitesService.fetchInvite(this.props.match.params.account, this.props.match.params.code);
+      const account = decodeURIComponent(this.props.match.params.account);
+      const code = decodeURIComponent(this.props.match.params.code);
+
+      const invite = await InvitesService.fetchInvite(account, code);
       this.setState({ invite });
     } catch (err) {
       this.setState({ invite: null });
@@ -89,7 +92,10 @@ class InviteDetails extends Component<RouteComponentProps<RouteParams>, State> {
             }
 
             try {
-              await InvitesService.claimInvite(this.props.match.params.account, this.props.match.params.code);
+              const account = decodeURIComponent(this.props.match.params.account);
+              const code = decodeURIComponent(this.props.match.params.code);
+
+              await InvitesService.claimInvite(account, code);
               this.props.history.push(Paths.AccountSelector());
             } catch (err) {
               console.error(err);

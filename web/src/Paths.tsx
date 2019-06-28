@@ -2,7 +2,12 @@ import isUndefined from 'lodash/isUndefined';
 import { Product } from './services/ProductsService';
 import { Invite } from './services/InvitesService';
 
+function rawCheck(value: string, raw: boolean) {
+  return raw ? value : encodeURIComponent(value)
+}
+
 export default {
+
   Home(path?: string) {
     const base = '/';
     if (isUndefined(path)) {
@@ -33,13 +38,17 @@ export default {
     return '/products/new';
   },
 
-  ProductDetails(sku: Product['sku'], description?: Product['description']) {
-    const base = '/products/' + sku;
+  ProductDetails(sku: Product['sku'], description?: Product['description'], raw: boolean = false) {
+    const base = '/products/' + rawCheck(sku, raw);
     if (isUndefined(description)) {
       return base;
     } else {
-      return base + '/' + description;
+      return base + '/' + rawCheck(description, raw);
     }
+  },
+
+  EditProduct(sku: Product['sku'], raw: boolean = false) {
+    return '/products/' + rawCheck(sku, raw) + '/edit';
   },
 
   MovementsIndex() {
@@ -51,7 +60,7 @@ export default {
     if (isUndefined(sku)) {
       return base;
     } else {
-      return base + '?sku=' + sku;
+      return base + '?sku=' + encodeURIComponent(sku);
     }
   },
 
@@ -63,15 +72,12 @@ export default {
     return '/invites';
   },
 
-  InviteDetails(account: Account['id'], code: Invite['id']) {
-    return '/invites/' + account + '/' + code;
+  InviteDetails(account: Account['id'], code: Invite['id'], raw: boolean = false) {
+    return '/invites/' + rawCheck(account, raw) + '/' + rawCheck(code, raw);
   },
 
   Settings() {
     return '/settings';
-  },
-
-  PageNotFound() {
-    return '/404';
   }
+
 }
