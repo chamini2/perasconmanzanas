@@ -21,9 +21,9 @@ VALUES
 
 INSERT INTO app.members (account_id, user_id, admin)
 VALUES
-    ('gloves', 100, true),
-    ('puros', 200, true),
-    ('gloves', 300, true);
+    ('gloves', 100, false),
+    ('puros', 200, false),
+    ('gloves', 300, false);
 
 INSERT INTO app.invites (account_id, notes, claimed_by_id, claimed_at)
 VALUES

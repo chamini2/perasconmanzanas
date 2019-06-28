@@ -6,7 +6,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy-production": "aws s3 cp build/ s3://perasconmanzanas.com --recursive && aws cloudfront create-invalidation --distribution-id=EZ7JQZCU3Z6XG --paths /"
   },
   "dependencies": {
     "@types/axios": "^0.14.0",
