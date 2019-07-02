@@ -67,15 +67,19 @@ class Header extends Component<AuthInfoProps, State> {
 
       <div className='separator'></div>
 
-      <Button hidden variant='outline-warning' title='Contáctame' className='to-end' onClick={this.showContactModal.bind(this)}> ✉️ </Button>
-      <Button variant='outline-dark' title='Preferencias' className='to-end' href={Paths.Settings()}> ⚙️ Preferencias </Button>
+      <Button variant='outline-warning' title='Contacto' className='to-end' onClick={this.showContactModal.bind(this)}>
+        ✉️ <span className='d-none d-md-inline'>Contacto</span>
+      </Button>
+      <Button variant='outline-dark' title='Preferencias' className='to-end' href={Paths.Settings()}>
+        ⚙️ <span className='d-none d-md-inline'>Preferencias</span>
+      </Button>
 
       <Modal className='Modal-Header-contact' show={showContactModal} onHide={this.hideContactModal.bind(this)}>
-        <Modal.Header closeButton> Contáctame </Modal.Header>
+        <Modal.Header closeButton> Contacto </Modal.Header>
         <Modal.Body>
           <h4>¿Preguntas, dudas?</h4>
-          Contáctame por
-          <ul>
+          Contáctame por la burbuja de chat abajo a la derecha de la pantalla
+          <ul hidden>
             <li> Correo electrónico a <a target='_blank' rel='noopener noreferrer' href={'mailto:' + CONTACT_EMAIL + '?subject=perasconmanzanas%3A%20Ayuda'}>{CONTACT_EMAIL}</a> </li>
             <li> Twitter a <a target='_blank' rel='noopener noreferrer' href={'//twitter.com/' + CONTACT_TWITTER}>@{CONTACT_TWITTER}</a> </li>
           </ul>

@@ -28,11 +28,6 @@ class ProductsIndex extends Component<{}, {}> {
         </div>
 
         <ProductsList />
-
-        <h4>Pendiente: ProductIndex</h4> {/* TODO: HERE */}
-        <ul>
-          <li>¿Eliminar producto?</li>
-        </ul>
       </div>
     </div>;
   }
