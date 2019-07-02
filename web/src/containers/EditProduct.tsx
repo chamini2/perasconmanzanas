@@ -102,7 +102,7 @@ class EditProduct extends Component<RouteComponentProps<RouteParams> & AuthInfoP
 
       {
         this.props.auth.role !== 'web_admin'
-          ? <><Badge variant='warning'>Debes ser administrador de la cuenta</Badge> <br/> <br/></>
+          ? <><Badge variant='warning'>{STRINGS.MUST_BE_ADMIN}</Badge> <br/> <br/></>
           : null
       }
 

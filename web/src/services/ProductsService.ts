@@ -67,4 +67,16 @@ export default class ProductsService {
     return res.data[0];
   }
 
+  static async deleteProduct(sku: Product['sku']) {
+    return await axiosPG.delete('/products', {
+      headers: {
+        ...authHeader(),
+        ...preferHeader({ return: 'representation' })
+      },
+      params: {
+        sku: 'eq.' + sku
+      }
+    });
+  }
+
 }

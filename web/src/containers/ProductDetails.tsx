@@ -10,6 +10,9 @@ import MovementsList from '../components/MovementsList';
 import Header, { headerSiblingStyle, headerContainerStyle } from '../components/Header';
 import { timestampDateFormat } from '../helpers';
 import hasAccountGuard from '../wrappers/hasAccountGuard';
+import { AxiosResponse } from 'axios';
+import { errorPGMessage } from '../services/Request';
+import { STRINGS } from '../constants';
 
 interface RouteParams {
   sku: string;
@@ -37,6 +40,35 @@ class ProductDetails extends Component<RouteComponentProps<RouteParams>, State> 
     }
   }
 
+  async deleteProduct(event: React.MouseEvent) {
+    event.stopPropagation();
+
+    if (isUndefined(this.state.product)) {
+      return;
+    }
+
+    const { product } = this.state;
+
+    if (!window.confirm(`¿Seguro que quieres eliminar el producto ${product.sku}?\n\nAntes debes eliminar los movimientos asociades\n\n${STRINGS.MUST_BE_ADMIN}`)) {
+      return;
+    }
+
+    try {
+      await ProductsService.deleteProduct(product.sku);
+      toast('Producto eliminado', { type: 'info' });
+
+      this.props.history.push(Paths.ProductsIndex());
+    } catch (err) {
+      console.error(err);
+      if (err.response) {
+        const errResponse = err.response as AxiosResponse<string>;
+        toast('Error en petición: ' + errorPGMessage(errResponse), { type: 'error' });
+      } else {
+        toast(STRINGS.UNKNOWN_ERROR, { type: 'error' });
+      }
+    }
+  }
+
   render() {
     if (isUndefined(this.state.product)) {
       return <h3>Cargando...</h3>;
@@ -57,8 +89,11 @@ class ProductDetails extends Component<RouteComponentProps<RouteParams>, State> 
         <Button href={Paths.CreateMovement(product.sku)}>
           Agregar un movimiento
         </Button>
-        <Button href={Paths.EditProduct(product.sku)} style={{marginLeft: '20px'}}>
+        <Button variant='warning' href={Paths.EditProduct(product.sku)} style={{marginLeft: '20px'}}>
           Editar
+        </Button>
+        <Button variant='danger' onClick={this.deleteProduct.bind(this)} style={{marginLeft: '20px'}}>
+          Eliminar
         </Button>
       </div>
     </div>;

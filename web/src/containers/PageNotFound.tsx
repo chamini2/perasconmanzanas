@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 
-// TODO: Complete
 class PageNotFound extends Component<RouteComponentProps> {
 
   constructor(props: any) {

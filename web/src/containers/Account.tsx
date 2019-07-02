@@ -1,4 +1,4 @@
-import React, { Component, MouseEvent } from 'react';
+import React, { Component } from 'react';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 import Badge from 'react-bootstrap/Badge';
 import Paths from '../Paths';
@@ -34,7 +34,7 @@ class Account extends Component<AuthInfoProps, State> {
   }
 
   removeMember(userId: User['id'], accountId: AccountType['id']) {
-    return async (event: MouseEvent) => {
+    return async (event: React.MouseEvent) => {
       event.stopPropagation();
 
       if (!window.confirm('¿Seguro que quieres sacar al miembro?')) {

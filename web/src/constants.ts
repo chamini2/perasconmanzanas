@@ -1,7 +1,8 @@
 import { es } from 'date-fns/locale';
 
 export const STRINGS = {
-  UNKNOWN_ERROR: 'Error inesperado, avísale a los desarrolladores'
+  UNKNOWN_ERROR: 'Error inesperado, avísale a los desarrolladores',
+  MUST_BE_ADMIN: 'Debes ser administrador de la cuenta'
 };
 
 export const MIN_PASSWORD_LENGTH = 6;
