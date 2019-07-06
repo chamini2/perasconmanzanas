@@ -7,5 +7,5 @@ set :repo_url, "git@github.com:chamini2/i.git"
 # directory to deploy to in the target server
 set :deploy_to, -> { "~/#{fetch :application}" }
 
-append :linked_files, ".env", "db/.env", "db/sqitch.conf"
-append :linked_dirs, "deploy/data"
+append :linked_files, ".env", "db/sqitch.conf"
+append :linked_dirs, "config/data"

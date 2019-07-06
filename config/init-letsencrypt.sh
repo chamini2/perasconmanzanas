@@ -3,7 +3,7 @@
 # Use this script when setting up a new server: it solves the chicken-egg problem of validating a certificate
 # Read more at: https://github.com/wmnnd/nginx-certbot
 
-domains=(api.perasconmanzanas.com server.perasconmanzanas.com)
+domains=(api.perasconmanzanas.com server.perasconmanzanas.com metabase.perasconmanzanas.com)
 rsa_key_size=4096
 data_path="./deploy/data/certbot"
 email="" # Adding a valid address is strongly recommended
