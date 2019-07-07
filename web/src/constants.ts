@@ -19,3 +19,5 @@ export const CONTACT_TWITTER = 'chamini2';
 export const BASE_WEB_URL = process.env.REACT_APP_BASE_WEB_URL;
 export const BASE_POSTGREST_URL = process.env.REACT_APP_BASE_POSTGREST_URL;
 export const BASE_API_URL = process.env.REACT_APP_BASE_API_URL;
+
+export const GOOGLE_ANALYTICS_KEY = 'UA-69937814-3';

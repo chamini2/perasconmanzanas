@@ -1,12 +1,14 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import React, { Component, useEffect, Props } from 'react';
+import ReactGA  from 'react-ga';
+import { Location } from 'history';
+import { BrowserRouter, Route, Switch, withRouter, RouteComponentProps } from 'react-router-dom';
+import { ToastContainer, cssTransition } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 import Paths from './Paths';
 import Home from './containers/Home';
 import Settings from './containers/Settings';
 import CreateAccount from './containers/CreateAccount';
 import AccountSelector from './containers/AccountSelector';
-import { ToastContainer, cssTransition } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
 import CreateMovement from './containers/CreateMovement';
 import ProductsIndex from './containers/ProductsIndex';
 import CreateProduct from './containers/CreateProduct';
@@ -16,6 +18,7 @@ import MovementsIndex from './containers/MovementsIndex';
 import InvitesManager from './containers/InvitesManager';
 import InviteDetails from './containers/InviteDetails';
 import EditProduct from './containers/EditProduct';
+import { GOOGLE_ANALYTICS_KEY } from './constants';
 
 const SlideTransition = cssTransition({
   enter: 'Toastify__slide-enter',
@@ -24,25 +27,44 @@ const SlideTransition = cssTransition({
   appendPosition: true
 });
 
+function sendPageView(location: Location) {
+  ReactGA.set({ page: location.pathname });
+  ReactGA.pageview(location.pathname);
+}
+
+function GoogleAnalyticsTracker({children, trackingId, history}: any) {
+  useEffect(() => {
+    ReactGA.initialize(trackingId);
+    sendPageView(history.location);
+    history.listen(sendPageView);
+  }, []);
+
+  return children;
+}
+
+const GATracker = withRouter(GoogleAnalyticsTracker);
+
 function Routes() {
   return (
     <BrowserRouter>
-      <Switch>
-        <Route path={Paths.Home()} exact component={Home} />
-        <Route path={Paths.AccountSelector()} exact component={AccountSelector} />
-        <Route path={Paths.CreateAccount()} exact component={CreateAccount} />
-        <Route path={Paths.ProductsIndex()} exact component={ProductsIndex} />
-        <Route path={Paths.CreateProduct()} exact component={CreateProduct} />
-        <Route path={Paths.EditProduct(':sku', true)} component={EditProduct} />
-        <Route path={Paths.ProductDetails(':sku', undefined, true)} component={ProductDetails} />
-        <Route path={Paths.ProductDetails(':sku', '*', true)} component={ProductDetails} />
-        <Route path={Paths.CreateMovement()} exact component={CreateMovement} />
-        <Route path={Paths.MovementsIndex()} exact component={MovementsIndex} />
-        <Route path={Paths.Invites()} exact component={InvitesManager} />
-        <Route path={Paths.InviteDetails(':account', ':code', true)} exact component={InviteDetails} />
-        <Route path={Paths.Settings()} exact component={Settings} />
-        <Route component={PageNotFound} />
-      </Switch>
+      <GATracker trackingId={GOOGLE_ANALYTICS_KEY}>
+        <Switch>
+          <Route path={Paths.Home()} exact component={Home} />
+          <Route path={Paths.AccountSelector()} exact component={AccountSelector} />
+          <Route path={Paths.CreateAccount()} exact component={CreateAccount} />
+          <Route path={Paths.ProductsIndex()} exact component={ProductsIndex} />
+          <Route path={Paths.CreateProduct()} exact component={CreateProduct} />
+          <Route path={Paths.EditProduct(':sku', true)} component={EditProduct} />
+          <Route path={Paths.ProductDetails(':sku', undefined, true)} component={ProductDetails} />
+          <Route path={Paths.ProductDetails(':sku', '*', true)} component={ProductDetails} />
+          <Route path={Paths.CreateMovement()} exact component={CreateMovement} />
+          <Route path={Paths.MovementsIndex()} exact component={MovementsIndex} />
+          <Route path={Paths.Invites()} exact component={InvitesManager} />
+          <Route path={Paths.InviteDetails(':account', ':code', true)} exact component={InviteDetails} />
+          <Route path={Paths.Settings()} exact component={Settings} />
+          <Route component={PageNotFound} />
+        </Switch>
+      </GATracker>
       <ToastContainer
         autoClose={5000}
         hideProgressBar
