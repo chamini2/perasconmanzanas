@@ -6,5 +6,5 @@
 
 # Ideas
 
-- [ ] Add Metabase
+- [x] Add Metabase
 - [ ] Add Analytics

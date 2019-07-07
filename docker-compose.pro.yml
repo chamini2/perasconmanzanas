@@ -54,20 +54,3 @@ services:
     volumes:
       - ./api:/home/node/app
     command: "/bin/sh -c 'npm ci --production && npm start'"
-
-  metabase:
-    image: metabase/metabase:v0.33.0-preview2
-    container_name: metabase
-    restart: always
-    environment:
-      MB_DB_TYPE: postgres
-      MB_DB_DBNAME: $POSTGRES_DB
-      MB_DB_PORT: $POSTGRES_PORT
-      MB_DB_USER: $METABASE_DB_USER
-      MB_DB_PASS: $METABASE_DB_PASSWORD
-      MB_DB_HOST: $POSTGRES_HOST
-      MB_ENCRYPTION_SECRET_KEY: $JWT_SECRET
-    ports:
-      - 2000:3000
-    volumes:
-      - ./config/data/metabase:/metabase-data
