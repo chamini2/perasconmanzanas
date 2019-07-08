@@ -85,7 +85,7 @@ class ProductDetails extends Component<RouteComponentProps<RouteParams>, State> 
         <h4>Cantidad: {product.stock}</h4>
         <h6>En el sistema desde el {timestampDateFormat(product.created_at)}</h6>
 
-        <MovementsList product={product.sku} />
+        <MovementsList product={product.sku} link={false}/>
         <Button href={Paths.CreateMovement(product.sku)}>
           Agregar un movimiento
         </Button>

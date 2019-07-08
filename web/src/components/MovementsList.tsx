@@ -5,20 +5,21 @@ import isUndefined from 'lodash/isUndefined';
 import Table from 'react-bootstrap/Table';
 import Accordion from 'react-bootstrap/Accordion'
 import Paths from '../Paths';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import { timestampDateFormat } from '../helpers';
 
 interface Props {
   product?: string;
   limit?: number;
+  link?: boolean;
 }
 
 interface State {
   movements: Movement[] | undefined;
 }
 
-class MovementsList extends Component<Props, State> {
+class MovementsList extends Component<Props & RouteComponentProps, State> {
 
   constructor(props: any) {
     super(props);
@@ -46,14 +47,42 @@ class MovementsList extends Component<Props, State> {
     const negative = movement.quantity < 0;
     const icon = negative ? <span style={{ color: 'red' }}>↓</span> : <span style={{ color: 'green' }}>↑</span>;
 
+    const {
+      link = true
+    } = this.props;
+
     const descriptionId = 'description-' + movement.id;
-    return <tr key={movement.id}>
+    return <tr
+      key={movement.id}
+      onClick={(event) => {
+        event.stopPropagation();
+        this.props.history.push(Paths.MovementDetails(movement.id, movement.description));
+      }}
+      style={{ cursor: 'pointer' }}
+      title={movement.description}
+    >
       <td>{icon} {Math.abs(movement.quantity)}</td>
-      <td title={movement.product.description} style={{ width: '50%'}}>
+      <td title={movement.product.description} style={{ width: '45%'}}>
         <Accordion>
           <div style={{ display: 'flex' }}>
-            <Link to={Paths.ProductDetails(movement.product.sku, movement.product.description)}>{movement.product.sku}</Link>
-            <Accordion.Toggle as='span' style={{ marginLeft: 'auto' }} eventKey={descriptionId}>🔍</Accordion.Toggle>
+            {
+              link
+                ? <Link
+                    onClick={(event) => { event.stopPropagation(); }}
+                    to={Paths.ProductDetails(movement.product.sku, movement.product.description)}
+                  >
+                    {movement.product.sku}
+                  </Link>
+                : movement.product.sku
+            }
+            <Accordion.Toggle
+              onClick={(event: any) => { event.stopPropagation(); }}
+              as='span'
+              style={{ marginLeft: 'auto' }}
+              eventKey={descriptionId}
+            >
+              🔍
+            </Accordion.Toggle>
           </div>
           <Accordion.Collapse style={{ width: '100%' }} eventKey={descriptionId}><>{movement.product.description}</></Accordion.Collapse>
         </Accordion>
@@ -89,10 +118,10 @@ class MovementsList extends Component<Props, State> {
 
   render() {
     return <div className='MovementsList'>
-      <Table striped variant='sm'>
+      <Table hover variant='sm'>
         <thead>
           <tr>
-            <th scope='col'>Cantidad</th>
+            <th scope='col'>#</th>
             <th scope='col'>Producto</th>
             <th scope='col'>Autor</th>
             <th scope='col'>Fecha</th>
@@ -107,4 +136,4 @@ class MovementsList extends Component<Props, State> {
 
 }
 
-export default MovementsList;
+export default withRouter(MovementsList);

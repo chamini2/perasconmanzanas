@@ -52,7 +52,7 @@ export default class MovementsService {
     return res.data;
   }
 
-  static async fetchMovement(id: number) {
+  static async fetchMovement(id: Movement['id']) {
     const res= await axiosPG.get<Movement[]>('/movements', {
       headers: {
         ...authHeader(),
@@ -74,6 +74,18 @@ export default class MovementsService {
     });
 
     return res.data[0];
+  }
+
+  static async deleteMovement(id: Movement['id']) {
+    return await axiosPG.delete('/movements', {
+      headers: {
+        ...authHeader(),
+        ...preferHeader({ return: 'representation' })
+      },
+      params: {
+        id: 'eq.' + id
+      }
+    });
   }
 
 }

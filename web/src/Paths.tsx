@@ -1,6 +1,7 @@
 import isUndefined from 'lodash/isUndefined';
 import { Product } from './services/ProductsService';
 import { Invite } from './services/InvitesService';
+import { Movement } from './services/MovementsService';
 
 function rawCheck(value: string, raw: boolean) {
   return raw ? value : encodeURIComponent(value)
@@ -61,6 +62,15 @@ export default {
       return base;
     } else {
       return base + '?sku=' + encodeURIComponent(sku);
+    }
+  },
+
+  MovementDetails(id: Movement['id'], description?: Product['description'], raw: boolean = false) {
+    const base = '/movements/' + rawCheck(id, raw);
+    if (isUndefined(description)) {
+      return base;
+    } else {
+      return base + '/' + rawCheck(description, raw);
     }
   },
 

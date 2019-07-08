@@ -19,6 +19,7 @@ import InvitesManager from './containers/InvitesManager';
 import InviteDetails from './containers/InviteDetails';
 import EditProduct from './containers/EditProduct';
 import { GOOGLE_ANALYTICS_KEY } from './constants';
+import MovementDetails from './containers/MovementDetails';
 
 const SlideTransition = cssTransition({
   enter: 'Toastify__slide-enter',
@@ -57,8 +58,10 @@ function Routes() {
           <Route path={Paths.EditProduct(':sku', true)} component={EditProduct} />
           <Route path={Paths.ProductDetails(':sku', undefined, true)} component={ProductDetails} />
           <Route path={Paths.ProductDetails(':sku', '*', true)} component={ProductDetails} />
-          <Route path={Paths.CreateMovement()} exact component={CreateMovement} />
           <Route path={Paths.MovementsIndex()} exact component={MovementsIndex} />
+          <Route path={Paths.CreateMovement()} exact component={CreateMovement} />
+          <Route path={Paths.MovementDetails(':id', undefined, true)} exact component={MovementDetails} />
+          <Route path={Paths.MovementDetails(':id', '*', true)} exact component={MovementDetails} />
           <Route path={Paths.Invites()} exact component={InvitesManager} />
           <Route path={Paths.InviteDetails(':account', ':code', true)} exact component={InviteDetails} />
           <Route path={Paths.Settings()} exact component={Settings} />
