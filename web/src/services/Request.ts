@@ -8,15 +8,7 @@ export const axiosAPI = axios.create({
   validateStatus: validateStatusSessionError
 });
 
-export type PostgRESTRow = {
-  [field: string]: any;
-}
-
-export interface PostgRESTAxiosInstance extends AxiosInstance {
-  get<T = PostgRESTRow[]>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>;
-}
-
-export const axiosPG: PostgRESTAxiosInstance = axios.create({
+export const axiosPG = axios.create({
   baseURL: BASE_POSTGREST_URL,
   validateStatus: validateStatusSessionError
 });
