@@ -1,5 +1,5 @@
 BEGIN;
-SELECT plan(12);
+SELECT plan(11);
 
 INSERT INTO app.users (id, username, email, full_name)
 VALUES
@@ -101,24 +101,10 @@ SELECT results_eq(
     $$
         UPDATE app.products SET
             description = description || '!!!'
-        WHERE sku ~ '^L-'
-        RETURNING  sku
+        RETURNING sku
     $$,
-    $$VALUES ('L-GRAY'::citext)$$,
+    ARRAY[]::citext[],
     'Should UPDATE products in selected account with membership'
-);
-
--- (shorts, 2, false)
-SET "request.jwt.claim.user" TO 2;
-SET "request.jwt.claim.account" TO 'shorts';
-SET SESSION AUTHORIZATION web_user;
-SELECT throws_ok(
-    $$
-        UPDATE app.products SET
-            account_id = 'pantts'
-        WHERE sku ~ '^L-'
-    $$,
-    42501
 );
 
 -- (pantts, 2, true)

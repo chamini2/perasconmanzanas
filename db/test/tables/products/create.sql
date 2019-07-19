@@ -3,7 +3,7 @@ SELECT plan(19);
 
 SELECT has_table('app'::name, 'products'::name);
 SELECT has_pk('app'::name, 'products'::name, 'Table app.products should have a PRIMARY KEY');
-SELECT col_is_pk('app'::name, 'products'::name, ARRAY['sku', 'account_id']::name[], 'Columns (app.products.sku, app.products.account_id) should be the PRIMARY KEY');
+SELECT col_is_pk('app'::name, 'products'::name, ARRAY['sku', 'account_id']::name[], 'Columns app.products(sku, account_id) should be the PRIMARY KEY');
 
 SELECT has_column('app'::name, 'products'::name, 'sku'::name, 'Column app.products.sku should exist');
 SELECT col_type_is('app'::name, 'products'::name, 'sku'::name, 'citext'::name);
