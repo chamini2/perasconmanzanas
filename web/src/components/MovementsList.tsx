@@ -8,6 +8,8 @@ import Paths from '../Paths';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import { timestampDateFormat } from '../helpers';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 interface Props {
   product?: string;
@@ -63,29 +65,45 @@ class MovementsList extends Component<Props & RouteComponentProps, State> {
     >
       <td>{icon} {Math.abs(movement.quantity)}</td>
       <td title={movement.product.description} style={{ width: '45%'}}>
-        <Accordion>
-          <div style={{ display: 'flex' }}>
-            {
-              link
-                ? <Link
-                    onClick={(event) => { event.stopPropagation(); }}
-                    to={Paths.ProductDetails(movement.product.sku, movement.product.description)}
-                  >
-                    {movement.product.sku}
-                  </Link>
-                : movement.product.sku
+        <div style={{ display: 'flex' }}>
+          {
+            link
+              ? <Link
+                  onClick={(event) => { event.stopPropagation(); }}
+                  to={Paths.ProductDetails(movement.product.sku, movement.product.description)}
+                >
+                  {movement.product.sku}
+                </Link>
+              : movement.product.sku
+          }
+          <OverlayTrigger
+            overlay={
+              <Tooltip
+                style={{pointerEvents: 'none'}}
+                id={'tooltip-movement-'+descriptionId}
+              >
+                <>{movement.description}</>
+              </Tooltip>
             }
-            <Accordion.Toggle
-              onClick={(event: any) => { event.stopPropagation(); }}
-              as='span'
-              style={{ marginLeft: 'auto' }}
-              eventKey={descriptionId}
-            >
-              🔍
-            </Accordion.Toggle>
-          </div>
-          <Accordion.Collapse style={{ width: '100%' }} eventKey={descriptionId}><>{movement.product.description}</></Accordion.Collapse>
-        </Accordion>
+            trigger={['click', 'hover']}
+          >
+            <span onClick={(event) => { event.stopPropagation(); }} style={{ marginLeft: 'auto' }}>❓</span>
+          </OverlayTrigger>
+
+          <OverlayTrigger
+            overlay={
+              <Tooltip
+                style={{pointerEvents: 'none'}}
+                id={'tooltip-product-'+descriptionId}
+              >
+                <>{movement.product.description}</>
+              </Tooltip>
+            }
+            trigger={['click', 'hover']}
+          >
+            <span onClick={(event) => { event.stopPropagation(); }}>🔍</span>
+          </OverlayTrigger>
+        </div>
       </td>
       <td>{movement.user.username}</td>
       <td>{timestampDateFormat(movement.created_at)}</td>

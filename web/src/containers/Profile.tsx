@@ -4,14 +4,12 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import FormGroup from 'react-bootstrap/FormGroup';
 import FormLabel from 'react-bootstrap/FormLabel';
-import AuthService from '../services/Auth';
 import UsersService, { User } from '../services/UsersService';
 import { toast } from 'react-toastify';
 import { AxiosResponse } from 'axios';
 import { STRINGS } from '../constants';
 import { errorPGMessage } from '../services/Request';
 import isEqual from 'lodash/isEqual';
-import './Profile.scss';
 import isLoggedInGuard from '../wrappers/isLoggedInGuard';
 import { timestampDateFormat } from '../helpers';
 import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
@@ -135,14 +133,14 @@ class Profile extends Component<AuthInfoProps, State> {
             onChange={this.handleChange('email')}
           />
         </FormGroup>
-        <FormGroup hidden controlId='id' className='one-liner'>
+        <FormGroup hidden controlId='id'>
           <FormLabel>ID</FormLabel>
           <FormControl
             value={user.id.toString()}
             readOnly
           />
         </FormGroup>
-        <FormGroup controlId='created_at' className='one-liner'>
+        <FormGroup controlId='created_at'>
           <FormLabel>Miembro desde</FormLabel>
           <FormControl
             readOnly
