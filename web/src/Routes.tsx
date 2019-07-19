@@ -1,7 +1,7 @@
-import React, { Component, useEffect, Props } from 'react';
+import React, { useEffect } from 'react';
 import ReactGA  from 'react-ga';
 import { Location } from 'history';
-import { BrowserRouter, Route, Switch, withRouter, RouteComponentProps } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, withRouter } from 'react-router-dom';
 import { ToastContainer, cssTransition } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import Paths from './Paths';
@@ -11,7 +11,6 @@ import CreateAccount from './containers/CreateAccount';
 import AccountSelector from './containers/AccountSelector';
 import CreateMovement from './containers/CreateMovement';
 import ProductsIndex from './containers/ProductsIndex';
-import CreateProduct from './containers/CreateProduct';
 import PageNotFound from './containers/PageNotFound';
 import ProductDetails from './containers/ProductDetails';
 import MovementsIndex from './containers/MovementsIndex';
@@ -20,6 +19,9 @@ import InviteDetails from './containers/InviteDetails';
 import EditProduct from './containers/EditProduct';
 import { GOOGLE_ANALYTICS_KEY } from './constants';
 import MovementDetails from './containers/MovementDetails';
+import CreateProductCSV from './containers/CreateProductCSV';
+import CreateProduct from './containers/CreateProduct';
+import CreateProductTable from './containers/CreateProductTable';
 
 const SlideTransition = cssTransition({
   enter: 'Toastify__slide-enter',
@@ -55,6 +57,8 @@ function Routes() {
           <Route path={Paths.CreateAccount()} exact component={CreateAccount} />
           <Route path={Paths.ProductsIndex()} exact component={ProductsIndex} />
           <Route path={Paths.CreateProduct()} exact component={CreateProduct} />
+          <Route path={Paths.CreateProductCSV()} exact component={CreateProductCSV} />
+          <Route path={Paths.CreateProductTable()} exact component={CreateProductTable} />
           <Route path={Paths.EditProduct(':sku', true)} component={EditProduct} />
           <Route path={Paths.ProductDetails(':sku', undefined, true)} component={ProductDetails} />
           <Route path={Paths.ProductDetails(':sku', '*', true)} component={ProductDetails} />
@@ -71,7 +75,7 @@ function Routes() {
       <ToastContainer
         autoClose={5000}
         hideProgressBar
-        transition={SlideTransition}
+        // transition={SlideTransition}
       />
     </BrowserRouter>
   );

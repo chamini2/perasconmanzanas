@@ -1,0 +1,31 @@
+.CreateProductCSV {
+  .DragDropFile {
+    &.dragging {
+      background-color: rgba(#393939, .2);
+    }
+
+    width: 100%;
+
+    border-collapse: #393939;
+    border-style: dashed;
+    border-radius: 1em;
+    border-width: .15em;
+
+    & > div {
+      margin: 1em;
+    }
+
+    .InputFile {
+      margin: 1em;
+    }
+  }
+
+  .nav-tabs {
+    overflow-x: scroll;
+    flex-wrap: nowrap;
+
+    .nav-link {
+      white-space: nowrap;
+    }
+  }
+}
