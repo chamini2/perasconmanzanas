@@ -28,6 +28,11 @@ GRANT INSERT ON TABLE app.products TO web_admin;
 GRANT UPDATE ON TABLE app.products TO web_admin;
 GRANT DELETE ON TABLE app.products TO web_admin;
 
+GRANT SELECT ON TABLE app.product_tags TO web_admin;
+GRANT INSERT ON TABLE app.product_tags TO web_admin;
+GRANT UPDATE ON TABLE app.product_tags TO web_admin;
+GRANT DELETE ON TABLE app.product_tags TO web_admin;
+
 GRANT SELECT ON TABLE app.movements TO web_admin;
 GRANT INSERT ON TABLE app.movements TO web_admin;
 GRANT UPDATE ON TABLE app.movements TO web_admin;
@@ -37,5 +42,7 @@ GRANT SELECT ON TABLE app.invites TO web_admin;
 GRANT INSERT ON TABLE app.invites TO web_admin;
 GRANT UPDATE ON TABLE app.invites TO web_admin;
 GRANT DELETE ON TABLE app.invites TO web_admin;
+
+GRANT SELECT ON TABLE app.products_view TO web_admin;
 
 COMMIT;

@@ -22,11 +22,13 @@ GRANT SELECT ON TABLE app.products TO web_user;
 GRANT INSERT ON TABLE app.products TO web_user;
 GRANT UPDATE ON TABLE app.products TO web_user;
 
-GRANT SELECT ON TABLE app.products_view TO web_user;
+GRANT SELECT ON TABLE app.product_tags TO web_user;
 
 GRANT SELECT ON TABLE app.movements TO web_user;
 GRANT INSERT ON TABLE app.movements TO web_user;
 GRANT UPDATE ON TABLE app.movements TO web_user;
 GRANT DELETE ON TABLE app.movements TO web_user;
+
+GRANT SELECT ON TABLE app.products_view TO web_user;
 
 COMMIT;

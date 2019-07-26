@@ -13,3 +13,4 @@ tables/products/security 2019-04-03T02:23:44Z Matteo Ferrando <matteo.ferrando2@
 tables/movements/security 2019-05-27T21:50:48Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Add row level security to movements
 tables/invites/security 2019-06-03T12:09:06Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Add row level security to invites
 config/role_metabase 2019-07-06T01:49:41Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create metabase role
+tables/product_tags/security 2019-07-19T19:16:40Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Add row level security to product_tags
