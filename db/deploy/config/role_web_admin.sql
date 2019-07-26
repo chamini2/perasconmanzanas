@@ -38,4 +38,11 @@ GRANT INSERT ON TABLE app.invites TO web_admin;
 GRANT UPDATE ON TABLE app.invites TO web_admin;
 GRANT DELETE ON TABLE app.invites TO web_admin;
 
+GRANT SELECT ON TABLE app.traits TO web_admin;
+GRANT INSERT ON TABLE app.traits TO web_admin;
+GRANT UPDATE ON TABLE app.traits TO web_admin;
+GRANT DELETE ON TABLE app.traits TO web_admin;
+
+GRANT SELECT ON TABLE app.products_view TO web_admin;
+
 COMMIT;

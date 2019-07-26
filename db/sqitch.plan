@@ -17,3 +17,5 @@ tables/invites/create 2019-06-03T11:48:33Z Matteo Ferrando <matteo.ferrando2@gma
 functions/trigger_function_add_member_when_invite_claimed 2019-06-05T03:31:55Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Add trigger function add_member_when_invite_claimed
 tables/invites/trigger_add_member_when_invite_claimed 2019-06-05T14:27:56Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Add trigger add_member_when_invite_claimed for table invites
 views/products_view/create 2019-06-26T12:35:31Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Add view for products with extra info
+tables/product_tags/create 2019-07-19T18:52:08Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create table product_tags
+tables/traits/create 2019-07-26T00:11:35Z Matteo Ferrando <matteo.ferrando2@gmail.com> # Create traits table

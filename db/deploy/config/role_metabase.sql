@@ -19,4 +19,6 @@ GRANT SELECT ON TABLE app.products TO metabase;
 
 GRANT SELECT ON TABLE app.movements TO metabase;
 
+GRANT SELECT ON TABLE app.traits TO metabase;
+
 COMMIT;
