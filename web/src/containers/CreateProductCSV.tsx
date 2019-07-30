@@ -5,11 +5,13 @@ import DragDropFile from '../components/DragDropFile';
 import DataInput from '../components/InputFile';
 import ColumnSelector from './ColumnSelector';
 import { withRouter, RouteComponentProps } from 'react-router';
-import Paths from '../Paths';
+import CreateProductTable from './CreateProductTable';
+import withAuthInfo, { AuthInfoProps } from '../wrappers/withAuthInfo';
 
 interface State {
   workBook: ColumnSelector['props']['workBook'];
   sheetNames: ColumnSelector['props']['sheetNames'];
+  data?: string[][]; // TODO: CreateProductTable['props']['data']
 }
 
 function makeCols(refstr: string) {
@@ -23,7 +25,7 @@ function makeCols(refstr: string) {
   return cols;
 };
 
-class CreateProductCSV extends Component<RouteComponentProps, State> {
+class CreateProductCSV extends Component<RouteComponentProps & AuthInfoProps, State> {
 
   constructor(props: any) {
     super(props);
@@ -61,7 +63,8 @@ class CreateProductCSV extends Component<RouteComponentProps, State> {
 
       this.setState({
         workBook,
-        sheetNames: readBook.SheetNames
+        sheetNames: readBook.SheetNames,
+        data: undefined
       });
     };
 
@@ -86,7 +89,8 @@ class CreateProductCSV extends Component<RouteComponentProps, State> {
   render() {
     const {
       workBook,
-      sheetNames
+      sheetNames,
+      data
     } = this.state;
 
     return <div className='CreateProductCSV container'>
@@ -105,17 +109,23 @@ class CreateProductCSV extends Component<RouteComponentProps, State> {
 
       <br/>
 
-      <ColumnSelector
-        workBook={workBook}
-        sheetNames={sheetNames}
-        fields={['sku', 'description']}
-        nextStep={(data) => {
-          this.props.history.push(Paths.CreateProductTable(data));
-        }}
-      />
+      {
+        !data
+          ? <ColumnSelector
+              workBook={workBook}
+              sheetNames={sheetNames}
+              fields={['sku', 'description']}
+              nextStep={(data) => {
+                this.setState({
+                  data
+                });
+              }}
+            />
+          : <CreateProductTable data={data} auth={this.props.auth}/>
+      }
     </div>;
   }
 
 }
 
-export default withRouter(CreateProductCSV);
+export default withAuthInfo(withRouter(CreateProductCSV));

@@ -2,7 +2,6 @@ import isUndefined from 'lodash/isUndefined';
 import { Product } from './services/ProductsService';
 import { Invite } from './services/InvitesService';
 import { Movement } from './services/MovementsService';
-import querystring from 'query-string';
 
 function rawCheck(value: string, raw: boolean) {
   return raw ? value : encodeURIComponent(value)
@@ -38,17 +37,6 @@ export default {
 
   CreateProduct() {
     return '/products/new';
-  },
-
-  CreateProductTable(data?: string[][]) {
-    const base = '/products/new/table';
-
-    if (isUndefined(data)) {
-      return base;
-    } else {
-      const encodedRows = data.map((row) => 'data=' + encodeURIComponent(row.map(encodeURIComponent).join('&')));
-      return base + '?' + encodedRows.join('&');
-    }
   },
 
   CreateProductCSV() {

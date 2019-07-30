@@ -21,14 +21,6 @@ import { GOOGLE_ANALYTICS_KEY } from './constants';
 import MovementDetails from './containers/MovementDetails';
 import CreateProductCSV from './containers/CreateProductCSV';
 import CreateProduct from './containers/CreateProduct';
-import CreateProductTable from './containers/CreateProductTable';
-
-const SlideTransition = cssTransition({
-  enter: 'Toastify__slide-enter',
-  exit: 'Toastify__slide-exit',
-  duration: [180, 180],
-  appendPosition: true
-});
 
 function sendPageView(location: Location) {
   ReactGA.set({ page: location.pathname });
@@ -58,7 +50,6 @@ function Routes() {
           <Route path={Paths.ProductsIndex()} exact component={ProductsIndex} />
           <Route path={Paths.CreateProduct()} exact component={CreateProduct} />
           <Route path={Paths.CreateProductCSV()} exact component={CreateProductCSV} />
-          <Route path={Paths.CreateProductTable()} exact component={CreateProductTable} />
           <Route path={Paths.EditProduct(':sku', true)} component={EditProduct} />
           <Route path={Paths.ProductDetails(':sku', undefined, true)} component={ProductDetails} />
           <Route path={Paths.ProductDetails(':sku', '*', true)} component={ProductDetails} />

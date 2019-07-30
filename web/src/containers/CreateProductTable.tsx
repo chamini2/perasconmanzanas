@@ -5,10 +5,9 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Product } from '../services/ProductsService';
 import hasAccountGuard from '../wrappers/hasAccountGuard';
 import Table from 'react-bootstrap/Table';
-import querystring from 'query-string';
-import isArray from 'lodash/isArray';
 import ProductForm from './ProductForm';
 import Button from 'react-bootstrap/Button';
+import Paths from '../Paths';
 
 interface State {
   products: {
@@ -32,11 +31,8 @@ class CreateProductTable extends Component<RouteComponentProps & AuthInfoProps &
       data
     } = props;
 
-    const queryParams = querystring.parse(this.props.location.search, { arrayFormat: 'none' });
     let rows: string[][] = data || [];
-    if (queryParams.data && isArray(queryParams.data)) {
-      rows = queryParams.data.map((encodedRow) => encodedRow.split('&').map(decodeURIComponent));
-    }
+
     this.state = {
       products: rows.map((row) =>
         ({
@@ -123,6 +119,14 @@ class CreateProductTable extends Component<RouteComponentProps & AuthInfoProps &
           }
         </tbody>
       </Table>
+
+      <Button
+        block
+        href={Paths.ProductsIndex()}
+        variant='outline-success'
+      >
+        Continuar
+      </Button>
     </div>;
   }
 
