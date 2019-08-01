@@ -20,7 +20,7 @@ interface State {
 }
 
 interface Props {
-  product?: Partial<Product>;
+  product?: Partial<State>;
   onSubmit: (err?: Error) => void;
   isFormValid: (isValid: boolean) => void;
   readOnly?: boolean;
@@ -36,7 +36,7 @@ class ProductForm extends Component<AuthInfoProps & Props, State> {
     this.state = {
       sku: product.sku || '',
       description: product.description || '',
-      initial_stock: 0
+      initial_stock: product.initial_stock || 0
     };
   }
 

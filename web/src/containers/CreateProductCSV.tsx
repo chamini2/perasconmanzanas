@@ -114,7 +114,11 @@ class CreateProductCSV extends Component<RouteComponentProps & AuthInfoProps, St
           ? <ColumnSelector
               workBook={workBook}
               sheetNames={sheetNames}
-              fields={['sku', 'description']}
+              fields={[
+                { field: 'sku', name: 'SKU (código)' },
+                { field: 'description', name: 'Descripción' },
+                { field: 'initial_stock', name: 'Inventario inicial', optional: true }
+              ]}
               nextStep={(data) => {
                 this.setState({
                   data

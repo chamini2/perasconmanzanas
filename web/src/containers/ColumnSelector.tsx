@@ -30,7 +30,7 @@ interface Props {
       data: string[][];
     }
   };
-  fields: string[];
+  fields: {field: string, name: string, optional?: boolean}[];
   nextStep: (data: State['data']) => void;
 }
 
@@ -57,6 +57,11 @@ class ColumnSelector extends Component<Props, State> {
       fields
     } = this.props;
 
+    let fieldToSet = null;
+    if (fields.length > 0) {
+      fieldToSet = fields[0].field;
+    }
+
     if (!isEqual(prevProps, this.props)) {
 
       this.setState({
@@ -64,7 +69,7 @@ class ColumnSelector extends Component<Props, State> {
         data: [],
         cols: [],
         fieldColumnMap: {},
-        fieldToSet: fields.length > 0 ? fields[0] : null
+        fieldToSet
       });
 
     } else if (prevState.selected !== selected) {
@@ -79,7 +84,7 @@ class ColumnSelector extends Component<Props, State> {
           data: worksheet.data,
           cols: worksheet.cols,
           fieldColumnMap: {},
-          fieldToSet: fields.length > 0 ? fields[0] : null
+          fieldToSet
         });
       }
 
@@ -95,7 +100,7 @@ class ColumnSelector extends Component<Props, State> {
       fields
     } = this.props;
 
-    return every(fields, (field) => !isUndefined(fieldColumnMap[field]));
+    return every(fields, (field) => field.optional || !isUndefined(fieldColumnMap[field.field]));
   }
 
   nextStep(event: React.MouseEvent) {
@@ -111,9 +116,7 @@ class ColumnSelector extends Component<Props, State> {
     } = this.props;
 
     const filteredData = data.map((row) =>
-      fields.map((field) =>
-        row[fieldColumnMap[field].index]
-      )
+      fields.map((field) => row[fieldColumnMap[field.field].index])
     );
 
     this.props.nextStep(filteredData);
@@ -133,7 +136,7 @@ class ColumnSelector extends Component<Props, State> {
         event.stopPropagation();
 
         if (!isNull(fieldToSet)) {
-          const fieldIndex = fields.findIndex((val) => val === fieldToSet);
+          const fieldIndex = fields.findIndex((field) => field.field === fieldToSet);
           if (fieldIndex != -1) {
 
           }
@@ -143,7 +146,7 @@ class ColumnSelector extends Component<Props, State> {
               ...this.state.fieldColumnMap,
               [fieldToSet]: { name, index }
             },
-            fieldToSet: isUndefined(fields[fieldIndex + 1]) ? null : fields[fieldIndex + 1]
+            fieldToSet: isUndefined(fields[fieldIndex + 1]) ? null : fields[fieldIndex + 1].field
           });
         }
       }}
@@ -182,24 +185,47 @@ class ColumnSelector extends Component<Props, State> {
       <ListGroup>
         {fields.map((field) =>
           <ListGroup.Item
-            active={fieldToSet === field}
-            key={field}
+            active={fieldToSet === field.field}
+            key={field.field}
             onClick={(event: any) => {
               event.stopPropagation();
 
               this.setState({
-                fieldToSet: field
+                fieldToSet: field.field
               });
             }}
           >
-            {field}
+            {field.name}
+            <Badge style={{marginLeft: '1em'}}>{field.optional ? 'Opcional' : null}</Badge>
             {
-              fieldColumnMap[field]
-                ? <Badge
-                    style={{ marginLeft: '1em' }}
-                  >
-                    {selected} - {fieldColumnMap[field].name}
-                  </Badge>
+              fieldColumnMap[field.field]
+                ? <>
+                    <Badge
+                      style={{ marginLeft: '1em' }}
+                    >
+                      {selected} - {fieldColumnMap[field.field].name}
+                    </Badge>
+                    <Button
+                      style={{marginLeft: '2em'}}
+                      size='sm'
+                      variant='outline-secondary'
+                      onClick={(event: React.MouseEvent) => {
+                        event.stopPropagation();
+
+                        const {
+                          fieldColumnMap
+                        } = this.state;
+
+                        delete fieldColumnMap[field.field];
+
+                        this.setState({
+                          fieldColumnMap
+                        });
+                      }}
+                    >
+                      Deshacer
+                    </Button>
+                  </>
                 : null
             }
           </ListGroup.Item>
