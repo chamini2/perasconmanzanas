@@ -18,6 +18,7 @@ interface State {
     initial_stock?: Movement['quantity'];
     hidden: boolean;
     readOnly: boolean;
+    ref: React.RefObject<HTMLTableRowElement>
   }[];
 }
 
@@ -43,7 +44,8 @@ class CreateProductTable extends Component<RouteComponentProps & AuthInfoProps &
           description: row[1],
           initial_stock: toNumber(row[2]) || 0,
           hidden: false,
-          readOnly: false
+          readOnly: false,
+          ref: React.createRef()
         })
       )
     };
@@ -65,7 +67,7 @@ class CreateProductTable extends Component<RouteComponentProps & AuthInfoProps &
         <tbody>
           {
             products.map((product, i) =>
-              <tr key={i}>
+              <tr ref={product.ref} key={i}>
                 <td>
                   {
                     product.hidden
@@ -91,6 +93,8 @@ class CreateProductTable extends Component<RouteComponentProps & AuthInfoProps &
                               this.setState({
                                 products
                               });
+
+                              window.scrollBy(0, product.ref.current!.offsetHeight);
                             }
                           }}
                         >
@@ -113,7 +117,7 @@ class CreateProductTable extends Component<RouteComponentProps & AuthInfoProps &
                               });
                             }}
                           >
-                            Esconder
+                            Descartar producto
                           </Button>
                         </ProductForm>
                   }
