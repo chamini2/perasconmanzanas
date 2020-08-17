@@ -1,6 +1,14 @@
-# Deployment
+# perasconmanzanas.com
 
-## Front-end
+Inventory management system. System to manage inventory of small businesses.
+
+## Development
+
+**TODO:** Explain how to get the necessary parts up and running for develpoment
+
+## Deployment
+
+### Front-end
 
 ```shell
 $ cd web
@@ -8,9 +16,9 @@ $ npm run build
 $ npm run deploy-production
 ```
 
-## Back-end
+### Back-end
 
-### Database
+#### Database
 
 ```shell
 $ cap production deploy
@@ -20,7 +28,7 @@ $ sqitch status
 $ sqtich -f access.plan status
 ```
 
-### PostgREST
+#### PostgREST
 
 ```shell
 $ cap production deploy
@@ -29,7 +37,7 @@ $ cd <project>/current
 $ # TODO
 ```
 
-### API
+#### API
 
 ```shell
 $ cap production deploy
