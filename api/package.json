@@ -11,7 +11,7 @@
   "dependencies": {
     "celebrate": "^9.1.0",
     "cors": "^2.8.5",
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "express-async-handler": "^1.1.4",
     "express-bearer-token": "^2.2.0",
     "express-http-errors-json": "^0.1.0",
