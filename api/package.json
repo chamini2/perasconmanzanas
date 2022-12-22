@@ -17,7 +17,7 @@
     "express-http-errors-json": "^0.1.0",
     "http-errors": "^1.7.2",
     "joi": "^14.3.1",
-    "jsonwebtoken": "^8.1.0",
+    "jsonwebtoken": "^9.0.0",
     "morgan": "^1.9.1",
     "pg": "^7.9.0"
   }
